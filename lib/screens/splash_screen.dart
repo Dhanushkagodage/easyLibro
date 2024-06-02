@@ -13,21 +13,23 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 10), () {
+    Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => LoginScreen(),
+        builder: (context) => const LoginScreen(),
       ));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0D4065),
-      body: Center(
-        child: Image.asset(
-          "assets/librarylogo.png",
-          scale: 30,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xFF0D4065),
+        body: Center(
+          child: Image.asset(
+            "assets/librarylogo.png",
+            scale: 30,
+          ),
         ),
       ),
     );
