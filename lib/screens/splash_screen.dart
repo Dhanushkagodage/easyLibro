@@ -31,6 +31,13 @@ class _SplashScreenState extends State<SplashScreen> {
             scale: 30,
           ),
         ),
+        bottomNavigationBar: const Text("Powered By:@Chico_coders",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13,
+                color: Color.fromARGB(255, 4, 206, 246),
+                fontFamily: "Inter",
+                fontWeight: FontWeight.w500)),
       ),
     );
   }

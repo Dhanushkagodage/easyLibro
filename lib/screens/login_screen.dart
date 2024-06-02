@@ -1,3 +1,4 @@
+import 'package:easylibro_app/screens/search_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
 
@@ -33,7 +34,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 210, left: 28),
+              padding: const EdgeInsets.only(top: 210, left: 28, right: 28),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -49,24 +50,103 @@ class LoginScreen extends StatelessWidget {
                           color: Color(0xFF080C27),
                           fontFamily: "Inter",
                           fontWeight: FontWeight.w500)),
-                  const SizedBox(
-                    height:45
-                  ),
-                  Container(
-                      height: 63,
-                      width: 353,
-                      child: const Column(
-                        crossAxisAlignment:CrossAxisAlignment.start ,
-                        children: [
-                          Text("Email",
+                  const SizedBox(height: 35),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const TextField(
+                        decoration: InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.check,
+                              color: Colors.grey,
+                            ),
+                            label: Text(
+                              'Email',
                               style: TextStyle(
-                                  fontSize: 17,
-                                  color: Color(0xFF080C27),
-                                  fontFamily: "Inter",
-                                  fontWeight: FontWeight.w500)),
-                          
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Inter",
+                                color: Color(0xFF080C27),
+                              ),
+                            )),
+                      ),
+                      const TextField(
+                        decoration: InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.visibility_off,
+                              color: Colors.grey,
+                            ),
+                            label: Text(
+                              'Password',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Inter",
+                                color: Color(0xFF080C27),
+                              ),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                            color: Color(0xFF0D4065),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchResource()),
+                          );
+                        },
+                        child: Container(
+                          height: 55,
+                          width: 300,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: const Color(0xFF0D4065)),
+                          child: const Center(
+                            child: Text(
+                              'SIGN IN',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Don't have account?",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                          ),
+                          Text(
+                            "Sign up",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Colors.black),
+                          ),
                         ],
-                      )),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),
