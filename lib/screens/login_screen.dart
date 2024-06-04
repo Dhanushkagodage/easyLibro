@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                 child: Center(
                     child: Image.asset(
                   "assets/librarylogoRW.png",
-                  scale: 3,
+                  scale: 20,
                 )),
               ),
             ),
