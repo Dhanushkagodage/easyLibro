@@ -1,3 +1,4 @@
+import 'package:easylibro_app/screens/layout_screen.dart';
 import 'package:easylibro_app/screens/search_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
@@ -106,7 +107,7 @@ class LoginScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SearchResource()),
+                                builder: (context) => const LayoutScreen()),
                           );
                         },
                         child: Container(
