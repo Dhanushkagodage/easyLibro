@@ -12,7 +12,7 @@ class LayoutScreen extends StatefulWidget {
 }
 
 class _LayoutScreenState extends State<LayoutScreen> {
-  int CurrentIndex = 0;
+  int currentIndex = 0;
   List screens = [
     const SearchResource(),
     const Userscreen(),
@@ -23,11 +23,12 @@ class _LayoutScreenState extends State<LayoutScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      backgroundColor: const Color(0xFFF7F8FD),
+      child: Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF7F8FD),
-        toolbarHeight: 84,
+         surfaceTintColor: const Color(0xFFF7F8FD),
+         backgroundColor: const Color(0xFFF7F8FD),
+        // foregroundColor: const Color(0xFFF7F8FD),
+        toolbarHeight: 80,
         automaticallyImplyLeading: false,
         leading: Padding(
           padding: const EdgeInsets.only(
@@ -35,12 +36,13 @@ class _LayoutScreenState extends State<LayoutScreen> {
           ),
           child: IconButton(
             icon: const Icon(Icons.menu),
+            color: const Color(0xFF080C27),
             iconSize: 30,
             onPressed: () {},
           ),
         ),
         title: Padding(
-          padding: const EdgeInsets.only(top: 18),
+          padding: const EdgeInsets.only(top: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -69,21 +71,21 @@ class _LayoutScreenState extends State<LayoutScreen> {
           )
         ],
       ),
-      body: screens[  CurrentIndex],
+      body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: CurrentIndex,
+        currentIndex: currentIndex,
         onTap: (index) {
           setState(() {
-            CurrentIndex = index;
+            currentIndex = index;
           });
         },
         type: BottomNavigationBarType.fixed,
         backgroundColor: const Color(0xFF0D4065),
         selectedLabelStyle: const TextStyle(
-            fontFamily: "Inter", fontSize: 12, fontWeight: FontWeight.w100),
+            fontFamily: "Inter", fontSize: 12, fontWeight: FontWeight.normal),
         selectedItemColor: const Color(0xFF080C27),
         unselectedLabelStyle: const TextStyle(
-            fontFamily: "Inter", fontSize: 12, fontWeight: FontWeight.w100),
+            fontFamily: "Inter", fontSize: 12, fontWeight: FontWeight.normal),
         unselectedItemColor: Colors.white,
         iconSize: 28,
         items: const [
