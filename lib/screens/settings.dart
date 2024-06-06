@@ -7,6 +7,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+     List<Item> _data = generateItems();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,14 +54,37 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 15,
               thickness: 2,
             ),
-            SizedBox(
-              height: 10,
+
+            ExpansionPanelList(
+              expansionCallback: (int index, bool isExpanded) {
+                setState(() {
+                  _data[index].isExpanded = !isExpanded;
+                });
+              },
+              children: _data.map<ExpansionPanel>((Item item) {
+                return ExpansionPanel(
+                  headerBuilder: (BuildContext context, bool isExpanded) {
+                    return ListTile(
+                      title: Text(item.headerValue),
+                    );
+                  },
+                  body: ListTile(
+                    title: Text(item.expandedValue),
+                    subtitle: item.headerValue == "Privacy and security"
+                        ? Row(
+                      children: [
+                        Icon(Icons.volume_up_outlined,
+                            color: const Color(0xFF0D4065)),
+                        SizedBox(width: 8),
+                        Text('Additional Settings')
+                      ],
+                    )
+                        : null,
+                  ),
+                  isExpanded: item.isExpanded,
+                );
+              }).toList(),
             ),
-            buildAccountOptionRow(context, "Change password"),
-            buildAccountOptionRow(context, "Content settings"),
-            buildAccountOptionRow(context, "Email settings"),
-            buildAccountOptionRow(context, "Language"),
-            buildAccountOptionRow(context, "Privacy and security"),
             SizedBox(
               height: 40,
             ),
@@ -137,53 +161,42 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 }
 
-  GestureDetector buildAccountOptionRow(BuildContext context, String title) {
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(title),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Option 1"),
-                    Text("Option 2"),
-                    Text("Option 3"),
-                  ],
-                ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("Close"),
-                    ),
-                  ]
 
-              );
-            });
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey[600],
-              ),
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.grey,
-            ),
-          ],
-        ),
-      ),
-    );
+
+    class Item {
+    Item({
+    required this.expandedValue,
+    required this.headerValue,
+    this.isExpanded = false,
+    });
+
+    String expandedValue;
+    String headerValue;
+    bool isExpanded;
+    }
+
+    List<Item> generateItems() {
+    return [
+    Item(
+    headerValue: 'Change password',
+    expandedValue: 'change your password here',
+    ),
+    Item(
+    headerValue: 'Content settings',
+    expandedValue: 'Details about content settings',
+    ),
+    Item(
+    headerValue: 'Email settings',
+    expandedValue: 'Details about email settings',
+    ),
+    Item(
+    headerValue: 'Language',
+    expandedValue: 'Details about language settings',
+    ),
+    Item(
+    headerValue: 'Privacy and security',
+    expandedValue: 'Details about privacy and security settings',
+    ),
+    ];
+
   }
