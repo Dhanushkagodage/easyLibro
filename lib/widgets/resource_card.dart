@@ -66,7 +66,10 @@ class _ResourceCardState extends State<ResourceCard> {
                                       auther:widget.resource.auther,
                                       quantity:widget.resource.quantity,
                                       imgURL:widget.resource.imgURL,
-                                      description:widget.resource.description),
+                                      description:widget.resource.description,
+                                      totalqty:widget.resource.totalqty,
+                                      borrowedqty: widget.resource.borrowedqty,
+                                      location: widget.resource.location),
                                 )),
                       );
                     },

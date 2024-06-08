@@ -122,6 +122,7 @@
 // }
 
 import 'package:easylibro_app/widgets/my_resource.dart';
+import 'package:easylibro_app/widgets/popup_filter.dart';
 import 'package:easylibro_app/widgets/resource_card.dart';
 import 'package:easylibro_app/widgets/search__bar.dart';
 import 'package:flutter/material.dart';
@@ -161,10 +162,19 @@ class _SearchResourceState extends State<SearchResource> {
                         color: const Color(0xFF0D4065),
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: const Icon(
-                        Icons.tune_outlined,
-                        color: Colors.white,
-                        size: 25,
+                      child: GestureDetector(
+                        onTap: () {
+                           Navigator.push(
+                               context,
+                              MaterialPageRoute(
+                                  builder: (context) => PopupFilter()));
+                        
+                        },
+                        child: const Icon(
+                          Icons.tune_outlined,
+                          color: Colors.white,
+                          size: 25,
+                        ),
                       ),
                     ),
                   ),
