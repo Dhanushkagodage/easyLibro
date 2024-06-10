@@ -1,4 +1,5 @@
 import 'package:easylibro_app/screens/layout_screen.dart';
+import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/widgets/detailcontaier.dart';
 import 'package:easylibro_app/widgets/resource.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
@@ -128,9 +129,9 @@ class _AboutScreenState extends State<AboutScreen> {
                             label: "Resource ID(ISBN)",
                             value: widget.resource.isbn),
                         TextdetailContainer(
-                            label: "Auther", value: widget.resource.auther),
+                            label: "Author", value: widget.resource.author),
                         TextdetailContainer(
-                            label: "Resource Type", value: "Book"),
+                            label: "Resource Type", value: widget.resource.category),
                         SizedBox(
                           height: 20,
                         ),
@@ -151,7 +152,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       text: "Note: ",
                       style: TextStyle(
                           fontFamily: "Inter",
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF080C27)),
                       children: [
@@ -162,7 +163,7 @@ class _AboutScreenState extends State<AboutScreen> {
                             text: "      ${widget.resource.description}",
                             style: TextStyle(
                                 fontFamily: "Inter",
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF6A6A6A)))
                       ])),
@@ -176,7 +177,9 @@ class _AboutScreenState extends State<AboutScreen> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>  LayoutScreen(currentIndex: 2)),
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    LayoutScreen(currentIndex: 2)),
                           );
                         },
                         child: Container(
@@ -199,9 +202,37 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>  LayoutScreen(currentIndex: 0)),
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertBox(
+                                title: "Borrow",
+                                content:
+                                    "Are you sure you want to borrow this resource?",
+                                approveText: "Yes",
+                                cancelText: "No",
+                                onApprove: () {
+                                  Future.delayed(Duration(seconds: 0), () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertBox(
+                                          content: "Resource has been borrowed successfully.",
+                                          approveText: "OK",
+                                          onApprove: () {
+                                            // Navigator.of(context).pop();
+                                          },
+                                          onCancel: () {},
+                                        );
+                                      },
+                                    );
+                                  });
+                                },
+                                onCancel: () {
+                                 // Navigator.of(context).pop();
+                                },
+                              );
+                            },
                           );
                         },
                         child: Container(

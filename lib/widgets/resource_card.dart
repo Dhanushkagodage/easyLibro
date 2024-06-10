@@ -1,5 +1,4 @@
 import 'package:easylibro_app/screens/about_screen.dart';
-import 'package:easylibro_app/widgets/my_resource.dart';
 import 'package:easylibro_app/widgets/resource.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +48,7 @@ class _ResourceCardState extends State<ResourceCard> {
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'By ' '${widget.resource.auther}',
+                  'By ' '${widget.resource.author}',
                   style: TextStyle(fontSize: 8, fontFamily: "Inter"),
                 ),
                 Padding(
@@ -63,13 +62,14 @@ class _ResourceCardState extends State<ResourceCard> {
                                   resource: Resource(
                                       isbn: widget.resource.isbn,
                                       title:widget.resource.title,
-                                      auther:widget.resource.auther,
+                                      author:widget.resource.author,
                                       quantity:widget.resource.quantity,
                                       imgURL:widget.resource.imgURL,
                                       description:widget.resource.description,
                                       totalqty:widget.resource.totalqty,
                                       borrowedqty: widget.resource.borrowedqty,
-                                      location: widget.resource.location),
+                                      location: widget.resource.location,
+                                      category: widget.resource.category,)
                                 )),
                       );
                     },
