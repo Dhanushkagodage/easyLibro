@@ -20,13 +20,13 @@ class _TextdetailContainerState extends State<TextdetailContainer> {
         Text("${widget.label} : ", 
             style: TextStyle(
                 fontFamily: "Inter",
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF0D4065))),
         Text(widget.value,
             style: TextStyle(
                 fontFamily: "Inter",
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: Color(0xFF6A6A6A)),),
       ],
