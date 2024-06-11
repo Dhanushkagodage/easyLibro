@@ -428,7 +428,7 @@ class _SearchResourceState extends State<SearchResource> {
                             ),
                           ),
                           child: Center(
-                            child: Text(filterCategory,
+                            child: Text("${filterCategory}s",
                                 style: TextStyle(
                                   color: Color(0xFF080C27),
                                   fontSize: 14,
