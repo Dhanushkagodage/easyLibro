@@ -2,24 +2,34 @@ class Resource {
   final String isbn;
   final String title;
   final String author;
-  final int quantity;
-  final String imgURL;
-  final String description;
-  final int totalqty;
-  final int borrowedqty;
-  final String location;
-  final String category;
+  final int noOfBooks;
+  final String url;
+  final String type;
 
-  Resource(
+  const Resource(
       {required this.isbn,
       required this.title,
       required this.author,
-      required this.quantity,
-      required this.imgURL,
-      required this.description,
-      required this.totalqty,
-      required this.borrowedqty,
-      required this.location,
-      required this.category});
+      required this.noOfBooks,
+      required this.url,
+      required this.type});
 
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+        isbn: json['isbn'] ?? '',
+        title: json['title'] ?? '',
+        author: json['author'] ?? '',
+        noOfBooks: (json['quantity'] ?? 0) as int,
+        url: json['url'] ?? '',
+        type: json['type'] ?? '');
+  }
+
+  // Map<String, dynamic> toJson() => {
+  //       'isbn': isbn,
+  //       'title': title,
+  //       'author': author,
+  //       'quantity': noOfBooks,
+  //       'url': url,
+  //       'type': type
+  //     };
 }

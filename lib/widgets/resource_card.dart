@@ -30,11 +30,9 @@ class _ResourceCardState extends State<ResourceCard> {
       ),
       child: Column(
         children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Image.asset(
-                widget.resource.imgURL,
-              )),
+          ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset(
+              // widget.resource.imgURL,
+              "assets/book image.png")),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -42,6 +40,7 @@ class _ResourceCardState extends State<ResourceCard> {
               children: [
                 Text(
                   widget.resource.title,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: "Inter",
                       fontSize: 13,
@@ -49,6 +48,7 @@ class _ResourceCardState extends State<ResourceCard> {
                 ),
                 Text(
                   'By ' '${widget.resource.author}',
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 8, fontFamily: "Inter"),
                 ),
                 Padding(
@@ -59,18 +59,18 @@ class _ResourceCardState extends State<ResourceCard> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => AboutScreen(
-                                  resource: Resource(
-                                      isbn: widget.resource.isbn,
-                                      title:widget.resource.title,
-                                      author:widget.resource.author,
-                                      quantity:widget.resource.quantity,
-                                      imgURL:widget.resource.imgURL,
-                                      description:widget.resource.description,
-                                      totalqty:widget.resource.totalqty,
-                                      borrowedqty: widget.resource.borrowedqty,
-                                      location: widget.resource.location,
-                                      category: widget.resource.category,)
-                                )),
+                                    resource: Resource(
+                                  isbn: widget.resource.isbn,
+                                  title: widget.resource.title,
+                                  author: widget.resource.author,
+                                  noOfBooks: widget.resource.noOfBooks,
+                                  url: widget.resource.url,
+                                  // description:widget.resource.description,
+                                  // totalqty:widget.resource.totalqty,
+                                  // borrowedqty: widget.resource.borrowedqty,
+                                  // location: widget.resource.location,
+                                  type: widget.resource.type,
+                                ))),
                       );
                     },
                     child: Container(

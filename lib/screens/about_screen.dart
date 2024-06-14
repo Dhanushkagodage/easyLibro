@@ -59,7 +59,7 @@ class _AboutScreenState extends State<AboutScreen> {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: Image.asset(
-                              widget.resource.imgURL,
+                              "assets/book image.png",
                             )),
                       ),
                     ),
@@ -68,33 +68,42 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Column(
               children: [
                 Center(
+                  child: SizedBox(
+                    width: 300, // specify the desired width
                     child: Text(
-                  widget.resource.title,
-                  style: TextStyle(
-                      fontFamily: "Inter",
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFF080C27)),
-                )),
+                      widget.resource.title,
+                      textAlign: TextAlign
+                          .center, // center the text within the SizedBox
+                      style: TextStyle(
+                        fontFamily: "Inter",
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF080C27),
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     DetailContainer(
                         label: "Total Qty.",
-                        value: widget.resource.totalqty.toString(),
+                        // value: widget.resource.totalqty.toString(),
+                        value: "100",
                         icon: Icons.credit_card_outlined),
                     DetailContainer(
                         label: "Borrowed Qty.",
-                        value: widget.resource.borrowedqty.toString(),
+                        // value: widget.resource.borrowedqty.toString(),
+                        value: "20",
                         icon: Icons.credit_card_off_outlined),
                   ],
                 ),
@@ -107,13 +116,15 @@ class _AboutScreenState extends State<AboutScreen> {
                   children: [
                     DetailContainer(
                         label: "Available Qty.",
-                        value: (widget.resource.totalqty -
-                                widget.resource.borrowedqty)
-                            .toString(),
+                        //value: (widget.resource.totalqty -
+                        //         widget.resource.borrowedqty)
+                        //     .toString(),
+                        value: "80",
                         icon: Icons.credit_score),
                     DetailContainer(
                         label: "Location",
-                        value: widget.resource.location,
+                        //value: widget.resource.location,
+                        value: "Library",
                         icon: Icons.location_on),
                   ],
                 ),
@@ -131,7 +142,8 @@ class _AboutScreenState extends State<AboutScreen> {
                         TextdetailContainer(
                             label: "Author", value: widget.resource.author),
                         TextdetailContainer(
-                            label: "Resource Type", value: widget.resource.category),
+                            label: "Resource Type",
+                            value: widget.resource.type),
                         SizedBox(
                           height: 20,
                         ),
@@ -160,7 +172,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           text: "\n", // Add a newline character
                         ),
                         TextSpan(
-                            text: "      ${widget.resource.description}",
+                            // text: "      ${widget.resource.description}",
                             style: TextStyle(
                                 fontFamily: "Inter",
                                 fontSize: 14,
@@ -217,7 +229,8 @@ class _AboutScreenState extends State<AboutScreen> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertBox(
-                                          content: "Resource has been borrowed successfully.",
+                                          content:
+                                              "Resource has been borrowed successfully.",
                                           approveText: "OK",
                                           onApprove: () {
                                             // Navigator.of(context).pop();
@@ -229,7 +242,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                   });
                                 },
                                 onCancel: () {
-                                 // Navigator.of(context).pop();
+                                  // Navigator.of(context).pop();
                                 },
                               );
                             },
