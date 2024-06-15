@@ -469,32 +469,17 @@
 // }
 
 
-import 'dart:convert';
-import 'package:easylibro_app/widgets/resource.dart';
-import 'dart:io';
-import 'package:http/io_client.dart';
-import 'package:http/http.dart' as http;
 
-class MyHttpClient {
-  static http.Client getHttpClient() {
-    final ioc = HttpClient();
-    ioc.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
-    return IOClient(ioc);
-  }
-}
+import 'package:easylibro_app/api_service.dart';
+import 'package:easylibro_app/widgets/resource.dart';
+
+
+
 class MyResources {
   static List<Resource> allResources = [];
 
   static Future<void> fetchResources() async {
-    final client = MyHttpClient.getHttpClient();
-    final response = await client.get(Uri.parse('https://10.0.2.2:7174/api/Resource/GetAllResource'));
-
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      allResources = data.map((json) => Resource.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load resources');
-    }
+    allResources = await ApiService.fetchResources();
   }
 
   static List<Resource> getBooks() {
