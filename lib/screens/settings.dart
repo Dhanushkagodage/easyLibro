@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:easylibro_app/widgets/theme_provider.dart';
+import 'package:easylibro_app/widgets/theme_data_style.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -21,6 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF0D4065),
@@ -48,6 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
                 height: 40,
@@ -251,16 +257,25 @@ class _SettingsPageState extends State<SettingsPage> {
 
                   ListTile(
                     title: Text('Dark Mode'),
-                    trailing: Switch(
-                      value: _darkModeEnabled,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _darkModeEnabled = value;
-                        });
-                      },
-                      activeColor: const Color(0xFF0D4065), // Correctly placed within the Switch widget
+                    subtitle: Text(
+                      themeProvider.themeDataStyle == ThemeDataStyle.dark
+                          ? 'Dark Mode'
+                          : 'Light Mode',
+                      style: TextStyle(fontSize: 14.0),
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.2,
+                      child: Switch(
+                        value: themeProvider.themeDataStyle == ThemeDataStyle.dark,
+                        onChanged: (isOn) {
+                          print('Switch toggled: $isOn'); // Debug print
+                          themeProvider.changeTheme();
+                        },
+                        activeColor: Color(0xFF0D4065),
+                      ),
                     ),
                   ),
+
 
                   ListTile(
                     title: Text('Volume'),
