@@ -8,7 +8,7 @@ class AlertBox extends StatefulWidget {
   final Function() onApprove;
   final Function() onCancel;
 
-  AlertBox({
+  const AlertBox({
     super.key,
     this.title,
     required this.content,

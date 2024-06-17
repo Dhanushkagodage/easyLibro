@@ -105,6 +105,7 @@
 
 import 'package:easylibro_app/screens/dashboard_screen.dart';
 import 'package:easylibro_app/screens/notification_screen.dart';
+
 import 'package:easylibro_app/screens/search_resource.dart';
 import 'package:easylibro_app/screens/userscreen.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +113,7 @@ import 'package:flutter/material.dart';
 class LayoutScreen extends StatefulWidget {
   final int currentIndex;
 
-  const LayoutScreen({Key? key, required this.currentIndex}) : super(key: key);
+  const LayoutScreen({super.key, required this.currentIndex});
 
   @override
   State<LayoutScreen> createState() => _LayoutScreenState();
@@ -127,7 +128,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
     currentIndex = widget.currentIndex;
   }
 
-  List<Widget> screens = const [
+  List<Widget> screens =  [
     SearchResource(),
     Userscreen(),
     DashboardScreen(),

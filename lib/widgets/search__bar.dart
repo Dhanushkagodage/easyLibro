@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 
-// ignore: must_be_immutable
+// ignore: must_be_immutable, camel_case_types
 class Search_Bar extends StatefulWidget {
-  String? hintText;
-  ValueChanged<String>? onChanged;
+    String? hintText;
+    
 
   Search_Bar({
     super.key,
-    required this.hintText,
-    this.onChanged,
+    required this.hintText, 
+    required void Function(String keyword, String tag, String type) onSearch,
+    
   });
 
   @override
