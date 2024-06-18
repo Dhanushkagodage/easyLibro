@@ -810,16 +810,266 @@
 //   }
 // }
 
+// import 'package:flutter/material.dart';
+// import 'package:easylibro_app/widgets/my_resource.dart';
+// import 'package:easylibro_app/widgets/resource.dart';
+// import 'package:easylibro_app/widgets/resource_card.dart';
+// import 'package:easylibro_app/widgets/search__bar.dart';
+
+// class SearchResource extends StatefulWidget {
+//   const SearchResource({super.key});
+
+//   @override
+//   _SearchResourceState createState() => _SearchResourceState();
+// }
+
+// class _SearchResourceState extends State<SearchResource> {
+//   int isSelected = 0;
+//   String filterCategory = "Book"; // Default category
+//   bool isLoading = true;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _fetchResources();
+//   }
+
+//   Future<void> _fetchResources() async {
+//     try {
+//       await MyResources.fetchResources();
+//     } catch (e) {
+//       print(e); // Handle error
+//     } finally {
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//         backgroundColor: const Color(0xFFF7F8FD),
+//         body: Column(
+//           children: [
+//             Padding(
+//               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Search_Bar(hintText: "Search Resources"),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 10),
+                  //   child: Row(
+                  //     children: [
+                  //       Container(
+                  //         height: 40,
+                  //         width: 90,
+                  //         decoration: BoxDecoration(
+                  //           color: Color.fromARGB(255, 255, 255, 255),
+                  //           borderRadius: BorderRadius.only(
+                  //               topLeft: Radius.circular(5),
+                  //               bottomLeft: Radius.circular(5),
+                  //               topRight: Radius.circular(0),
+                  //               bottomRight: Radius.circular(0)),
+                  //           boxShadow: [
+                  //             BoxShadow(
+                  //               color: Color.fromARGB(255, 49, 48, 52).withOpacity(0.9),
+                  //               offset: Offset(0, 1),
+                  //               blurRadius: 1,
+                  //             ),
+                  //           ],
+                  //           border: Border.all(
+                  //             color: Color(0xFF080C27).withOpacity(0.9),
+                  //             width: 0.7,
+                  //           ),
+                  //         ),
+                  //         child: Center(
+                  //           child: Text("${filterCategory}s",
+                  //               style: TextStyle(
+                  //                 color: Color(0xFF080C27),
+                  //                 fontSize: 14,
+                  //                 fontFamily: "Inter",
+                  //                 fontWeight: FontWeight.w500,
+                  //               )),
+                  //         ),
+                  //       ),
+                  //       Container(
+                  //         height: 40,
+                  //         width: 40,
+                  //         decoration: BoxDecoration(
+                  //           color: const Color(0xFF0D4065),
+                  //           borderRadius: BorderRadius.only(
+                  //             topLeft: Radius.circular(0),
+                  //             bottomLeft: Radius.circular(0),
+                  //             topRight: Radius.circular(5),
+                  //             bottomRight: Radius.circular(5),
+                  //           ),
+                  //           boxShadow: [
+                  //             BoxShadow(
+                  //               color: Color.fromARGB(255, 49, 48, 52).withOpacity(0.9),
+                  //               offset: Offset(0, 1),
+                  //               blurRadius: 2,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         child: PopupMenuButton<int>(
+                  //           onSelected: (value) {
+                  //             setState(() {
+                  //               if (value == 1) {
+                  //                 filterCategory = "Book";
+                  //               } else if (value == 2) {
+                  //                 filterCategory = "Journal";
+                  //               } else {
+                  //                 filterCategory = "Ebook";
+                  //               }
+                  //             });
+                  //           },
+                  //           color: Color.fromARGB(255, 255, 255, 255),
+                  //           offset: Offset(0, 50),
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(10),
+                  //           ),
+                  //           itemBuilder: (context) => [
+                  //             const PopupMenuItem(
+                  //               value: 1,
+                  //               child: Text("Books"),
+                  //             ),
+                  //             const PopupMenuItem(
+                  //               value: 2,
+                  //               child: Text("Journals"),
+                  //             ),
+                  //             const PopupMenuItem(
+                  //               value: 3,
+                  //               child: Text("Ebooks"),
+                  //             ),
+                  //           ],
+                  //           child: const Icon(
+                  //             Icons.tune_outlined,
+                  //             color: Colors.white,
+                  //             size: 20,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  
+//                 ],
+//               ),
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.only(left: 20,top: 10,right: 20),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   _buildResourceCategory(index: 0, name: "All Resources"),
+//                   _buildResourceCategory(index: 1, name: "Latest"),
+//                   _buildResourceCategory(index: 2, name: "Popular"),
+//                   Container(
+//                     width: 40,
+//                     height: 40,
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.circular(5),
+//                       color:const Color(0xFF0D4065)
+//                     ),
+//                     child: Icon(Icons.sort_by_alpha, color: Colors.white, size: 20),
+//                   )
+//                 ],
+                
+//               ),
+//             ),
+//             const SizedBox(height: 20),
+//             isLoading
+//                 ? Center(child: CircularProgressIndicator())
+//                 : Expanded(
+//                     child: Padding(
+//                       padding: const EdgeInsets.only(left: 20, right: 20),
+//                       child: _buildResources(),
+//                     ),
+//                   ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildResourceCategory({required int index, required String name}) =>
+//       GestureDetector(
+//         onTap: () {
+//           setState(() {
+//             isSelected = index;
+//           });
+//         },
+//         child: Container(
+//           width: 95,
+//           height: 40,
+//           // margin: const EdgeInsets.only(right: 10),
+//           padding: const EdgeInsets.all(8),
+//           alignment: Alignment.center,
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(5),
+//             color: isSelected == index
+//                 ? const Color(0xFF0D4065)
+//                 : const Color(0xFFE1E2E2),
+//           ),
+//           child: Text(
+//             name,
+//             overflow: TextOverflow.ellipsis,
+//             style: TextStyle(
+//               fontSize: 13,
+//               color: isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
+//               fontFamily: "Inter",
+//               fontWeight: FontWeight.w500,
+//             ),
+//           ),
+//         ),
+//       );
+
+//   Widget _buildResources() {
+//     List<Resource> resources;
+//     if (isSelected == 0) {
+//       resources = MyResources.getAllResourcesByCategory(filterCategory);
+//     } else if (isSelected == 1) {
+//       resources = MyResources.getLatestResources(filterCategory);
+//     } else {
+//       resources = MyResources.getPopularResources(filterCategory);
+//     }
+
+//     return SingleChildScrollView(
+//       child: GridView.builder(
+//         shrinkWrap: true, // Added to make the GridView take only the necessary height
+//         physics: BouncingScrollPhysics(), // Disable GridView's own scrolling
+//         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//           crossAxisCount: 3,
+//           crossAxisSpacing: 12,
+//           mainAxisSpacing: 12,
+//           childAspectRatio: (100 / 200),
+//         ),
+//         itemCount: resources.length,
+//         itemBuilder: (context, index) {
+//           final resource = resources[index];
+//           return ResourceCard(resource: resource);
+//         },
+//       ),
+//     );
+//   }
+// }
+
+
+import 'package:easylibro_app/widgets/search__bar.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/widgets/my_resource.dart';
 import 'package:easylibro_app/widgets/resource.dart';
 import 'package:easylibro_app/widgets/resource_card.dart';
-import 'package:easylibro_app/widgets/search__bar.dart';
 
 class SearchResource extends StatefulWidget {
   const SearchResource({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SearchResourceState createState() => _SearchResourceState();
 }
 
@@ -827,6 +1077,9 @@ class _SearchResourceState extends State<SearchResource> {
   int isSelected = 0;
   String filterCategory = "Book"; // Default category
   bool isLoading = true;
+  String searchKeyword = "";
+  String searchTag = "all";
+  String searchType = "all";
 
   @override
   void initState() {
@@ -835,15 +1088,28 @@ class _SearchResourceState extends State<SearchResource> {
   }
 
   Future<void> _fetchResources() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
-      await MyResources.fetchResources();
+      await MyResources.fetchResources(searchKeyword, searchTag, searchType);
     } catch (e) {
+      // ignore: avoid_print
       print(e); // Handle error
     } finally {
       setState(() {
         isLoading = false;
       });
     }
+  }
+
+  void _onSearch(String keyword, String tag, String type) {
+    setState(() {
+      searchKeyword = keyword;
+      searchTag = tag;
+      searchType = type;
+    });
+    _fetchResources();
   }
 
   @override
@@ -854,12 +1120,14 @@ class _SearchResourceState extends State<SearchResource> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              padding: const EdgeInsets.all(20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Search_Bar(hintText: "Search Resources"),
+                  Search_Bar(
+                    hintText: "Search Resources",
+                    onSearch: _onSearch,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Row(
@@ -921,9 +1189,9 @@ class _SearchResourceState extends State<SearchResource> {
                                 if (value == 1) {
                                   filterCategory = "Book";
                                 } else if (value == 2) {
-                                  filterCategory = "Novel";
+                                  filterCategory = "Journal";
                                 } else {
-                                  filterCategory = "Magazine";
+                                  filterCategory = "Ebook";
                                 }
                               });
                             },
@@ -939,38 +1207,70 @@ class _SearchResourceState extends State<SearchResource> {
                               ),
                               const PopupMenuItem(
                                 value: 2,
-                                child: Text("Novels"),
+                                child: Text("Journals"),
                               ),
                               const PopupMenuItem(
                                 value: 3,
-                                child: Text("Magazines"),
+                                child: Text("Ebooks"),
                               ),
                             ],
                             child: const Icon(
                               Icons.tune_outlined,
                               color: Colors.white,
-                              size: 25,
+                              size: 20,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
+                  // PopupMenuButton<String>(
+                  //   onSelected: (value) {
+                  //     setState(() {
+                  //       searchTag = value;
+                  //       _fetchResources();
+                  //     });
+                  //   },
+                  //   itemBuilder: (context) => [
+                  //     const PopupMenuItem(
+                  //       value: "all",
+                  //       child: Text("All"),
+                  //     ),
+                  //     const PopupMenuItem(
+                  //       value: "title",
+                  //       child: Text("Title"),
+                  //     ),
+                  //     const PopupMenuItem(
+                  //       value: "isbn",
+                  //       child: Text("ISBN"),
+                  //     ),
+                  //     const PopupMenuItem(
+                  //       value: "author",
+                  //       child: Text("Author"),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildResourceCategory(index: 0, name: "All Resources"),
-                    _buildResourceCategory(index: 1, name: "Latest"),
-                    _buildResourceCategory(index: 2, name: "Popular"),
-                  ],
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildResourceCategory(index: 0, name: "All Resources"),
+                  _buildResourceCategory(index: 1, name: "Latest"),
+                  _buildResourceCategory(index: 2, name: "Popular"),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color:const Color(0xFF0D4065)
+                    ),
+                    child: Icon(Icons.sort_by_alpha, color: Colors.white, size: 20),
+                  )
+                ],
               ),
             ),
             const SizedBox(height: 20),
@@ -978,7 +1278,7 @@ class _SearchResourceState extends State<SearchResource> {
                 ? Center(child: CircularProgressIndicator())
                 : Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: _buildResources(),
                     ),
                   ),
@@ -996,19 +1296,19 @@ class _SearchResourceState extends State<SearchResource> {
           });
         },
         child: Container(
-          width: 105,
+          width: 95,
           height: 40,
-          margin: const EdgeInsets.only(top: 10, right: 20),
           padding: const EdgeInsets.all(8),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(5),
             color: isSelected == index
                 ? const Color(0xFF0D4065)
                 : const Color(0xFFE1E2E2),
           ),
           child: Text(
             name,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 13,
               color: isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
@@ -1029,22 +1329,20 @@ class _SearchResourceState extends State<SearchResource> {
       resources = MyResources.getPopularResources(filterCategory);
     }
 
-    return SingleChildScrollView(
-      child: GridView.builder(
-        shrinkWrap: true, // Added to make the GridView take only the necessary height
-        physics: BouncingScrollPhysics(), // Disable GridView's own scrolling
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: (100 / 200),
-        ),
-        itemCount: resources.length,
-        itemBuilder: (context, index) {
-          final resource = resources[index];
-          return ResourceCard(resource: resource);
-        },
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: (100 / 200),
       ),
+      itemCount: resources.length,
+      itemBuilder: (context, index) {
+        final resource = resources[index];
+        return ResourceCard(resource: resource);
+      },
     );
   }
 }
