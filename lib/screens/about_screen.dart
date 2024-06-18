@@ -281,17 +281,16 @@
 import 'package:easylibro_app/screens/layout_screen.dart';
 import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/widgets/detailcontaier.dart';
-import 'package:easylibro_app/widgets/resource.dart';
+
 import 'package:easylibro_app/widgets/resource_details.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/widgets/textdetail_container.dart';
 
 class AboutScreen extends StatefulWidget {
-  final Resource resource;
   final ResourceDetails resourceDetails;
 
-  const AboutScreen({super.key, required this.resource, required this.resourceDetails});
+  const AboutScreen({super.key, required this.resourceDetails});
 
   @override
   State<AboutScreen> createState() => _AboutScreenState();
@@ -340,8 +339,8 @@ class _AboutScreenState extends State<AboutScreen> {
                           width: MediaQuery.of(context).size.width / 16 * 7,
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(5),
-                              child: Image.asset(
-                                "assets/book image.png",
+                              child: Image.network(
+                                resourceDetails.imagepath,
                               )),
                         ),
                       ),
@@ -358,7 +357,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     child: SizedBox(
                       width: 300, // specify the desired width
                       child: Text(
-                        widget.resource.title,
+                        widget.resourceDetails.title,
                         textAlign: TextAlign.center, // center the text within the SizedBox
                         style: TextStyle(
                           fontFamily: "Inter",
@@ -399,7 +398,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           icon: Icons.credit_score),
                       DetailContainer(
                           label: "Location",
-                          value: resourceDetails.cupboardName,
+                          value: resourceDetails.cupboardId,
                           icon: Icons.location_on),
                     ],
                   ),
