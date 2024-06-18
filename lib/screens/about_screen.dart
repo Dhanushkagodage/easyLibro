@@ -399,7 +399,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           icon: Icons.credit_score),
                       DetailContainer(
                           label: "Location",
-                          value: resourceDetails.location,
+                          value: resourceDetails.cupboardName,
                           icon: Icons.location_on),
                     ],
                   ),
@@ -428,7 +428,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           TextdetailContainer(
                               label: "Price", value: "Rs. ${resourceDetails.price}/-"),
                           TextdetailContainer(
-                              label: "AddedON", value: resourceDetails.addedon),
+                              label: "AddedON", value: resourceDetails.addedon.toString()),
                         ],
                       ),
                     ),

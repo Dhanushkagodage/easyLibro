@@ -406,7 +406,6 @@
 //   }
 // }
 
-
 // import 'dart:convert';
 // import 'package:http/http.dart' as http;
 // import 'package:easylibro_app/widgets/resource.dart';
@@ -468,30 +467,74 @@
 //   }
 // }
 
+// import 'package:easylibro_app/api_service.dart';
+// import 'package:easylibro_app/widgets/resource.dart';
 
+// class MyResources {
+//   static List<Resource> allResources = [];
+
+//   static Future<void> fetchResources() async {
+//     allResources = await ApiService.fetchResources();
+//   }
+
+//   static List<Resource> getBooks() {
+//     return allResources
+//         .where((resource) => resource.type == "Book")
+//         .toList();
+//   }
+
+//   static List<Resource> getNovels() {
+//     return allResources
+//         .where((resource) => resource.type == "Novel")
+//         .toList();
+//   }
+
+//   static List<Resource> getMagazines() {
+//     return allResources
+//         .where((resource) => resource.type == "Magazine")
+//         .toList();
+//   }
+
+//   static List<Resource> getLatestResources(String category) {
+//     return allResources
+//         .where((resource) => resource.type == category)
+//         .take(5)
+//         .toList();
+//   }
+
+//   static List<Resource> getPopularResources(String category) {
+//     // Placeholder: Assuming popular resources are determined by borrow quantity or some popularity metric
+//     return allResources
+//         .where((resource) => resource.type == category)
+//         .where((resource) =>
+//             resource.noOfBooks > 10) // Example condition for popularity
+//         .toList();
+//   }
+
+//   static List<Resource> getAllResourcesByCategory(String category) {
+//     return allResources
+//         .where((resource) => resource.type == category)
+//         .toList();
+//   }
+// }
 
 import 'package:easylibro_app/api_service.dart';
 import 'package:easylibro_app/widgets/resource.dart';
 
-
-
 class MyResources {
   static List<Resource> allResources = [];
 
-  static Future<void> fetchResources() async {
-    allResources = await ApiService.fetchResources();
+  static Future<void> fetchResources(
+      String keyword, String tag, String type) async {
+    allResources = await ApiService.fetchResources(keyword, tag, type);
   }
 
   static List<Resource> getBooks() {
-    return allResources
-        .where((resource) => resource.type == "Book")
-        .toList();
+    return allResources.where((resource) => resource.type == "Book").toList();
   }
 
   static List<Resource> getNovels() {
-    return allResources
-        .where((resource) => resource.type == "Novel")
-        .toList();
+    return allResources.where((resource) => resource.type == "Novel").toList();
   }
 
   static List<Resource> getMagazines() {
@@ -499,26 +542,21 @@ class MyResources {
         .where((resource) => resource.type == "Magazine")
         .toList();
   }
-
   static List<Resource> getLatestResources(String category) {
-    return allResources
-        .where((resource) => resource.type == category)
-        .take(5)
-        .toList();
+    List<Resource> filteredResources =
+        allResources.where((resource) => resource.type == category).toList();
+        filteredResources.sort((a, b) => b.dateadded.compareTo(a.dateadded));
+    List<Resource> latestResources = filteredResources.take(5).toList();
+    return latestResources;
   }
 
   static List<Resource> getPopularResources(String category) {
-    // Placeholder: Assuming popular resources are determined by borrow quantity or some popularity metric
     return allResources
-        .where((resource) => resource.type == category)
-        .where((resource) =>
-            resource.noOfBooks > 10) // Example condition for popularity
+        .where((resource) => resource.type == category && resource.noOfRes > 0)
         .toList();
   }
 
   static List<Resource> getAllResourcesByCategory(String category) {
-    return allResources
-        .where((resource) => resource.type == category)
-        .toList();
+    return allResources.where((resource) => resource.type == category).toList();
   }
 }
