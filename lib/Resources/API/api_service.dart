@@ -84,8 +84,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart' as http;
-import 'package:easylibro_app/widgets/resource.dart';
-import 'package:easylibro_app/widgets/resource_details.dart';
+import 'package:easylibro_app/Resources/API/Models/resource.dart';
+import 'package:easylibro_app/Resources/API/Models/resource_details.dart';
 
 class ApiService {
   static http.Client getHttpClient() {
@@ -141,9 +141,6 @@ class ApiService {
       body: jsonEncode({'isbn': isbn}),
     );
     
-    // Log the full response for debugging
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
     
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
@@ -152,7 +149,6 @@ class ApiService {
       throw Exception('Failed to load resource details. Status code: ${response.statusCode}');
     }
   } catch (e) {
-    // Log the error for better debugging
     print('Error fetching resource details: $e');
     throw Exception('Failed to load resource details: $e');
   }

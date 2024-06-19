@@ -339,10 +339,10 @@
 //   }
 // }
 
-import 'package:easylibro_app/api_service.dart';
-import 'package:easylibro_app/screens/about_screen.dart';
-import 'package:easylibro_app/widgets/resource.dart';
-import 'package:easylibro_app/widgets/resource_details.dart';
+import 'package:easylibro_app/Resources/API/api_service.dart';
+import 'package:easylibro_app/Resources/Screens/about_screen.dart';
+import 'package:easylibro_app/Resources/API/Models/resource.dart';
+import 'package:easylibro_app/Resources/API/Models/resource_details.dart';
 import 'package:flutter/material.dart';
 
 class ResourceCard extends StatefulWidget {
