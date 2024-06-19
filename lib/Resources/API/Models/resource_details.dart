@@ -35,11 +35,11 @@ class ResourceDetails {
 
   factory ResourceDetails.fromJson(Map<String, dynamic> json) {
     return ResourceDetails(
-      isbn: json['isbn'],
-      type: json['type'],
-      title: json['title'],
-      author: json['author'],
-      remain: json['remain'],
+      isbn: json['isbn'] ?? '',
+      type: json['type'] ?? '',
+      title: json['title'] ?? '',
+      author: json['author'] ?? '',
+      remain: json['remain'] ?? 0,
       borrowed: json['borrowed'],
       total: json['total'],
       cupboardId: json['cupboardId'],

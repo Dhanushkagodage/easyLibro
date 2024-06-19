@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable, camel_case_types
 class Search_Bar extends StatefulWidget {
-    String? hintText;
-    
+  final String hintText;
+  final TextEditingController controller;
+  final Function(String) onChanged;
 
   Search_Bar({
     super.key,
-    required this.hintText, 
-    required void Function(String keyword, String tag, String type) onSearch,
-    
+    required this.hintText,
+    required this.controller,
+    required this.onChanged,
   });
 
   @override
@@ -22,6 +23,8 @@ class _Search_BarState extends State<Search_Bar> {
   @override
   Widget build(BuildContext context) {
     return SearchBar(
+      controller: widget.controller,
+      onChanged: widget.onChanged,
       constraints: const BoxConstraints(
         minHeight: 40,
         maxWidth: 230,

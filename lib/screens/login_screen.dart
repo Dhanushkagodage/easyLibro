@@ -1,4 +1,4 @@
-import 'package:easylibro_app/screens/layout_screen.dart';
+import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
 
