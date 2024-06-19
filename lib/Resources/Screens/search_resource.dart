@@ -15,7 +15,7 @@ class SearchResource extends StatefulWidget {
 
 class _SearchResourceState extends State<SearchResource> {
   int isSelected = 0;
-  String filterCategory = "Book"; // Default category
+  String filterCategory = "Book"; 
   bool isLoading = true;
   String searchKeyword = "";
   String searchTag = "all";
