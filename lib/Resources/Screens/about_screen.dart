@@ -308,12 +308,13 @@ class _AboutScreenState extends State<AboutScreen> {
                                         builder: (BuildContext context) {
                                           return AlertBox(
                                             content:
-                                                "Resource has been borrowed successfully.",
+                                                "Request has been send successfully.",
                                             approveText: "OK",
                                             onApprove: () {
                                               // Navigator.of(context).pop();
                                             },
-                                            onCancel: () {},
+                                            icon: Icons.check_circle,
+                                            iconColor: Colors.green,
                                           );
                                         },
                                       );
