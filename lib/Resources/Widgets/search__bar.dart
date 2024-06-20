@@ -7,7 +7,7 @@ class Search_Bar extends StatefulWidget {
   final TextEditingController controller;
   final Function(String) onChanged;
 
-  Search_Bar({
+  const Search_Bar({
     super.key,
     required this.hintText,
     required this.controller,

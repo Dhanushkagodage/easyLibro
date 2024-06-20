@@ -54,6 +54,7 @@ class ApiService {
       throw Exception('Failed to load resource details. Status code: ${response.statusCode}');
     }
   } catch (e) {
+    // ignore: avoid_print
     print('Error fetching resource details: $e');
     throw Exception('Failed to load resource details: $e');
   }

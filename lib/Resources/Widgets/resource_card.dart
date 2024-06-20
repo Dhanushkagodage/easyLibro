@@ -342,7 +342,6 @@
 import 'package:easylibro_app/Resources/API/api_service.dart';
 import 'package:easylibro_app/Resources/Screens/about_screen.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
-import 'package:easylibro_app/Resources/API/Models/resource_details.dart';
 import 'package:flutter/material.dart';
 
 class ResourceCard extends StatefulWidget {
@@ -454,15 +453,18 @@ class _ResourceCardState extends State<ResourceCard> {
                                 widget.resource.isbn);
                         if (!mounted) return;
                         Navigator.push(
+                          // ignore: use_build_context_synchronously
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
                                 AboutScreen(resourceDetails: resourceDetails),
                           ),
                         );
+                        // ignore: avoid_print
                         print(widget.resource.isbn);
                       } catch (e) {
                         // Handle any errors here
+                        // ignore: avoid_print
                         print("Failed to fetch resource details: $e");
                       }
                     },
