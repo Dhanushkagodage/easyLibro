@@ -1,5 +1,6 @@
-
+import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
+import 'package:easylibro_app/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Resources/API/Models/my_resource.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
@@ -15,8 +16,10 @@ class SearchResource extends StatefulWidget {
 
 class _SearchResourceState extends State<SearchResource> {
   int isSelected = 0;
-  String filterCategory = "Book"; 
+  String filterCategory = "Book";
   bool isLoading = true;
+  bool hasError = false;
+  bool search = false;
   String searchKeyword = "";
   String searchTag = "all";
   String searchType = "all";
@@ -32,12 +35,25 @@ class _SearchResourceState extends State<SearchResource> {
   Future<void> _fetchResources() async {
     setState(() {
       isLoading = true;
+
     });
     try {
       await MyResources.fetchResources(searchKeyword, searchTag, searchType);
+      
     } catch (e) {
-      // ignore: avoid_print
-      print(e); 
+      setState(() {
+        hasError = true;
+      });
+      // ignore: use_build_context_synchronously
+      showDialog(
+          context: context,
+          builder: (context) => AlertBox(
+                content: "Failed to load resources",
+                approveText: "OK",
+                icon: Icons.error,
+                iconColor: Colors.red,
+                onApprove: () {},
+              ));
     } finally {
       setState(() {
         isLoading = false;
@@ -50,7 +66,6 @@ class _SearchResourceState extends State<SearchResource> {
     _searchController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +105,8 @@ class _SearchResourceState extends State<SearchResource> {
                                 bottomRight: Radius.circular(0)),
                             boxShadow: [
                               BoxShadow(
-                                color: Color.fromARGB(255, 49, 48, 52).withOpacity(0.9),
+                                color: Color.fromARGB(255, 49, 48, 52)
+                                    .withOpacity(0.9),
                                 offset: Offset(0, 1),
                                 blurRadius: 1,
                               ),
@@ -123,7 +139,8 @@ class _SearchResourceState extends State<SearchResource> {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Color.fromARGB(255, 49, 48, 52).withOpacity(0.9),
+                                color: Color.fromARGB(255, 49, 48, 52)
+                                    .withOpacity(0.9),
                                 offset: Offset(0, 1),
                                 blurRadius: 2,
                               ),
@@ -201,12 +218,16 @@ class _SearchResourceState extends State<SearchResource> {
             const SizedBox(height: 20),
             isLoading
                 ? Center(child: CircularProgressIndicator())
-                : Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: _buildResources(),
-                    ),
-                  ),
+                : hasError
+                    ? Expanded(
+                        child: ErrorScreen(),
+                    )
+                    : Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: _buildResources(),
+                        ),
+                      ),
           ],
         ),
       ),
@@ -236,7 +257,8 @@ class _SearchResourceState extends State<SearchResource> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 13,
-              color: isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
+              color:
+                  isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
               fontFamily: "Inter",
               fontWeight: FontWeight.w500,
             ),
