@@ -208,6 +208,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 40, right: 20, top: 10),
+                    // ignore: avoid_unnecessary_containers
                     child: Container(
                       child: Column(
                         children: [

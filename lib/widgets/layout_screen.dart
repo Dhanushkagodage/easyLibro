@@ -1,9 +1,9 @@
 
+import 'package:easylibro_app/Reservations/Screens/search_reservations.dart';
 import 'package:easylibro_app/screens/dashboard_screen.dart';
 import 'package:easylibro_app/screens/notification_screen.dart';
 
 import 'package:easylibro_app/Resources/Screens/search_resource.dart';
-import 'package:easylibro_app/screens/userscreen.dart';
 import 'package:flutter/material.dart';
 
 class LayoutScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
   List<Widget> screens =  [
     SearchResource(),
-    Userscreen(),
+    SearchReservations(),
     DashboardScreen(),
     NotificationScreen(),
   ];
@@ -101,7 +101,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.menu_book_outlined), label: "Resources"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle_outlined), label: "Users"),
+                icon: Icon(Icons.wifi_protected_setup), label: "Reservations"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard_outlined), label: "DashBoard"),
             BottomNavigationBarItem(
