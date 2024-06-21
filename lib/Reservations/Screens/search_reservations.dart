@@ -196,5 +196,5 @@ class _SearchReservationsState extends State<SearchReservations> {
           ),
         ),
       );
-
+      
 }
