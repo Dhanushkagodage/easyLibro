@@ -216,18 +216,18 @@ class _SearchResourceState extends State<SearchResource> {
               ),
             ),
             const SizedBox(height: 20),
-            isLoading
-                ? Center(child: CircularProgressIndicator())
-                : hasError
-                    ? Expanded(
-                        child: ErrorScreen(),
-                    )
-                    : Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: _buildResources(),
-                        ),
-                      ),
+            // isLoading
+            //     ? Center(child: CircularProgressIndicator())
+            //     : hasError
+            //         ? Expanded(
+            //             child: ErrorScreen(),
+            //         )
+            //         : Expanded(
+            //             child: Padding(
+            //               padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            //               child: _buildResources(),
+            //             ),
+            //           ),
           ],
         ),
       ),
