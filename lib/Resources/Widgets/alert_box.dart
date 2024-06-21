@@ -5,8 +5,10 @@ class AlertBox extends StatefulWidget {
   final String content;
   final String approveText;
   final String? cancelText;
+  final IconData? icon;
+  final Color? iconColor;
   final Function() onApprove;
-  final Function() onCancel;
+  final Function()? onCancel;
 
   const AlertBox({
     super.key,
@@ -14,8 +16,10 @@ class AlertBox extends StatefulWidget {
     required this.content,
     required this.approveText,
     this.cancelText,
+    this.icon,
+    this.iconColor,
     required this.onApprove,
-    required this.onCancel,
+    this.onCancel,
   });
 
   @override
@@ -33,7 +37,7 @@ class _AlertBoxState extends State<AlertBox> {
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
-            Text(widget.content),
+            Center(child: Text(widget.content)),
           ],
         ),
       ),
@@ -41,8 +45,8 @@ class _AlertBoxState extends State<AlertBox> {
         if (widget.cancelText == null)
           Center(
               child: Icon( 
-            Icons.check_circle,
-            color: Colors.green,
+            widget.icon,
+            color: widget.iconColor,
             size: 60,
           )),
         Row(
@@ -52,7 +56,7 @@ class _AlertBoxState extends State<AlertBox> {
               TextButton(
                 child: Text(widget.cancelText!),
                 onPressed: () {
-                  widget.onCancel();
+                  widget.onCancel!();
                   Navigator.of(context).pop();
                 },
               ),
