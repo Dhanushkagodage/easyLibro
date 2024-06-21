@@ -1,0 +1,66 @@
+import 'package:easylibro_app/Reservations/API/Reservation.dart';
+
+class MyReservations {
+  static List<Reservation> allReservations = [
+    Reservation(
+      reservationNo: 1,
+      Resource: 'Laptop',
+      UserName: 'John Doe',
+      UserID: '123456',
+      BorrowName: 'Jane Doe',
+      IssueDate:'hello',
+      DueDate: '2022-02-10',
+      Status: 'Reserved',
+    ),
+    Reservation(
+      reservationNo: 4,
+      Resource: 'Laptop',
+      UserName: 'John Doe',
+      UserID: '123456',
+      BorrowName: 'Jane Doe',
+      IssueDate:'hello',
+      DueDate: '2022-02-10',
+      Status: 'Reserved',
+    ),
+    Reservation(
+      reservationNo: 6,
+      Resource: 'Laptop',
+      UserName: 'John Doe',
+      UserID: '123456',
+      BorrowName: 'Jane Doe',
+      IssueDate:'hello',
+      DueDate: '2022-02-10',
+      Status: 'Reserved',
+    ),
+    Reservation(
+      reservationNo: 8,
+      Resource: 'Laptop',
+      UserName: 'John Doe',
+      UserID: '123456',
+      BorrowName: 'Jane Doe',
+      IssueDate:'hello',
+      DueDate: '2022-02-10',
+      Status: 'Reserved',
+    ),
+    Reservation(
+      reservationNo: 10,
+      Resource: 'Laptop',
+      UserName: 'John Doe',
+      UserID: '123456',
+      BorrowName: 'Jane Doe',
+      IssueDate:'hello',
+      DueDate: '2022-02-10',
+      Status: 'Reserved',
+    ),
+    Reservation(
+      reservationNo: 1,
+      Resource: 'Laptop',
+      UserName: 'John Doe',
+      UserID: '123456',
+      BorrowName: 'Jane Doe',
+      IssueDate:'hello',
+      DueDate: '2022-02-10',
+      Status: 'Reserved',
+    ),
+  ];
+}
