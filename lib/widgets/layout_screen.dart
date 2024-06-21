@@ -4,6 +4,7 @@ import 'package:easylibro_app/screens/dashboard_screen.dart';
 import 'package:easylibro_app/screens/notification_screen.dart';
 
 import 'package:easylibro_app/Resources/Screens/search_resource.dart';
+import 'package:easylibro_app/screens/userProfileEdit_screen.dart';
 import 'package:flutter/material.dart';
 
 class LayoutScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
     SearchResource(),
     SearchReservations(),
     DashboardScreen(),
-    NotificationScreen(),
+    EditProfilePage(),
   ];
 
   @override
@@ -70,12 +71,23 @@ class _LayoutScreenState extends State<LayoutScreen> {
               ],
             ),
           ),
-          actions: const [
+          actions: [
             Padding(
               padding: EdgeInsets.only(right: 20),
-              child: CircleAvatar(
-                backgroundImage: AssetImage("assets/Avatar.jpeg"),
-                radius: 25,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfilePage(),
+                    ),
+                  );
+                
+                },
+                child: CircleAvatar(
+                  backgroundImage: AssetImage("assets/Avatar.jpeg"),
+                  radius: 25,
+                ),
               ),
             )
           ],
