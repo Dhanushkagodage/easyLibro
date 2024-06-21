@@ -1,5 +1,7 @@
+import 'package:easylibro_app/Reservations/widgets/reservation_card.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 import 'package:flutter/material.dart';
+import 'package:easylibro_app/Reservations/API/my_reservations.dart';
 
 class SearchReservations extends StatefulWidget {
   const SearchReservations({super.key});
@@ -10,12 +12,11 @@ class SearchReservations extends StatefulWidget {
 
 class _SearchReservationsState extends State<SearchReservations> {
   int isSelected = 0;
-  String filterCategory = "Book"; 
+  String filterCategory = "Book";
   bool isLoading = true;
   String searchKeyword = "";
   String searchTag = "all";
   String searchType = "all";
-
 
   final TextEditingController _searchController = TextEditingController();
   @override
@@ -56,7 +57,8 @@ class _SearchReservationsState extends State<SearchReservations> {
                                 bottomRight: Radius.circular(0)),
                             boxShadow: [
                               BoxShadow(
-                                color: Color.fromARGB(255, 49, 48, 52).withOpacity(0.9),
+                                color: Color.fromARGB(255, 49, 48, 52)
+                                    .withOpacity(0.9),
                                 offset: Offset(0, 1),
                                 blurRadius: 1,
                               ),
@@ -89,7 +91,8 @@ class _SearchReservationsState extends State<SearchReservations> {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Color.fromARGB(255, 49, 48, 52).withOpacity(0.9),
+                                color: Color.fromARGB(255, 49, 48, 52)
+                                    .withOpacity(0.9),
                                 offset: Offset(0, 1),
                                 blurRadius: 2,
                               ),
@@ -155,10 +158,13 @@ class _SearchReservationsState extends State<SearchReservations> {
             // isLoading
             //     ? Center(child: CircularProgressIndicator())
             //     : Expanded(
-            //         child: Padding(
-            //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            //           child: _buildResources(),
-            //         ),
+            //         child:
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: _buildReservations(),
+              ),
+            ),
             //       ),
           ],
         ),
@@ -189,7 +195,8 @@ class _SearchReservationsState extends State<SearchReservations> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 13,
-              color: isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
+              color:
+                  isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
               fontFamily: "Inter",
               fontWeight: FontWeight.w500,
             ),
@@ -197,4 +204,20 @@ class _SearchReservationsState extends State<SearchReservations> {
         ),
       );
 
+  Widget _buildReservations() {
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(top: 20),
+        itemCount: MyReservations.allReservations.length,
+        itemBuilder: (context, index) {
+          final reservation = MyReservations.allReservations[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: ReservationCard(
+              reservation: reservation,
+            ),
+          );
+        });
+  }
 }
