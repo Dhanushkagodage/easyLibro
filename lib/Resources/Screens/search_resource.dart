@@ -80,7 +80,9 @@ class _SearchResourceState extends State<SearchResource> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Search_Bar(
+                    width: 230,
                     hintText: "Search Resources",
+                    enable: true,
                     controller: _searchController,
                     onChanged: (value) {
                       setState(() {
