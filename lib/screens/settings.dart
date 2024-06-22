@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:easylibro_app/widgets/theme_data_style.dart';
+//import 'package:easylibro_app/widgets/theme_data_style.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
