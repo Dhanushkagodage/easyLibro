@@ -360,15 +360,19 @@ class _ResourceCardState extends State<ResourceCard> {
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.circular(5),
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromARGB(255, 49, 48, 52)
-                .withOpacity(0.1), // Shadow color
-            spreadRadius: 2, // Spread radius
-            blurRadius: 2, // Blur radius
-            offset: const Offset(0, 0), // Changes position of shadow
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Color.fromARGB(255, 49, 48, 52)
+        //         .withOpacity(0.1), // Shadow color
+        //     spreadRadius: 2, // Spread radius
+        //     blurRadius: 2, // Blur radius
+        //     offset: const Offset(0, 0), // Changes position of shadow
+        //   ),
+        // ],
+        border: Border.all(
+          color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+          width: 1,
+        ), 
       ),
       child: Column(
         children: [
@@ -378,29 +382,32 @@ class _ResourceCardState extends State<ResourceCard> {
               width:
                   double.infinity, // Set to double.infinity to take full width
               height: 150, // Set a fixed height
-              child: Image.network(
-                widget.resource.url,
-                fit: BoxFit
-                    .cover, // Ensures the image covers the box while maintaining aspect ratio
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                (loadingProgress.expectedTotalBytes ?? 1)
-                            : null,
-                      ),
-                    );
-                  }
-                },
-                errorBuilder: (BuildContext context, Object error,
-                    StackTrace? stackTrace) {
-                  return Icon(Icons.error, color: Colors.red);
-                },
+              child: Padding(
+                padding: const EdgeInsets.only(top:1),
+                child: Image.network(
+                  widget.resource.url,
+                  fit: BoxFit
+                      .cover, // Ensures the image covers the box while maintaining aspect ratio
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      );
+                    }
+                  },
+                  errorBuilder: (BuildContext context, Object error,
+                      StackTrace? stackTrace) {
+                    return Icon(Icons.error, color: Colors.red);
+                  },
+                ),
               ),
             ),
           ),

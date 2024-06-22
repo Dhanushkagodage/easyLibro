@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:easylibro_app/widgets/theme_provider.dart';
+
 import 'package:easylibro_app/widgets/theme_data_style.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -25,7 +24,6 @@ class _SettingsPageState extends State<SettingsPage> {
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF0D4065),
@@ -253,65 +251,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     color: Colors.grey,
                   ),
                 ),
-                children: <Widget>[
+                children: [
 
-                  ListTile(
-                    title: Text('Dark Mode'),
-                    subtitle: Text(
-                      themeProvider.themeDataStyle == ThemeDataStyle.dark
-                          ? 'Dark Mode'
-                          : 'Light Mode',
-                      style: TextStyle(fontSize: 14.0),
-                    ),
-                    trailing: Transform.scale(
-                      scale: 1.2,
-                      child: Switch(
-                        value: themeProvider.themeDataStyle == ThemeDataStyle.dark,
-                        onChanged: (isOn) {
-                          print('Switch toggled: $isOn'); // Debug print
-                          themeProvider.changeTheme();
-                        },
-                        activeColor: Color(0xFF0D4065),
-                      ),
-                    ),
-                  ),
-
-
-                  ListTile(
-                    title: Text('Volume'),
-                    subtitle: Slider(
-                      value: _volumeLevel,
-                      min: 0.0,
-                      max: 1.0,
-                      divisions: 10,
-                      label: (_volumeLevel * 100).toStringAsFixed(0) + '%',
-                      onChanged: (double value) {
-                        setState(() {
-                          _volumeLevel = value;
-                        });
-                      },
-                      activeColor: const Color(0xFF0D4065), // Correctly placed within the Slider widget
-                    ),
-                  ),
-
-                  ListTile(
-                    title: Text('Language'),
-                    subtitle: DropdownButton<String>(
-                      value: _language,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _language = newValue!;
-                        });
-                      },
-                      items: <String>['English', 'Spanish', 'French', 'German']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                  ),
                   SizedBox(height: 20),
 
                     ],
