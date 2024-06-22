@@ -6,7 +6,7 @@ class ThemeDataStyle {
     useMaterial3: true,
     brightness: Brightness.light,
     colorScheme: ColorScheme.light(
-      surface: Colors.white
+      background: Colors.white
     ),
   );
 
@@ -14,7 +14,7 @@ class ThemeDataStyle {
     useMaterial3: true,
     brightness: Brightness.dark,
     colorScheme: ColorScheme.dark(
-      surface: Colors.black,
+      background: Colors.black,
       primary: Colors.grey[900]!,
       secondary: Colors.grey[800]!
 
