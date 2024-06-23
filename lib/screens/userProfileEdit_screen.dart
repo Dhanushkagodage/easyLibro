@@ -18,6 +18,7 @@ class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});  
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
@@ -218,7 +219,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 }
 
 Widget buildDatePicker(BuildContext context, String labelText, String placeholder) {
-  TextEditingController _dateController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
 
   return Padding(
     padding: const EdgeInsets.only(bottom: 35.0),
@@ -231,12 +232,12 @@ Widget buildDatePicker(BuildContext context, String labelText, String placeholde
           lastDate: DateTime(2100),
         );
         if (pickedDate != null) {
-          _dateController.text = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+          dateController.text = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
         }
       },
       child: AbsorbPointer(
         child: TextField(
-          controller: _dateController,
+          controller: dateController,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(bottom: 3),
             labelText: labelText,
