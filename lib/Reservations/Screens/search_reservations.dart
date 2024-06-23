@@ -34,6 +34,8 @@ class _SearchReservationsState extends State<SearchReservations> {
                   Search_Bar(
                     hintText: "Search Reservations ",
                     controller: _searchController,
+                    enable: true,
+                    width: 230,
                     onChanged: (value) {
                       // setState(() {
                       //   searchKeyword = value;

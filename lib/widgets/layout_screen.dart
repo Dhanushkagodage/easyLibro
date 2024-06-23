@@ -1,9 +1,8 @@
 
 import 'package:easylibro_app/Reservations/Screens/search_reservations.dart';
 import 'package:easylibro_app/screens/dashboard_screen.dart';
-import 'package:easylibro_app/screens/notification_screen.dart';
-
 import 'package:easylibro_app/Resources/Screens/search_resource.dart';
+import 'package:easylibro_app/screens/notification_screen.dart';
 import 'package:easylibro_app/screens/userProfileEdit_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -29,68 +28,82 @@ class _LayoutScreenState extends State<LayoutScreen> {
     SearchResource(),
     SearchReservations(),
     DashboardScreen(),
-    EditProfilePage(),
+    NotificationScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          surfaceTintColor: const Color(0xFFF7F8FD),
-          backgroundColor: const Color(0xFFF7F8FD),
-          toolbarHeight: 80,
-          automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: IconButton(
-              icon: const Icon(Icons.menu),
-              color: const Color(0xFF080C27),
-              iconSize: 30,
-              onPressed: () {},
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(85),
+          child: Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color:  Color.fromARGB(109, 8, 12, 39), 
+                  // Color of the border
+                  width: 1.0, // Width of the border
+                ),
+              ),
             ),
-          ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset(
-                  "assets/librarylogoRW1.png",
-                  scale: 5.6,
+            child: AppBar(
+              surfaceTintColor: const Color(0xFFF7F8FD),
+              backgroundColor: const Color(0xFFF7F8FD),
+              toolbarHeight: 85,
+              automaticallyImplyLeading: false,
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: IconButton(
+                  icon: const Icon(Icons.menu),
+                  color: const Color(0xFF080C27),
+                  iconSize: 30,
+                  onPressed: () {},
                 ),
-                const Text(
-                  "Read your Favourite Books!",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF080C27),
-                    fontFamily: "Inter",
-                    fontWeight: FontWeight.w500,
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 12,bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      "assets/librarylogoRW1.png",
+                      scale: 5.6,
+                    ),
+                    const Text(
+                      "Read your Favourite Books!",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF080C27),
+                        fontFamily: "Inter",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProfilePage(),
+                        ),
+                      );
+                    
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage("assets/Avatar.jpeg"),
+                      radius: 25,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
           ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfilePage(),
-                    ),
-                  );
-                
-                },
-                child: CircleAvatar(
-                  backgroundImage: AssetImage("assets/Avatar.jpeg"),
-                  radius: 25,
-                ),
-              ),
-            )
-          ],
         ),
         body: screens[currentIndex],
         bottomNavigationBar: BottomNavigationBar(

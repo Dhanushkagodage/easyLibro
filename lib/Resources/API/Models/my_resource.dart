@@ -546,7 +546,7 @@ class MyResources {
     List<Resource> filteredResources =
         allResources.where((resource) => resource.type == category).toList();
         filteredResources.sort((a, b) => b.dateadded.compareTo(a.dateadded));
-    List<Resource> latestResources = filteredResources.take(5).toList();
+    List<Resource> latestResources = filteredResources.take(50).toList();
     return latestResources;
   }
 
