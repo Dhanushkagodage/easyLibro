@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:easylibro_app/Resources/Screens/search_resource.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
+   // final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
@@ -68,7 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   left: width * 0.06,
                   right: width * 0.06,
                 ),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -76,7 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: 'Inter',
-                        color: const Color(0xFF080C27),
+                        color: Color(0xFF080C27),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -85,7 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: 'Inter',
-                        color: const Color(0xFF080C27),
+                        color: Color(0xFF080C27),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -166,6 +165,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     color: Color(0xFF080C27).withOpacity(0.9),
                     width: 0.7,
                   ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
