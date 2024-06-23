@@ -1,5 +1,4 @@
 import 'package:easylibro_app/widgets/layout_screen.dart';
-import 'package:easylibro_app/widgets/media_query.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
 
@@ -18,7 +17,7 @@ class LoginScreen extends StatelessWidget {
                 clipper: WaveClipper(),
                 child: Container(
                   color: const Color(0xFF0D4065),
-                   height: SizeConfig.blockSizeVertical * 37,
+                  height: 250,
                 ),
               ),
             ),
@@ -26,7 +25,7 @@ class LoginScreen extends StatelessWidget {
               clipper: WaveClipper(),
               child: Container(
                 color: const Color(0xFF0D4065),
-                 height: SizeConfig.blockSizeVertical * 35,
+                height: 242,
                 child: Center(
                     child: Image.asset(
                   "assets/librarylogoRW.png",
@@ -35,10 +34,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 32,
-                left: SizeConfig.blockSizeHorizontal * 7,
-                right: SizeConfig.blockSizeHorizontal * 7,),
+              padding: const EdgeInsets.only(top: 210, left: 28, right: 28),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -54,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                           color: Color(0xFF080C27),
                           fontFamily: "Inter",
                           fontWeight: FontWeight.w500)),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 5 ),
+                  const SizedBox(height: 35),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -88,8 +84,8 @@ class LoginScreen extends StatelessWidget {
                               ),
                             )),
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 2,
+                      const SizedBox(
+                        height: 20,
                       ),
                       const Align(
                         alignment: Alignment.centerRight,
@@ -102,8 +98,8 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical *5,
+                      const SizedBox(
+                        height: 40,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -114,10 +110,10 @@ class LoginScreen extends StatelessWidget {
                           );
                         },
                         child: Container(
-                          height: SizeConfig.blockSizeVertical * 8,
-                          width: SizeConfig.blockSizeHorizontal * 75,
+                          height: 55,
+                          width: 300,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
+                              borderRadius: BorderRadius.circular(30),
                               color: const Color(0xFF0D4065)),
                           child: const Center(
                             child: Text(
