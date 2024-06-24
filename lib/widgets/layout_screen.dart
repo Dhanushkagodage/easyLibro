@@ -1,9 +1,9 @@
 
 import 'package:easylibro_app/Reservations/Screens/search_reservations.dart';
-import 'package:easylibro_app/screens/dashboard_screen.dart';
+import 'package:easylibro_app/Dashboard/dashboard_screen.dart';
 import 'package:easylibro_app/Resources/Screens/search_resource.dart';
-import 'package:easylibro_app/screens/notification_screen.dart';
-import 'package:easylibro_app/screens/userProfileEdit_screen.dart';
+import 'package:easylibro_app/Notifications/notification_screen.dart';
+import 'package:easylibro_app/User/userProfileEdit_screen.dart';
 import 'package:flutter/material.dart';
 
 class LayoutScreen extends StatefulWidget {

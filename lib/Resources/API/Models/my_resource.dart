@@ -518,6 +518,49 @@
 //   }
 // }
 
+// import 'package:easylibro_app/Resources/API/api_service.dart';
+// import 'package:easylibro_app/Resources/API/Models/resource.dart';
+
+// class MyResources {
+//   static List<Resource> allResources = [];
+
+//   static Future<void> fetchResources(
+//       String keyword, String tag, String type) async {
+//     allResources = await ApiService.fetchResources(keyword, tag, type);
+//   }
+
+//   static List<Resource> getEBooks() {
+//     return allResources.where((resource) => resource.type == "Ebook").toList();
+//   }
+
+//   static List<Resource> getNovels() {
+//     return allResources.where((resource) => resource.type == "Novel").toList();
+//   }
+
+//   static List<Resource> getMagazines() {
+//     return allResources
+//         .where((resource) => resource.type == "Magazine")
+//         .toList();
+//   }
+//   static List<Resource> getLatestResources(String category) {
+//     List<Resource> filteredResources =
+//         allResources.where((resource) => resource.type == category).toList();
+//         filteredResources.sort((a, b) => b.dateadded.compareTo(a.dateadded));
+//     List<Resource> latestResources = filteredResources.take(50).toList();
+//     return latestResources;
+//   }
+
+//   static List<Resource> getPopularResources(String category) {
+//     return allResources
+//         .where((resource) => resource.type == category && resource.noOfRes > 0)
+//         .toList();
+//   }
+
+//   static List<Resource> getAllResourcesByCategory(String category) {
+//     return allResources.where((resource) => resource.type == category).toList();
+//   }
+// }
+
 import 'package:easylibro_app/Resources/API/api_service.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
 
@@ -528,35 +571,46 @@ class MyResources {
       String keyword, String tag, String type) async {
     allResources = await ApiService.fetchResources(keyword, tag, type);
   }
-
-  static List<Resource> getBooks() {
-    return allResources.where((resource) => resource.type == "Book").toList();
+ 
+  static List<Resource> getAllResourcesByCategory(String category) {
+    if (category == "All") {
+      return allResources;
+    } else if (category == "Ebook") {
+      return allResources
+          .where((resource) => resource.type == "Ebook")
+          .toList();
+    } else if (category == "Journal") {
+      return allResources
+          .where((resource) => resource.type == "Magazine")
+          .toList();
+    }
+    return [];
   }
 
-  static List<Resource> getNovels() {
-    return allResources.where((resource) => resource.type == "Novel").toList();
-  }
-
-  static List<Resource> getMagazines() {
-    return allResources
-        .where((resource) => resource.type == "Magazine")
-        .toList();
-  }
   static List<Resource> getLatestResources(String category) {
-    List<Resource> filteredResources =
-        allResources.where((resource) => resource.type == category).toList();
-        filteredResources.sort((a, b) => b.dateadded.compareTo(a.dateadded));
-    List<Resource> latestResources = filteredResources.take(50).toList();
-    return latestResources;
+    if (category == "All") {
+      List<Resource> filteredResources = allResources;
+      filteredResources.sort((a, b) => b.dateadded.compareTo(a.dateadded));
+      List<Resource> latestResources = filteredResources.take(10).toList();
+      return latestResources;
+    } else {
+      List<Resource> filteredResources =
+          allResources.where((resource) => resource.type == category).toList();
+      filteredResources.sort((a, b) => b.dateadded.compareTo(a.dateadded));
+      List<Resource> latestResources = filteredResources.take(10).toList();
+      return latestResources;
+    }
   }
 
   static List<Resource> getPopularResources(String category) {
-    return allResources
-        .where((resource) => resource.type == category && resource.noOfRes > 0)
-        .toList();
-  }
-
-  static List<Resource> getAllResourcesByCategory(String category) {
-    return allResources.where((resource) => resource.type == category).toList();
+    if (category == "All") {
+      return allResources
+          .where((resource) => resource.noOfRes > 0)
+          .toList();
+    } else {
+      return allResources
+          .where((resource) => resource.type == category && resource.noOfRes > 0)
+          .toList();
+    }
   }
 }

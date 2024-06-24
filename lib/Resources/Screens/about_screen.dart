@@ -64,6 +64,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               borderRadius: BorderRadius.circular(5),
                               child: Image.network(
                                 resourceDetails.imagepath,
+                                fit: BoxFit.cover,
                               )),
                         ),
                       ),
@@ -198,7 +199,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           ),
                         ),
                       ),
-                      child: Text("${resourceDetails.type} Details: ",
+                      child: Text("${resourceDetails.title} Details: ",
                           style: TextStyle(
                               fontFamily: "Inter",
                               fontSize: 14,

@@ -1,4 +1,7 @@
+import 'package:easylibro_app/Login/login_screen.dart';
+import 'package:easylibro_app/Resources/Screens/search_resource.dart';
 import 'package:easylibro_app/screens/splash_screen.dart';
+import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -14,7 +17,9 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "EasyLibro APP",
-      home: SplashScreen(),
+      //home: SplashScreen(),
+       home: LoginScreen(),
+     // home: LayoutScreen(currentIndex: 0,),
     );
   }
 }

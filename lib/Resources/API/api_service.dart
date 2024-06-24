@@ -17,7 +17,7 @@ class ApiService {
   static Future<List<Resource>> fetchResources(String keyword, String tag, String type) async {
     final client = getHttpClient();
     final response = await client.post(
-      Uri.parse('http://10.0.2.2:5164/api/Resource/SearchResources'),
+      Uri.parse('https://10.0.2.2:7174/api/Resource/SearchResources'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'keyword': keyword,
@@ -37,7 +37,7 @@ class ApiService {
 
   static Future<ResourceDetails> fetchResourceDetails(String isbn) async {
   final client = getHttpClient();
-  final uri = Uri.parse('http://10.0.2.2:5164/api/Resource/AbouteResource?isbn=$isbn');
+  final uri = Uri.parse('https://10.0.2.2:7174/api/Resource/AbouteResource?isbn=$isbn');
 
   try {
     final response = await client.post(
