@@ -6,7 +6,6 @@ import 'package:easylibro_app/Resources/API/Models/my_resource.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
 import 'package:easylibro_app/Resources/Widgets/resource_card.dart';
 
-
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
@@ -15,13 +14,14 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  List<Resource> resources = MyResources.getLatestResources("Book");
+  List<Resource> resources = MyResources.getAllResourcesByCategory("All");
   late ScrollController _scrollController;
   late Timer _timer;
   int _scrollCount = 0;
   final double scrollAmount = 125; // Amount to scroll horizontally
-
-  @override
+  
+  
+   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
@@ -52,7 +52,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-   // final double height = MediaQuery.of(context).size.height;
+    // final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
@@ -143,7 +143,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               //   ),
               // ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                 child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -166,32 +166,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     color: Color(0xFF080C27).withOpacity(0.9),
                     width: 0.7,
                   ),
+                  color: const Color.fromARGB(255, 229, 229, 229),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Container(
                     decoration: BoxDecoration(),
-                    height:
-                        230, // Set a fixed height for the horizontal GridView
-                    child: GridView.builder(
-                      controller: _scrollController,
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1, // One row
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: (200 / 100),
-                      ),
-                      itemCount: resources.length,
-                      itemBuilder: (context, index) {
-                        final resource = resources[index];
-                        return ResourceCard(resource: resource);
-                      },
-                    ),
+                    height: 230,
+                    width: double
+                        .infinity, // Set a fixed height for the horizontal GridView
+                    child: resources.isEmpty
+                        ? Center(
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  "assets/error.png",
+                                  scale: 1.7,
+                                ),
+                                Text(
+                                  "No Resources Found",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'Inter',
+                                    color: Color(0xFF080C27),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : GridView.builder(
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1, // One row
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              childAspectRatio: (200 / 100),
+                            ),
+                            itemCount: resources.length,
+                            itemBuilder: (context, index) {
+                              final resource = resources[index];
+                              return ResourceCard(resource: resource);
+                            },
+                          ),
                   ),
                 ),
               ),

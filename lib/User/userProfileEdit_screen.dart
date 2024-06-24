@@ -37,7 +37,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Icons.arrow_back,
               color: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
           actions: [
             IconButton(
