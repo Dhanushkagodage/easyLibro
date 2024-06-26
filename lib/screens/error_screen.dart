@@ -36,15 +36,6 @@ class _ErrorScreenState extends State<ErrorScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(
-                    "Scroll down to refresh",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF080C27),
-                      fontFamily: "Inter",
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
                 ],
               ),
             ),
