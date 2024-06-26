@@ -380,8 +380,8 @@ class _ResourceCardState extends State<ResourceCard> {
             borderRadius: BorderRadius.circular(5),
             child: SizedBox(
               width:
-                  double.infinity, // Set to double.infinity to take full width
-              height: 150, // Set a fixed height
+                  double.infinity,
+              height: 150, 
               child: Padding(
                 padding: const EdgeInsets.only(top:1),
                 child: Image.network(

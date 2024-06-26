@@ -581,7 +581,7 @@ class MyResources {
           .toList();
     } else if (category == "Journal") {
       return allResources
-          .where((resource) => resource.type == "Magazine")
+          .where((resource) => resource.type == "Journal")
           .toList();
     }
     return [];

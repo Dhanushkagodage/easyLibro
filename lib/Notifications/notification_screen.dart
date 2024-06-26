@@ -137,8 +137,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 enum Action { share, delete, archive }
 
+// ignore: must_be_immutable
 class NotificationScreen extends StatelessWidget {
   List<User> users = AllUsers;
+  // ignore: use_key_in_widget_constructors
   NotificationScreen({Key? key});
 
   @override
@@ -175,7 +177,7 @@ class NotificationScreen extends StatelessWidget {
                         dismissible: DismissiblePane(
                           onDismissed: () => _onDismissed(index, Action.share),
                         ),
-                        children: [],
+                        children: const [],
                       ),
                       endActionPane: ActionPane(
                         motion: const BehindMotion(),
@@ -233,6 +235,7 @@ class NotificationScreen extends StatelessWidget {
       );
 
   void _onDismissed(int index, Action action) {
+    // ignore: unused_local_variable
     final user = users[index];
     //setState(() => users.removeAt(index));
 
@@ -243,6 +246,7 @@ class NotificationScreen extends StatelessWidget {
     //   }
   }
 
+  // ignore: unused_element
   void _showSnakBar(BuildContext context, String message, Color color) {
     final snackBar = SnackBar(
       content: Text(message),

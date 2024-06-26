@@ -296,8 +296,6 @@
 //   }
 // }
 
-
-
 import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 import 'package:easylibro_app/screens/error_screen.dart';
@@ -344,6 +342,7 @@ class _SearchResourceState extends State<SearchResource> {
       setState(() {
         hasError = true;
       });
+      print(e);
       // ignore: use_build_context_synchronously
       showDialog(
           context: context,
@@ -454,7 +453,7 @@ class _SearchResourceState extends State<SearchResource> {
                                 if (value == 1) {
                                   filterCategory = "All";
                                 } else if (value == 2) {
-                                  filterCategory = "Ebook"; 
+                                  filterCategory = "Ebook";
                                 } else {
                                   filterCategory = "Journal";
                                 }
@@ -467,7 +466,7 @@ class _SearchResourceState extends State<SearchResource> {
                             ),
                             itemBuilder: (context) => [
                               const PopupMenuItem(
-                                value: 1, 
+                                value: 1,
                                 child: Text("All"),
                               ),
                               const PopupMenuItem(
@@ -595,4 +594,3 @@ class _SearchResourceState extends State<SearchResource> {
     );
   }
 }
-
