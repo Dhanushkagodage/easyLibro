@@ -24,4 +24,12 @@ class AuthResponse {
       message: json['message'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'accessToken': accessToken,
+      'message': message,
+    };
+  }
+  
 }
