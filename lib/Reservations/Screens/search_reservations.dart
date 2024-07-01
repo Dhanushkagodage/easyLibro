@@ -2,6 +2,7 @@ import 'package:easylibro_app/Reservations/widgets/reservation_card.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Reservations/API/my_reservations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchReservations extends StatefulWidget {
   const SearchReservations({super.key});
@@ -27,7 +28,7 @@ class _SearchReservationsState extends State<SearchReservations> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding:  EdgeInsets.all(20.sp),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -35,7 +36,7 @@ class _SearchReservationsState extends State<SearchReservations> {
                     hintText: "Search Reservations ",
                     controller: _searchController,
                     enable: true,
-                    width: 230,
+                    width: 230.w,
                     onChanged: (value) {
                       // setState(() {
                       //   searchKeyword = value;
@@ -44,12 +45,12 @@ class _SearchReservationsState extends State<SearchReservations> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding:  EdgeInsets.only(left: 10.w),
                     child: Row(
                       children: [
                         Container(
-                          height: 40,
-                          width: 90,
+                          height: 40.h,
+                          width: 90.w,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 255, 255, 255),
                             borderRadius: BorderRadius.only(
@@ -67,22 +68,22 @@ class _SearchReservationsState extends State<SearchReservations> {
                             ],
                             border: Border.all(
                               color: Color(0xFF080C27).withOpacity(0.9),
-                              width: 0.7,
+                              width: 0.7.w,
                             ),
                           ),
                           child: Center(
                             child: Text("${filterCategory}s",
                                 style: TextStyle(
                                   color: Color(0xFF080C27),
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   fontFamily: "Inter",
                                   fontWeight: FontWeight.w500,
                                 )),
                           ),
                         ),
                         Container(
-                          height: 40,
-                          width: 40,
+                          height: 40.h,
+                          width: 40.w,
                           decoration: BoxDecoration(
                             color: const Color(0xFF0D4065),
                             borderRadius: BorderRadius.only(
@@ -131,10 +132,10 @@ class _SearchReservationsState extends State<SearchReservations> {
                                 child: Text("Ebooks"),
                               ),
                             ],
-                            child: const Icon(
+                            child:  Icon(
                               Icons.tune_outlined,
                               color: Colors.white,
-                              size: 20,
+                              size: 20.sp,
                             ),
                           ),
                         ),
@@ -145,7 +146,7 @@ class _SearchReservationsState extends State<SearchReservations> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding:  EdgeInsets.symmetric(horizontal: 20.sp),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -163,7 +164,7 @@ class _SearchReservationsState extends State<SearchReservations> {
             //         child:
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding:  EdgeInsets.symmetric(horizontal: 20.sp),
                 child: _buildReservations(),
               ),
             ),
@@ -182,9 +183,9 @@ class _SearchReservationsState extends State<SearchReservations> {
           });
         },
         child: Container(
-          width: 85,
-          height: 40,
-          padding: const EdgeInsets.all(8),
+          width: 85.w,
+          height: 40.h,
+          padding:  EdgeInsets.all(8.sp),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -196,7 +197,7 @@ class _SearchReservationsState extends State<SearchReservations> {
             name,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 13.sp,
               color:
                   isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
               fontFamily: "Inter",
@@ -215,7 +216,7 @@ class _SearchReservationsState extends State<SearchReservations> {
         itemBuilder: (context, index) {
           final reservation = MyReservations.allReservations[index];
           return Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
+            padding:  EdgeInsets.only(bottom: 10.h),
             child: ReservationCard(
               reservation: reservation,
             ),

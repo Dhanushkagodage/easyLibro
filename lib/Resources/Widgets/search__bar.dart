@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable, camel_case_types
 class Search_Bar extends StatefulWidget {
@@ -30,7 +31,7 @@ class _Search_BarState extends State<Search_Bar> {
       controller: widget.controller,
       onChanged: widget.onChanged,
       constraints: BoxConstraints(
-        minHeight: 40,
+        minHeight: 40.h,
         maxWidth: widget.width,
       ),
       leading: const Icon(Icons.search_outlined, color: Color(0xFF080C27)),
@@ -38,7 +39,7 @@ class _Search_BarState extends State<Search_Bar> {
       hintStyle: WidgetStatePropertyAll<TextStyle?>(
         TextStyle(
           fontFamily: "Inter",
-          fontSize: 14,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w400,
           color: Color(0xFF080C27),
         ),
@@ -55,7 +56,7 @@ class _Search_BarState extends State<Search_Bar> {
       side: WidgetStateProperty.all(
         BorderSide(
           color: Color(0xFF080C27).withOpacity(0.9),
-          width: 0.7,
+          width: 0.7.w,
         ),
       ),
       elevation: WidgetStateProperty.all(2),

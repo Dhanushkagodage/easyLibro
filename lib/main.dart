@@ -1,5 +1,6 @@
 import 'package:easylibro_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 void main() {
@@ -11,10 +12,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "EasyLibro APP",
-      home: SplashScreen(),
+    return  ScreenUtilInit(
+      builder: (context, _) => const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "EasyLibro APP",
+        home: SplashScreen(),
+      ),
+      designSize: const Size(412, 732)  
     );
   }
 }
