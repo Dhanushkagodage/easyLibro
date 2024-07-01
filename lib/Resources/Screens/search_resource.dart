@@ -303,6 +303,7 @@ import 'package:flutter/material.dart';
 import 'package:easylibro_app/Resources/API/Models/my_resource.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
 import 'package:easylibro_app/Resources/Widgets/resource_card.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchResource extends StatefulWidget {
   const SearchResource({super.key});
@@ -374,12 +375,12 @@ class _SearchResourceState extends State<SearchResource> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding:  EdgeInsets.all(20.sp),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Search_Bar(
-                    width: 230,
+                    width: 230.w,
                     hintText: "Search Resources",
                     enable: true,
                     controller: _searchController,
@@ -391,12 +392,12 @@ class _SearchResourceState extends State<SearchResource> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding:  EdgeInsets.only(left: 10.w),
                     child: Row(
                       children: [
                         Container(
-                          height: 40,
-                          width: 90,
+                          height: 40.h,
+                          width: 90.w,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 255, 255, 255),
                             borderRadius: BorderRadius.only(
@@ -414,22 +415,22 @@ class _SearchResourceState extends State<SearchResource> {
                             ],
                             border: Border.all(
                               color: Color(0xFF080C27).withOpacity(0.9),
-                              width: 0.7,
+                              width: 0.7.w,
                             ),
                           ),
                           child: Center(
                             child: Text(filterCategory,
                                 style: TextStyle(
                                   color: Color(0xFF080C27),
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   fontFamily: "Inter",
                                   fontWeight: FontWeight.w500,
                                 )),
                           ),
                         ),
                         Container(
-                          height: 40,
-                          width: 40,
+                          height: 40.h,
+                          width: 40.w,
                           decoration: BoxDecoration(
                             color: const Color(0xFF0D4065),
                             borderRadius: BorderRadius.only(
@@ -478,10 +479,10 @@ class _SearchResourceState extends State<SearchResource> {
                                 child: Text("Journals"),
                               ),
                             ],
-                            child: const Icon(
+                            child:  Icon(
                               Icons.tune_outlined,
                               color: Colors.white,
-                              size: 20,
+                              size: 20.sp,
                             ),
                           ),
                         ),
@@ -492,7 +493,7 @@ class _SearchResourceState extends State<SearchResource> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding:  EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -516,7 +517,7 @@ class _SearchResourceState extends State<SearchResource> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+             SizedBox(height: 20.h),
             isLoading
                 ? Center(child: CircularProgressIndicator())
                 : hasError
@@ -539,13 +540,13 @@ class _SearchResourceState extends State<SearchResource> {
       GestureDetector(
         onTap: () {
           setState(() {
-            isSelected = index;
+            isSelected = index; 
           });
         },
         child: Container(
-          width: 110,
-          height: 40,
-          padding: const EdgeInsets.all(8),
+          width: 110.w,
+          height: 40.h,
+          padding:  EdgeInsets.all(8.sp),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -557,7 +558,7 @@ class _SearchResourceState extends State<SearchResource> {
             name,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 13.sp,
               color:
                   isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
               fontFamily: "Inter",
@@ -580,11 +581,11 @@ class _SearchResourceState extends State<SearchResource> {
     return GridView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: (100 / 200),
+        childAspectRatio: (100.w / 200.h),
       ),
       itemCount: resources.length,
       itemBuilder: (context, index) {

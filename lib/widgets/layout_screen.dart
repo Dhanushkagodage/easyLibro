@@ -344,6 +344,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easylibro_app/Reservations/Screens/search_reservations.dart';
 import 'package:easylibro_app/Dashboard/dashboard_screen.dart';
@@ -408,43 +409,43 @@ class _LayoutScreenState extends State<LayoutScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(85),
+          preferredSize:  Size.fromHeight(85.h),
           child: Container(
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               border: Border(
                 bottom: BorderSide(
                   color: Color.fromARGB(109, 8, 12, 39),
-                  width: 1.0,
+                  width: 1.w,
                 ),
               ),
             ),
             child: AppBar(
               surfaceTintColor: const Color(0xFFF7F8FD),
               backgroundColor: const Color(0xFFF7F8FD),
-              toolbarHeight: 85,
+              toolbarHeight: 85.h,
               automaticallyImplyLeading: false,
               leading: Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: 20.w),
                 child: IconButton(
                   icon: const Icon(Icons.menu),
                   color: const Color(0xFF080C27),
-                  iconSize: 30,
+                  iconSize: 30.sp,
                   onPressed: () {},
                 ),
               ),
               title: Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 10),
+                padding: EdgeInsets.only(top: 12.h, bottom: 10.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
                       "assets/librarylogoRW1.png",
-                      scale: 5.6,
+                      scale: 5.7.sp,
                     ),
-                    const Text(
+                     Text(
                       "Read your Favourite Books!",
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: Color(0xFF080C27),
                         fontFamily: "Inter",
                         fontWeight: FontWeight.w500,
@@ -455,7 +456,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
               ),
               actions: [
                 Padding(
-                  padding: EdgeInsets.only(right: 20),
+                  padding: EdgeInsets.only(right: 20.w),
                   child: GestureDetector(
                     onTap: () {
                       if (userDetails != null) {
@@ -470,7 +471,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                     },
                     child: CircleAvatar(
                       backgroundImage: AssetImage("assets/Avatar.jpeg"),
-                      radius: 25,
+                      radius: 28.sp,
                     ),
                   ),
                 )
@@ -490,13 +491,14 @@ class _LayoutScreenState extends State<LayoutScreen> {
           },
           type: BottomNavigationBarType.fixed,
           backgroundColor: const Color(0xFF0D4065),
-          selectedLabelStyle: const TextStyle(
-              fontFamily: "Inter", fontSize: 12, fontWeight: FontWeight.normal),
+          
+          selectedLabelStyle:  TextStyle(
+              fontFamily: "Inter", fontSize: 12.sp, fontWeight: FontWeight.normal),
           selectedItemColor: const Color(0xFF080C27),
-          unselectedLabelStyle: const TextStyle(
-              fontFamily: "Inter", fontSize: 12, fontWeight: FontWeight.normal),
+          unselectedLabelStyle:  TextStyle(
+              fontFamily: "Inter", fontSize: 12.sp, fontWeight: FontWeight.normal),
           unselectedItemColor: Colors.white,
-          iconSize: 28,
+          iconSize: 28.sp,
           items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.menu_book_outlined), label: "Resources"),

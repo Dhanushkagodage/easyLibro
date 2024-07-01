@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AlertBox extends StatefulWidget {
   final String? title;
@@ -31,7 +32,7 @@ class _AlertBoxState extends State<AlertBox> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Padding(
-        padding: const EdgeInsets.only(top: 5),
+        padding:  EdgeInsets.only(top: 5.h),
         child: widget.title != null ? Text(widget.title!) : null,
       ),
       content: SingleChildScrollView(
@@ -47,7 +48,7 @@ class _AlertBoxState extends State<AlertBox> {
               child: Icon( 
             widget.icon,
             color: widget.iconColor,
-            size: 60,
+            size: 60.sp,
           )),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

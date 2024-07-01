@@ -343,6 +343,7 @@ import 'package:easylibro_app/Resources/API/api_service.dart';
 import 'package:easylibro_app/Resources/Screens/about_screen.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResourceCard extends StatefulWidget {
   final Resource resource;
@@ -381,7 +382,7 @@ class _ResourceCardState extends State<ResourceCard> {
             child: SizedBox(
               width:
                   double.infinity,
-              height: 150, 
+              height: 150.h, 
               child: Padding(
                 padding: const EdgeInsets.only(top:1),
                 child: Image.network(
@@ -412,7 +413,7 @@ class _ResourceCardState extends State<ResourceCard> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(8.sp),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -421,16 +422,16 @@ class _ResourceCardState extends State<ResourceCard> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: "Inter",
-                      fontSize: 13,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'By ' '${widget.resource.author}',
+                  'By ' '${widget.resource.author}', 
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 8, fontFamily: "Inter"),
+                  style: TextStyle(fontSize: 8.sp, fontFamily: "Inter"),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8),
+                  padding:  EdgeInsets.only(top: 5.h),
                   child: GestureDetector(
                     // onTap: () async {
                     //   // Fetch resource details
@@ -476,20 +477,22 @@ class _ResourceCardState extends State<ResourceCard> {
                       }
                     },
                     child: Container(
-                      height: 20,
+                      height: 22.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(2),
                         color: const Color(0xFF0D4065),
                       ),
-                      child: Text(
-                        "REQUEST",
-                        style: TextStyle(
-                            fontFamily: "Inter",
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white),
-                        textAlign: TextAlign.center,
+                      child: Center(
+                        child: Text(
+                          "REQUEST",
+                          style: TextStyle(
+                              fontFamily: "Inter",
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),

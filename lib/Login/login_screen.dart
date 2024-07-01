@@ -4,6 +4,7 @@ import 'package:easylibro_app/Login/auth_service.dart';
 import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
 import 'package:easylibro_app/widgets/layout_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -65,12 +66,14 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final response = await _authService.login(request);
       if (response.message == 'success') {
-        print(response.accessToken);
+       // print(response.accessToken);
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => const LayoutScreen(currentIndex: 2)),
         );
+        await _authService.saveUserData(userName, response.accessToken);
+        
         showDialog(
           context: context,
           builder: (BuildContext context) => AlertBox(
@@ -127,8 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ClipPath(
                 clipper: WaveClipper(),
                 child: Container(
-                  color: const Color(0xFF0D4065),
-                  height: 250,
+                  color: Color.fromRGBO(13, 64, 101, 1),
+                  height: 270.h,
                 ),
               ),
             ),
@@ -136,33 +139,33 @@ class _LoginScreenState extends State<LoginScreen> {
               clipper: WaveClipper(),
               child: Container(
                 color: const Color(0xFF0D4065),
-                height: 242,
+                height: 262.h,
                 child: Center(
                     child: Image.asset(
                   "assets/librarylogoRW.png",
-                  scale: 20,
+                  scale: 20.sp,
                 )),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 210, left: 28, right: 28),
+              padding:EdgeInsets.only(top: 230.h, left: 28.w, right: 28.w),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Sign in",
+                     Text("Sign in",
                         style: TextStyle(
-                            fontSize: 38,
+                            fontSize: 38.sp,
                             color: Color(0xFF080C27),
                             fontFamily: "Inter",
                             fontWeight: FontWeight.w600)),
-                    const Text("Welcome!",
+                     Text("Welcome!",
                         style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 25.sp,
                             color: Color(0xFF080C27),
                             fontFamily: "Inter",
                             fontWeight: FontWeight.w500)),
-                    const SizedBox(height: 35),
+                    SizedBox(height: 35.h),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -204,30 +207,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               )),
                         ),
-                        const SizedBox(
-                          height: 20,
+                         SizedBox(
+                          height: 20.h,
                         ),
-                        const Align(
+                         Align(
                           alignment: Alignment.centerRight,
                           child: Text(
                             'Forgot Password?',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 15,
+                              fontSize: 15.sp,
                               color: Color(0xFF0D4065),
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 40,
+                        SizedBox(
+                          height: 40.h,
                         ),
                         GestureDetector(
                           onTap: _login,
                           child: Container(
-                            height: 55,
-                            width: 300,
+                            height: 55.h,
+                            width: 300.w,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(30.sp),
                                 color: const Color(0xFF0D4065)),
                             child: Center(
                               child: _isLoading
@@ -235,18 +238,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       valueColor: AlwaysStoppedAnimation<Color>(
                                           Colors.white),
                                     )
-                                  : const Text(
+                                  : Text(
                                       'SIGN IN',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 20,
+                                          fontSize: 20.sp,
                                           color: Colors.white),
                                     ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        const Row(
+                         SizedBox(height: 10.h),
+                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
@@ -259,7 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               "Sign up",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 15,
+                                  fontSize: 15.sp,
                                   color: Colors.black),
                             ),
                           ],

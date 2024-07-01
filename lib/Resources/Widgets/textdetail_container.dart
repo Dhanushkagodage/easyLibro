@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextdetailContainer extends StatefulWidget {
   final String label;
@@ -20,13 +21,13 @@ class _TextdetailContainerState extends State<TextdetailContainer> {
         Text("${widget.label} : ", 
             style: TextStyle(
                 fontFamily: "Inter",
-                fontSize: 14,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF0D4065))),
         Text(widget.value,
             style: TextStyle(
                 fontFamily: "Inter",
-                fontSize: 14,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
                 color: Color(0xFF6A6A6A)),),
       ],

@@ -6,6 +6,7 @@ import 'package:easylibro_app/Resources/API/Models/resource_details.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Resources/Widgets/textdetail_container.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AboutScreen extends StatefulWidget {
   final ResourceDetails resourceDetails;
@@ -35,7 +36,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       clipper: WaveClipper(),
                       child: Container(
                         color: Color.fromARGB(71, 12, 127, 250),
-                        height: 220,
+                        height: 220.h,
                       ),
                     ),
                     AppBar(
@@ -44,7 +45,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 50),
+                      padding:  EdgeInsets.only(top: 50.h),
                       child: Center(
                         child: Container(
                           decoration: BoxDecoration(
@@ -73,21 +74,21 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 20.h,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
                     child: SizedBox(
-                      width: 300, 
+                      width: 300.w, 
                       child: Text(
                         widget.resourceDetails.title,
                         textAlign: TextAlign
                             .center,
                         style: TextStyle(
                           fontFamily: "Inter",
-                          fontSize: 20,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.w900,
                           color: Color(0xFF080C27),
                         ),
@@ -95,12 +96,12 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left:20,top:10,right: 20), 
+                    padding:  EdgeInsets.only(left:20.w,top:10.h,right: 20.w), 
                     child: Container(
-                      height: 27,
+                      height: 27.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         border: Border(
@@ -113,14 +114,14 @@ class _AboutScreenState extends State<AboutScreen> {
                       child: Text("Quantity Details: ",
                           style: TextStyle(
                               fontFamily: "Inter",
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
                               color: Color(0xFF0D4065))),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
+                    padding:  EdgeInsets.symmetric(
+                        vertical: 10.h, horizontal: 20.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,9 +142,9 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                   ),
                  Padding(
-                    padding: const EdgeInsets.only(left:20,top:10,right: 20), 
+                    padding:  EdgeInsets.only(left:20.w,top:10.h,right: 20.w), 
                     child: Container(
-                      height: 27,
+                      height: 27.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         border: Border(
@@ -156,14 +157,14 @@ class _AboutScreenState extends State<AboutScreen> {
                       child: Text("Location Details: ",
                           style: TextStyle(
                               fontFamily: "Inter",
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
                               color: Color(0xFF0D4065))),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
+                    padding:  EdgeInsets.symmetric(
+                        vertical: 10.h, horizontal: 20.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +185,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:20,top:10,right: 20), 
@@ -202,13 +203,13 @@ class _AboutScreenState extends State<AboutScreen> {
                       child: Text("${resourceDetails.title} Details: ",
                           style: TextStyle(
                               fontFamily: "Inter",
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
                               color: Color(0xFF0D4065))),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 40, right: 20, top: 10),
+                    padding:  EdgeInsets.only(left: 40.w, right: 20.w, top: 10.h),
                     // ignore: avoid_unnecessary_containers
                     child: Container(
                       child: Column(
@@ -222,7 +223,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               label: "Resource Type",
                               value: resourceDetails.type),
                           SizedBox(
-                            height: 20,
+                            height: 20.h,
                           ),
                           TextdetailContainer(
                               label: "No.of Pages",
@@ -238,12 +239,12 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20.sp),
                     child: Text.rich(TextSpan(
                         text: "Note: ",
                         style: TextStyle(
                             fontFamily: "Inter",
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                             color: Color(0xFF080C27)),
                         children: [
@@ -254,13 +255,13 @@ class _AboutScreenState extends State<AboutScreen> {
                               text: resourceDetails.description,
                               style: TextStyle(
                                   fontFamily: "Inter",
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xFF6A6A6A)))
                         ])),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20.sp),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -275,7 +276,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width / 12 * 5,
-                            height: 50,
+                            height: 50.h,
                             decoration: BoxDecoration(
                                 color: const Color(0xFF6A6A6A),
                                 borderRadius: BorderRadius.circular(10)),
@@ -284,7 +285,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                 "Return",
                                 style: TextStyle(
                                     fontFamily: "Inter",
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white),
                               ),

@@ -1,5 +1,6 @@
 import 'package:easylibro_app/Reservations/API/Reservation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReservationCard extends StatefulWidget {
   final Reservation reservation;
@@ -15,7 +16,7 @@ class _ReservationCardState extends State<ReservationCard> {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        height: 85,
+        height: 85.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: const Color.fromARGB(255, 255, 255, 255),
@@ -30,10 +31,10 @@ class _ReservationCardState extends State<ReservationCard> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
+              padding:  EdgeInsets.only(left: 20.w, right: 20.w),
               child: Container(
-                  width: 30,
-                  height: 30,
+                  width: 30.w,
+                  height: 30.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFF7F8FD),
                     borderRadius: BorderRadius.circular(5),
@@ -41,34 +42,34 @@ class _ReservationCardState extends State<ReservationCard> {
                   child: Icon(
                     Icons.wifi_protected_setup,
                     color: Color(0xFF080C27),
-                    size: 25,
+                    size: 25.sp,
                   )),
             ),
             Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 5),
+                  SizedBox(height: 5.h),
                   Text(
                     'Reservations: ${widget.reservation.reservationNo}',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 5.h),
                   Text(
                     'Resource: ${widget.reservation.Resource}',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 5.h),
                   Text(
                     'Due Date: ${widget.reservation.DueDate}',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -76,26 +77,26 @@ class _ReservationCardState extends State<ReservationCard> {
               ),
             ),
             SizedBox(
-              width: 30,
+              width: 30.w,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 5),
+                SizedBox(height: 5.h),
                 Row(children: [
                   Text(
                     'Status :',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Container(
-                      width: 70,
-                      height: 25,
+                      width: 70.w,
+                      height: 25.h,
                       decoration: BoxDecoration(
                         color: Color(0xFF0D4065),
                         borderRadius: BorderRadius.circular(5),
@@ -105,7 +106,7 @@ class _ReservationCardState extends State<ReservationCard> {
                           widget.reservation.Status,
                           style: TextStyle(
                             color: Color(0xFFF7F8FD),
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -114,11 +115,11 @@ class _ReservationCardState extends State<ReservationCard> {
                   )
                 ]),
                 SizedBox(
-                  height: 20,
+                  height: 20.h,
                 ),
                 Container(
-                   width: 70,
-                      height: 25,
+                   width: 70.w,
+                      height: 25.h,
                       decoration: BoxDecoration(
                         color: Color(0xFF080C27),
                         borderRadius: BorderRadius.circular(5),
@@ -128,7 +129,7 @@ class _ReservationCardState extends State<ReservationCard> {
                           'More',
                           style: TextStyle(
                             color: Color(0xFFF7F8FD),
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
