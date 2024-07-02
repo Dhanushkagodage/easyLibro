@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "306141034466",
+    "firebase_url": "https://easylibro-a1e52-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "easylibro-a1e52",
+    "storage_bucket": "easylibro-a1e52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306141034466:android:5c15e0452841586e9b6bbb",
+        "android_client_info": {
+          "package_name": "com.example.easylibro_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCunv4C55xMYWgPEVY7mEm_BD2gvM5rNok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
