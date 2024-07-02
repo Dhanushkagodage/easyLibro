@@ -321,8 +321,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfilePage extends StatefulWidget {
-  final UserDetails userDetails;
-  const EditProfilePage({super.key, required this.userDetails});
+ // final UserDetails userDetails;
+  const EditProfilePage({super.key, });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -510,13 +510,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
               const SizedBox(
                 height: 35,
               ),
-              buildTextField("First Name", widget.userDetails.fName),
-              buildTextField("Last Name", widget.userDetails.lName),
-              buildDatePicker(context, "Date of Birth", widget.userDetails.dob),
-              buildTextField("NIC", widget.userDetails.nic),
-              buildTextField("Address", widget.userDetails.address),
-              buildTextField("Mobile", widget.userDetails.phone),
-              buildTextField("E-mail", widget.userDetails.email),
+              buildTextField("First Name", "widget.userDetails.fName"),
+              buildTextField("Last Name", "widget.userDetails.lName"),
+              buildDatePicker(context, "Date of Birth", "widget.userDetails.dob"),
+              buildTextField("NIC", "widget.userDetails.nic"),
+              buildTextField("Address", "widget.userDetails.address"),
+              buildTextField("Mobile"," widget.userDetails.phone"),
+              buildTextField("E-mail", "widget.userDetails.email"),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(

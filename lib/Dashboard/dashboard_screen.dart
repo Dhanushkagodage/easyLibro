@@ -587,8 +587,6 @@
 //   }
 // }
 
-
-
 import 'dart:async';
 import 'package:easylibro_app/User/userdetails.dart';
 import 'package:flutter/material.dart';
@@ -597,22 +595,26 @@ import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:easylibro_app/Resources/API/Models/my_resource.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
 import 'package:easylibro_app/Resources/Widgets/resource_card.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DashboardScreen extends StatefulWidget {
-  final UserDetails userDetails;
-  const DashboardScreen({super.key, required this.userDetails});
+  const DashboardScreen({
+    super.key,
+  });
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  List<Resource> resources = MyResources.getAllResourcesByCategory("All");
   late ScrollController _scrollController;
   late Timer _timer;
   int _scrollCount = 0;
   final double scrollAmount = 125;
   bool isLoading = true;
+  List<Resource> resources = [];
+  MyResources myResources = MyResources();
+  bool isloading = true;
 
   @override
   void initState() {
@@ -621,7 +623,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       startAutoScroll();
     });
-    
+    _fetchResources();
   }
 
   @override
@@ -641,166 +643,156 @@ class _DashboardScreenState extends State<DashboardScreen> {
         );
         _scrollCount++;
       } else {
-        _timer.cancel(); // Stop the timer after scrolling 6 times
+        _timer.cancel(); 
       }
     });
   }
 
-  
+  Future<void> _fetchResources() async {
+    setState(() {
+      isLoading = true;
+    });
+    await myResources.fetchResources("", "all", "all");
+    setState(() {
+      resources = myResources.getAllResourcesByCategory('All');
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-              color: const Color(0xFFF7F8FD),
-              child: SingleChildScrollView(
+        color: const Color(0xFFF7F8FD),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 20,
+                  bottom: 20,
+                  left: width * 0.06,
+                  right: width * 0.06,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 20,
-                        bottom: 20,
-                        left: width * 0.06,
-                        right: width * 0.06,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "👋Hello, ${widget.userDetails.fName}",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              color: Color(0xFF080C27),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            "Welcome to the easyLIBRO",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Inter',
-                              color: Color(0xFF080C27),
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      "👋Hello,hi}",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontFamily: 'Inter',
+                        color: Color(0xFF080C27),
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20, right: 20, bottom: 20),
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      LayoutScreen(currentIndex: 0)),
-                            );
-                          },
-                          child: Search_Bar(
-                            hintText: "Tap to Search more Resources",
-                            controller: null,
-                            enable: false,
-                            width: double.infinity,
-                          )),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color(0xFF080C27).withOpacity(0.9),
-                          width: 0.7,
-                        ),
-                        color: const Color.fromARGB(255, 229, 229, 229),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Container(
-                          decoration: BoxDecoration(),
-                          height: 230,
-                          width: double
-                              .infinity, // Set a fixed height for the horizontal GridView
-                          child: resources.isEmpty
-                              ? Center(
-                                  child: Column(
-                                    children: [
-                                      Image.asset(
-                                        "assets/error.png",
-                                        scale: 1.7,
-                                      ),
-                                      Text(
-                                        "No Resources Found",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'Inter',
-                                          color: Color(0xFF080C27),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : GridView.builder(
-                                  controller: _scrollController,
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  physics: BouncingScrollPhysics(),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1, // One row
-                                    crossAxisSpacing: 12,
-                                    mainAxisSpacing: 12,
-                                    childAspectRatio: (200 / 100),
-                                  ),
-                                  itemCount: resources.length,
-                                  itemBuilder: (context, index) {
-                                    final resource = resources[index];
-                                    return ResourceCard(resource: resource);
-                                  },
-                                ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: const Color(0xFF080C27), width: 1),
-                            color: const Color(0xFFF7F8FD),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              TileContainer("Status", "FREE",
-                                  Icons.warning_amber_rounded),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              TileContainer(
-                                  "My Reservations","10", Icons.double_arrow),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              TileContainer("My Requests", "20",
-                                  Icons.perm_contact_calendar_rounded),
-                              SizedBox(height: 20),
-                              TileContainer(
-                                  "Penalty", "0", Icons.trending_down_rounded),
-                            ],
-                          ),
-                        ),
+                    Text(
+                      "Welcome to the easyLIBRO",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontFamily: 'Inter',
+                        color: Color(0xFF080C27),
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                LayoutScreen(currentIndex: 0)),
+                      );
+                    },
+                    child: Search_Bar(
+                      hintText: "Tap to Search more Resources",
+                      controller: null,
+                      enable: false,
+                      width: double.infinity,
+                    )),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Color(0xFF080C27).withOpacity(0.9),
+                    width: 0.7,
+                  ),
+                  color: const Color.fromARGB(255, 229, 229, 229),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Container(
+                    decoration: BoxDecoration(),
+                    height: 230.h,
+                    width: double
+                        .infinity, // Set a fixed height for the horizontal GridView
+                    child: isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : GridView.builder(
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1, // One row
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              childAspectRatio: (200 / 100),
+                            ),
+                            itemCount: resources.length,
+                            itemBuilder: (context, index) {
+                              final resource = resources[index];
+                              return ResourceCard(resource: resource);
+                            },
+                          ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border:
+                          Border.all(color: const Color(0xFF080C27), width: 1),
+                      color: const Color(0xFFF7F8FD),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        TileContainer(
+                            "Status", "FREE", Icons.warning_amber_rounded),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TileContainer(
+                            "My Reservations", "10", Icons.double_arrow),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TileContainer("My Requests", "20",
+                            Icons.perm_contact_calendar_rounded),
+                        SizedBox(height: 20),
+                        TileContainer(
+                            "Penalty", "0", Icons.trending_down_rounded),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

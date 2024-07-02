@@ -65,6 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final response = await _authService.login(request);
+      await _authService.saveUserData(userName, response.accessToken);
+      
       if (response.message == 'success') {
        // print(response.accessToken);
         Navigator.push(
@@ -72,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(
               builder: (context) => const LayoutScreen(currentIndex: 2)),
         );
-        await _authService.saveUserData(userName, response.accessToken);
+        
         
         showDialog(
           context: context,

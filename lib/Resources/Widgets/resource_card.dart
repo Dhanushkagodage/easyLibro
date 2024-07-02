@@ -339,7 +339,8 @@
 //   }
 // }
 
-import 'package:easylibro_app/Resources/API/api_service.dart';
+import 'package:easylibro_app/Resources/API/resource_service.dart';
+import 'package:easylibro_app/Resources/API/resource_service.dart';
 import 'package:easylibro_app/Resources/Screens/about_screen.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
 import 'package:flutter/material.dart';
@@ -355,6 +356,8 @@ class ResourceCard extends StatefulWidget {
 }
 
 class _ResourceCardState extends State<ResourceCard> {
+
+  final ResourceService _resourceService = ResourceService();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -457,7 +460,7 @@ class _ResourceCardState extends State<ResourceCard> {
                     onTap: () async {
                       try {
                         final resourceDetails =
-                            await ApiService.fetchResourceDetails(
+                            await _resourceService.fetchResourceDetails(
                                 widget.resource.isbn);
                         if (!mounted) return;
                         Navigator.push(

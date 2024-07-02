@@ -1,9 +1,10 @@
 // import 'dart:convert';
 // import 'package:easylibro_app/Login/auth_request.dart';
 // import 'package:http/http.dart' as https;
+// import 'package:shared_preferences/shared_preferences.dart';
 
 // class AuthService {
-//   final String baseUrl = 'https://lms20240616161754.azurewebsites.net/api/Auth';
+//   final String baseUrl = 'https://easylibrowebapi.azurewebsites.net/api/Auth';
 
 //   Future<AuthResponse> login(AuthRequest request) async {
 //     final response = await https.post(
@@ -20,77 +21,43 @@
 //       throw Exception('Failed to authenticate user');
 //     }
 //   }
-// }
-
-// import 'dart:convert';
-// import 'dart:io';
-// import 'package:easylibro_app/Login/auth_request.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:http/io_client.dart';
-
-// class AuthService {
-//   static http.Client getHttpClient() {
-//     final ioc = HttpClient();
-//     ioc.badCertificateCallback =
-//         (X509Certificate cert, String host, int port) => true;
-//     return IOClient(ioc);
-//   }
-
-//   final String baseUrl = 'https://10.0.2.2:7174/api/Auth';
-
-//   Future<AuthResponse> login(AuthRequest request) async {
-//     final client = getHttpClient();
-//     final response = await client.post(
-//       Uri.parse('$baseUrl/mobilelogin'),
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: jsonEncode(request.toJson()),
-//     );
-
-//     if (response.statusCode == 200) {
-//       return AuthResponse.fromJson(jsonDecode(response.body));
-//     } else {
-//       throw Exception('Failed to authenticate user');
-//     }
+//   Future<void> saveUserData(String userName, String accessToken) async {
+//     final SharedPreferences localStorage = await SharedPreferences.getInstance();
+//     localStorage.setString('userName', userName);
+//     localStorage.setString('accessToken', accessToken);
 //   }
 // }
 
 
 import 'dart:convert';
-import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:easylibro_app/API_Service/api_service.dart';
 import 'package:easylibro_app/Login/auth_request.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
+import 'package:http/http.dart' as https;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static http.Client getHttpClient() {
-    final ioc = HttpClient();
-    ioc.badCertificateCallback =
-        (X509Certificate cert, String host, int port) => true;
-    return IOClient(ioc);
-  }
+  final Dio _dio = ApiService().dio;
 
-  final String baseUrl = 'https://10.0.2.2:7174/api/Auth';
+  // final String baseUrl = 'https://easylibrowebapi.azurewebsites.net/api/Auth';
 
   Future<AuthResponse> login(AuthRequest request) async {
-    final client = getHttpClient();
-    final response = await client.post(
-      Uri.parse('$baseUrl/mobilelogin'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(request.toJson()),
-    );
+    try {
+      final response = await _dio.post(
+        'Auth/mobilelogin',
+        data: request.toJson(),
+      );
 
-    if (response.statusCode == 200) {
-      return AuthResponse.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to authenticate user');
+      if (response.statusCode == 200) {
+        return AuthResponse.fromJson(response.data);
+      } else {
+        throw Exception('Failed to authenticate user');
+      }
+    } catch (e) {
+      print('Error authenticating user: $e');
+      throw Exception('Failed to authenticate user: $e');
     }
   }
-
   Future<void> saveUserData(String userName, String accessToken) async {
     final SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.setString('userName', userName);

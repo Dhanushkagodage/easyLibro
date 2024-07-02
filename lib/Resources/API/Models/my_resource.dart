@@ -561,18 +561,19 @@
 //   }
 // }
 
-import 'package:easylibro_app/Resources/API/api_service.dart';
+import 'package:easylibro_app/Resources/API/resource_service.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
 
 class MyResources {
-  static List<Resource> allResources = [];
+  List<Resource> allResources = [];
+  final ResourceService _resourceService = ResourceService();
 
-  static Future<void> fetchResources(
+   Future<void> fetchResources(
       String keyword, String tag, String type) async {
-    allResources = await ApiService.fetchResources(keyword, tag, type);
+    allResources = await _resourceService.fetchResources(keyword, tag, type);
   }
  
-  static List<Resource> getAllResourcesByCategory(String category) {
+   List<Resource> getAllResourcesByCategory(String category) {
     if (category == "All") {
       return allResources;
     } else if (category == "Ebook") {
@@ -587,7 +588,7 @@ class MyResources {
     return [];
   }
 
-  static List<Resource> getLatestResources(String category) {
+   List<Resource> getLatestResources(String category) {
     if (category == "All") {
       List<Resource> filteredResources = allResources;
       filteredResources.sort((a, b) => b.dateadded.compareTo(a.dateadded));
@@ -602,7 +603,7 @@ class MyResources {
     }
   }
 
-  static List<Resource> getPopularResources(String category) {
+   List<Resource> getPopularResources(String category) {
     if (category == "All") {
       return allResources
           .where((resource) => resource.noOfRes > 0)
