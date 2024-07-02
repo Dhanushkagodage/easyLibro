@@ -1,3 +1,5 @@
+
+
 // import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
 // import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 // import 'package:easylibro_app/screens/error_screen.dart';
@@ -5,6 +7,7 @@
 // import 'package:easylibro_app/Resources/API/Models/my_resource.dart';
 // import 'package:easylibro_app/Resources/API/Models/resource.dart';
 // import 'package:easylibro_app/Resources/Widgets/resource_card.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // class SearchResource extends StatefulWidget {
 //   const SearchResource({super.key});
@@ -16,7 +19,7 @@
 
 // class _SearchResourceState extends State<SearchResource> {
 //   int isSelected = 0;
-//   String filterCategory = "Book";
+//   String filterCategory = "All";
 //   bool isLoading = true;
 //   bool hasError = false;
 //   bool search = false;
@@ -44,6 +47,7 @@
 //       setState(() {
 //         hasError = true;
 //       });
+//       print(e);
 //       // ignore: use_build_context_synchronously
 //       showDialog(
 //           context: context,
@@ -75,12 +79,12 @@
 //         body: Column(
 //           children: [
 //             Padding(
-//               padding: const EdgeInsets.all(20.0),
+//               padding:  EdgeInsets.all(20.sp),
 //               child: Row(
 //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //                 children: [
 //                   Search_Bar(
-//                     width: 230,
+//                     width: 230.w,
 //                     hintText: "Search Resources",
 //                     enable: true,
 //                     controller: _searchController,
@@ -92,12 +96,12 @@
 //                     },
 //                   ),
 //                   Padding(
-//                     padding: const EdgeInsets.only(left: 10),
+//                     padding:  EdgeInsets.only(left: 10.w),
 //                     child: Row(
 //                       children: [
 //                         Container(
-//                           height: 40,
-//                           width: 90,
+//                           height: 40.h,
+//                           width: 90.w,
 //                           decoration: BoxDecoration(
 //                             color: Color.fromARGB(255, 255, 255, 255),
 //                             borderRadius: BorderRadius.only(
@@ -115,22 +119,22 @@
 //                             ],
 //                             border: Border.all(
 //                               color: Color(0xFF080C27).withOpacity(0.9),
-//                               width: 0.7,
+//                               width: 0.7.w,
 //                             ),
 //                           ),
 //                           child: Center(
-//                             child: Text("${filterCategory}s",
+//                             child: Text(filterCategory,
 //                                 style: TextStyle(
 //                                   color: Color(0xFF080C27),
-//                                   fontSize: 14,
+//                                   fontSize: 14.sp,
 //                                   fontFamily: "Inter",
 //                                   fontWeight: FontWeight.w500,
 //                                 )),
 //                           ),
 //                         ),
 //                         Container(
-//                           height: 40,
-//                           width: 40,
+//                           height: 40.h,
+//                           width: 40.w,
 //                           decoration: BoxDecoration(
 //                             color: const Color(0xFF0D4065),
 //                             borderRadius: BorderRadius.only(
@@ -152,11 +156,11 @@
 //                             onSelected: (value) {
 //                               setState(() {
 //                                 if (value == 1) {
-//                                   filterCategory = "Book";
+//                                   filterCategory = "All";
 //                                 } else if (value == 2) {
-//                                   filterCategory = "Journal";
-//                                 } else {
 //                                   filterCategory = "Ebook";
+//                                 } else {
+//                                   filterCategory = "Journal";
 //                                 }
 //                               });
 //                             },
@@ -168,21 +172,21 @@
 //                             itemBuilder: (context) => [
 //                               const PopupMenuItem(
 //                                 value: 1,
-//                                 child: Text("Books"),
+//                                 child: Text("All"),
 //                               ),
 //                               const PopupMenuItem(
 //                                 value: 2,
-//                                 child: Text("Journals"),
+//                                 child: Text("Ebooks"),
 //                               ),
 //                               const PopupMenuItem(
 //                                 value: 3,
-//                                 child: Text("Ebooks"),
+//                                 child: Text("Journals"),
 //                               ),
 //                             ],
-//                             child: const Icon(
+//                             child:  Icon(
 //                               Icons.tune_outlined,
 //                               color: Colors.white,
-//                               size: 20,
+//                               size: 20.sp,
 //                             ),
 //                           ),
 //                         ),
@@ -193,7 +197,7 @@
 //               ),
 //             ),
 //             Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 20.0),
+//               padding:  EdgeInsets.symmetric(horizontal: 20.w),
 //               child: Row(
 //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //                 children: [
@@ -217,7 +221,7 @@
 //                 ],
 //               ),
 //             ),
-//             const SizedBox(height: 20),
+//              SizedBox(height: 20.h),
 //             isLoading
 //                 ? Center(child: CircularProgressIndicator())
 //                 : hasError
@@ -240,13 +244,13 @@
 //       GestureDetector(
 //         onTap: () {
 //           setState(() {
-//             isSelected = index;
+//             isSelected = index; 
 //           });
 //         },
 //         child: Container(
-//           width: 110,
-//           height: 40,
-//           padding: const EdgeInsets.all(8),
+//           width: 110.w,
+//           height: 40.h,
+//           padding:  EdgeInsets.all(8.sp),
 //           alignment: Alignment.center,
 //           decoration: BoxDecoration(
 //             borderRadius: BorderRadius.circular(5),
@@ -258,7 +262,7 @@
 //             name,
 //             overflow: TextOverflow.ellipsis,
 //             style: TextStyle(
-//               fontSize: 13,
+//               fontSize: 13.sp,
 //               color:
 //                   isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
 //               fontFamily: "Inter",
@@ -281,11 +285,11 @@
 //     return GridView.builder(
 //       shrinkWrap: true,
 //       physics: BouncingScrollPhysics(),
-//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//       gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
 //         crossAxisCount: 3,
 //         crossAxisSpacing: 12,
 //         mainAxisSpacing: 12,
-//         childAspectRatio: (100 / 200),
+//         childAspectRatio: (100.w / 200.h),
 //       ),
 //       itemCount: resources.length,
 //       itemBuilder: (context, index) {
@@ -295,6 +299,8 @@
 //     );
 //   }
 // }
+
+
 
 import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
@@ -322,6 +328,7 @@ class _SearchResourceState extends State<SearchResource> {
   String searchKeyword = "";
   String searchTag = "all";
   String searchType = "all";
+  final myResource =MyResources();
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -336,7 +343,7 @@ class _SearchResourceState extends State<SearchResource> {
       isLoading = true;
     });
     try {
-      await MyResources.fetchResources(searchKeyword, searchTag, searchType)
+      await myResource.fetchResources(searchKeyword, searchTag, searchType)
           .timeout(Duration(seconds: 8));
     } catch (e) {
       if (!mounted) return;
@@ -571,11 +578,11 @@ class _SearchResourceState extends State<SearchResource> {
   Widget _buildResources() {
     List<Resource> resources;
     if (isSelected == 0) {
-      resources = MyResources.getAllResourcesByCategory(filterCategory);
+      resources = myResource.getAllResourcesByCategory(filterCategory);
     } else if (isSelected == 1) {
-      resources = MyResources.getLatestResources(filterCategory);
+      resources = myResource.getLatestResources(filterCategory);
     } else {
-      resources = MyResources.getPopularResources(filterCategory);
+      resources = myResource.getPopularResources(filterCategory);
     }
 
     return GridView.builder(
