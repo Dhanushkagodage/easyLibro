@@ -271,7 +271,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      LayoutScreen(currentIndex: 2)),
+                                     LayoutScreen(currentIndex: 2)),
                             );
                           },
                           child: Container(
@@ -313,7 +313,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                                 "Request has been send successfully.",
                                             approveText: "OK",
                                             onApprove: () {
-                                              // Navigator.of(context).pop();
+                                               Navigator.of(context).pop();
                                             },
                                             icon: Icons.check_circle,
                                             iconColor: Colors.green,
@@ -323,7 +323,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                     });
                                   },
                                   onCancel: () {
-                                    // Navigator.of(context).pop();
+                                     Navigator.of(context).pop();
                                   },
                                 );
                               },
@@ -337,7 +337,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Center(
                               child: Text(
-                                "Borrow",
+                                "Request",
                                 style: TextStyle(
                                     fontFamily: "Inter",
                                     fontSize: 16,

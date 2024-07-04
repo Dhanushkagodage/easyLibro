@@ -1,147 +1,45 @@
-// import 'package:easylibro_app/screens/User.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_slidable/flutter_slidable.dart';
-
-// enum Action { share, delete, archive }
-
-// class NotificationScreen extends StatelessWidget {
-//   List<User> users = AllUsers;
-//   NotificationScreen({Key? key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: const Color(0xFFF7F8FD),
-//       body: Padding(
-//         padding: const EdgeInsets.all(20),
-//         child: Column(
-//           children: [
-//             Container(
-//               height: 50,
-//               child: Text(
-//                 'Notifications',
-//                 style: TextStyle(
-//                   fontSize: 20,
-//                   fontWeight: FontWeight.bold,
-//                   color: Colors.black,
-//                 ),
-//               ),
-//             ),
-//             SingleChildScrollView(
-//               scrollDirection: Axis.vertical,
-//               controller: ScrollController(),
-//               child: Column(
-//                 children: [
-//                   SlidableAutoCloseBehavior(
-//                     closeWhenOpened: true,
-//                     child: Padding(
-//                       padding: const EdgeInsets.all(20),
-//                       child: ListView.builder(
-//                         itemCount: users.length,
-//                         itemBuilder: (context, index) {
-//                           final user = users[index];
-                          
-//                           return Padding(
-//                             padding: const EdgeInsets.only(top:5),
-//                             child: Slidable(
-//                               key: Key(user.name),
-//                               startActionPane: ActionPane(
-//                                 motion: const StretchMotion(),
-//                                 dismissible: DismissiblePane(
-//                                   onDismissed: () => _onDismissed(index, Action.share),
-//                                 ),
-//                                 children: [],
-//                               ),
-//                               endActionPane: ActionPane(
-//                                 motion: const BehindMotion(),
-//                                 dismissible: DismissiblePane(
-//                                   onDismissed: () => _onDismissed(index, Action.delete),
-//                                 ),
-//                                 children: [
-//                                   SlidableAction(
-//                                     backgroundColor: Colors.red,
-//                                     icon: Icons.delete,
-//                                     label: 'Delete',
-//                                     onPressed: (context) => _onDismissed(index, Action.delete),
-//                                   ),
-//                                 ],
-//                               ),
-//                               child: Container(
-//                                 decoration: BoxDecoration(
-//                                   color: Colors.white,
-//                                   border: Border.all(color: Colors.grey, width: 1.0),
-//                                   borderRadius: BorderRadius.circular(8.0),
-//                                 ),
-//                                 child: buildUserListTile(user),
-//                               ),
-//                             ),
-//                           );
-//                         },
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget buildUserListTile(User user) => Builder(
-//     builder: (context) => ListTile(
-//       contentPadding: const EdgeInsets.all(16),
-//       title: Text(user.name),
-//       subtitle: Text(user.email),
-//       leading: CircleAvatar(
-//         radius: 30,
-//         backgroundImage: NetworkImage(user.image),
-//       ),
-//       onTap: () {
-//         final slidable = Slidable.of(context)!;
-//         final isClosed = slidable.actionPaneType.value == ActionPaneType.none;
-//         if (isClosed) {
-//           slidable.openCurrentActionPane();
-//         } else {
-//           slidable.close();
-//         }
-//       },
-//     ),
-//   );
-
-//   void _onDismissed(int index, Action action) {
-//     final user = users[index];
-//     //setState(() => users.removeAt(index));
-
-//     //   switch (action) {
-//     //     case Action.delete:
-//     //       _showSnackBar ( context , '${user.name} is deleted', Colors.red);
-//     //       break;
-//     //   }
-//   }
-
-//   void _showSnakBar(BuildContext context, String message, Color color) {
-//     final snackBar = SnackBar(
-//       content: Text(message),
-//       backgroundColor: color,
-//     );
-//     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//   }
-// }
-
-
-import 'package:easylibro_app/Notifications/User.dart';
+import 'package:easylibro_app/Notifications/notification.dart';
+import 'package:easylibro_app/Notifications/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 enum Action { share, delete, archive }
 
-// ignore: must_be_immutable
-class NotificationScreen extends StatelessWidget {
-  List<User> users = AllUsers;
-  // ignore: use_key_in_widget_constructors
-  NotificationScreen({Key? key});
+class NotificationScreen extends StatefulWidget {
+  const NotificationScreen({super.key});
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  bool isloading = false;
+  List<NotificationDetails> allNotifications = []; // Declare the variable here
+
+  NotificationService notificationService = NotificationService();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNotifications();
+  }
+
+  Future<void> fetchNotifications() async {
+    setState(() {
+      isloading = true;
+    });
+    try {
+      final notifications = await notificationService.fetchNotifications();
+      allNotifications = notifications;
+    } catch (e) {
+      //print('Error fetching notifications: $e');
+    } finally {
+      setState(() {
+        isloading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +49,7 @@ class NotificationScreen extends StatelessWidget {
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.only(top:20, left: 20, right: 20,),
+              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
               child: Text(
                 'Notifications',
                 style: TextStyle(
@@ -163,15 +61,16 @@ class NotificationScreen extends StatelessWidget {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.only(top:10, left: 20, right: 20, bottom: 20,),
+            padding:
+                const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 20),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  final user = users[index];
+                  final notification = allNotifications[index];
                   return Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Slidable(
-                      key: Key(user.name),
+                      key: Key("notification.id"),
                       startActionPane: ActionPane(
                         motion: const StretchMotion(),
                         dismissible: DismissiblePane(
@@ -189,7 +88,8 @@ class NotificationScreen extends StatelessWidget {
                             backgroundColor: Colors.red,
                             icon: Icons.delete,
                             label: 'Delete',
-                            onPressed: (context) => _onDismissed(index, Action.delete),
+                            onPressed: (context) =>
+                                _onDismissed(index, Action.delete),
                           ),
                         ],
                       ),
@@ -199,12 +99,12 @@ class NotificationScreen extends StatelessWidget {
                           border: Border.all(color: Colors.grey, width: 1.0),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        child: buildUserListTile(user),
+                        child: buildNotificationListTile(notification),
                       ),
                     ),
                   );
                 },
-                childCount: users.length,
+                childCount: allNotifications.length,
               ),
             ),
           ),
@@ -213,18 +113,34 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 
-  Widget buildUserListTile(User user) => Builder(
+  Widget buildNotificationListTile(NotificationDetails notification) => Builder(
         builder: (context) => ListTile(
-          contentPadding: const EdgeInsets.all(16),
-          title: Text(user.name),
-          subtitle: Text(user.email),
-          leading: CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(user.image),
+          contentPadding: EdgeInsets.all(16.sp),
+          title: Text(
+            notification.subject,
+            style: TextStyle(
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          subtitle: Text(notification.description,style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+            )),
+          leading: Container(
+            width: 50.w,
+            height: 50.h,
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(25.sp),
+            ),
+            child: Icon(Icons.notifications_active,
+                color: Color.fromARGB(255, 3, 16, 27), size: 40.sp),
           ),
           onTap: () {
             final slidable = Slidable.of(context)!;
-            final isClosed = slidable.actionPaneType.value == ActionPaneType.none;
+            final isClosed =
+                slidable.actionPaneType.value == ActionPaneType.none;
             if (isClosed) {
               slidable.openCurrentActionPane();
             } else {
@@ -235,19 +151,15 @@ class NotificationScreen extends StatelessWidget {
       );
 
   void _onDismissed(int index, Action action) {
-    // ignore: unused_local_variable
-    final user = users[index];
-    //setState(() => users.removeAt(index));
+    setState(() => allNotifications.removeAt(index));
 
-    //   switch (action) {
-    //     case Action.delete:
-    //       _showSnackBar ( context , '${user.name} is deleted', Colors.red);
-    //       break;
-    //   }
+    // Handle actions like delete
+    if (action == Action.delete) {
+      _showSnackBar(context, 'Notification deleted', Colors.red);
+    }
   }
 
-  // ignore: unused_element
-  void _showSnakBar(BuildContext context, String message, Color color) {
+  void _showSnackBar(BuildContext context, String message, Color color) {
     final snackBar = SnackBar(
       content: Text(message),
       backgroundColor: color,

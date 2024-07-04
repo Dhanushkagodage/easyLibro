@@ -1,3 +1,4 @@
+import 'package:easylibro_app/Notifications/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Login/auth_request.dart';
 import 'package:easylibro_app/Login/auth_service.dart';
@@ -11,6 +12,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -18,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
+  final NotificationService notificationService = NotificationService();
+  //final UserService _userService = UserService();
 
   bool _isLoading = false;
 
@@ -66,16 +70,31 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final response = await _authService.login(request);
       await _authService.saveUserData(userName, response.accessToken);
-      
+
       if (response.message == 'success') {
-       // print(response.accessToken);
+        try {
+          final SharedPreferences localStorage =
+              await SharedPreferences.getInstance();
+          final token = localStorage.getString('token') ?? '';
+          //final user = localStorage.getString('userName');
+
+          //final UserDetails userDetails = await _userService.fetchUserDetails();
+          
+          await notificationService.setToken(token, userName);
+
+          //print('firebaseToken:${token}');
+        } catch (e) {
+          // print("Error in getting firebase token");
+        }
+        // print(response.accessToken);
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const LayoutScreen(currentIndex: 2)),
+              builder: (context) => LayoutScreen(
+                    currentIndex: 2,
+                    // userDetails: userDetails,
+                  )),
         );
-        
-        
         showDialog(
           context: context,
           builder: (BuildContext context) => AlertBox(
@@ -102,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } catch (e) {
-      print(e);
+      //print(e);
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertBox(
@@ -150,18 +169,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Padding(
-              padding:EdgeInsets.only(top: 230.h, left: 28.w, right: 28.w),
+              padding: EdgeInsets.only(top: 230.h, left: 28.w, right: 28.w),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     Text("Sign in",
+                    Text("Sign in",
                         style: TextStyle(
                             fontSize: 38.sp,
                             color: Color(0xFF080C27),
                             fontFamily: "Inter",
                             fontWeight: FontWeight.w600)),
-                     Text("Welcome!",
+                    Text("Welcome!",
                         style: TextStyle(
                             fontSize: 25.sp,
                             color: Color(0xFF080C27),
@@ -209,10 +228,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               )),
                         ),
-                         SizedBox(
+                        SizedBox(
                           height: 20.h,
                         ),
-                         Align(
+                        Align(
                           alignment: Alignment.centerRight,
                           child: Text(
                             'Forgot Password?',
@@ -250,8 +269,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                         SizedBox(height: 10.h),
-                         Row(
+                        SizedBox(height: 10.h),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(

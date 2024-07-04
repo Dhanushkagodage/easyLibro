@@ -1,6 +1,10 @@
+import 'package:easylibro_app/Reservations/API/reservation.dart';
+import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
+import 'package:easylibro_app/screens/error_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:easylibro_app/Reservations/widgets/reservation_card.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
-import 'package:flutter/material.dart';
+
 import 'package:easylibro_app/Reservations/API/my_reservations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,14 +16,60 @@ class SearchReservations extends StatefulWidget {
 }
 
 class _SearchReservationsState extends State<SearchReservations> {
+  
   int isSelected = 0;
-  String filterCategory = "Book";
+  String filterCategory = "All";
   bool isLoading = true;
+  bool hasError = false;
+  bool search = false;
   String searchKeyword = "";
-  String searchTag = "all";
   String searchType = "all";
+  final myReservation = MyReservations();
 
   final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchReservations();
+  }
+
+  Future<void> _fetchReservations() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      await myReservation
+          .fetchReservations(searchKeyword, searchType);
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        hasError = true;
+      });
+      //print(e);
+      // ignore: use_build_context_synchronously
+      showDialog(
+          context: context,
+          builder: (context) => AlertBox(
+                content: "Failed to load resources",
+                approveText: "OK",
+                icon: Icons.error,
+                iconColor: Colors.red,
+                onApprove: () {},
+              ));
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,24 +78,24 @@ class _SearchReservationsState extends State<SearchReservations> {
         body: Column(
           children: [
             Padding(
-              padding:  EdgeInsets.all(20.sp),
+              padding: EdgeInsets.all(20.sp),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Search_Bar(
-                    hintText: "Search Reservations ",
-                    controller: _searchController,
-                    enable: true,
                     width: 230.w,
+                    hintText: "Search Reservations",
+                    enable: true,
+                    controller: _searchController,
                     onChanged: (value) {
-                      // setState(() {
-                      //   searchKeyword = value;
-                      // });
-                      // _fetchResources();
+                      setState(() {
+                        searchKeyword = value;
+                      });
+                      _fetchReservations();
                     },
                   ),
                   Padding(
-                    padding:  EdgeInsets.only(left: 10.w),
+                    padding: EdgeInsets.only(left: 10.w),
                     child: Row(
                       children: [
                         Container(
@@ -72,7 +122,7 @@ class _SearchReservationsState extends State<SearchReservations> {
                             ),
                           ),
                           child: Center(
-                            child: Text("${filterCategory}s",
+                            child: Text(filterCategory,
                                 style: TextStyle(
                                   color: Color(0xFF080C27),
                                   fontSize: 14.sp,
@@ -105,11 +155,13 @@ class _SearchReservationsState extends State<SearchReservations> {
                             onSelected: (value) {
                               setState(() {
                                 if (value == 1) {
-                                  filterCategory = "Book";
+                                  filterCategory = "All";
                                 } else if (value == 2) {
-                                  filterCategory = "Journal";
+                                  filterCategory = "Reservation";
+                                } else if (value == 3) {
+                                  filterCategory = "User";
                                 } else {
-                                  filterCategory = "Ebook";
+                                  filterCategory = "Resource";
                                 }
                               });
                             },
@@ -121,18 +173,22 @@ class _SearchReservationsState extends State<SearchReservations> {
                             itemBuilder: (context) => [
                               const PopupMenuItem(
                                 value: 1,
-                                child: Text("Books"),
+                                child: Text("All"),
                               ),
                               const PopupMenuItem(
                                 value: 2,
-                                child: Text("Journals"),
+                                child: Text("Reservation"),
                               ),
                               const PopupMenuItem(
                                 value: 3,
-                                child: Text("Ebooks"),
+                                child: Text("User"),
+                              ),
+                              const PopupMenuItem(
+                                value: 4,
+                                child: Text("Resource"),
                               ),
                             ],
-                            child:  Icon(
+                            child: Icon(
                               Icons.tune_outlined,
                               color: Colors.white,
                               size: 20.sp,
@@ -146,36 +202,38 @@ class _SearchReservationsState extends State<SearchReservations> {
               ),
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 20.sp),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildResourceCategory(index: 0, name: "All"),
-                  _buildResourceCategory(index: 1, name: "Due"),
-                  _buildResourceCategory(index: 2, name: "Borrowed"),
-                  _buildResourceCategory(index: 3, name: "Reserved"),
+                  _buildReservationCategory(index: 0, name: "All"),
+                  _buildReservationCategory(index: 1, name: "Due"),
+                  _buildReservationCategory(index: 2, name: "Borrowed"),
+                  _buildReservationCategory(index: 3, name: "Received"),
                 ],
               ),
             ),
-            // const SizedBox(height: 20),
-            // isLoading
-            //     ? Center(child: CircularProgressIndicator())
-            //     : Expanded(
-            //         child:
-            Expanded(
-              child: Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20.sp),
-                child: _buildReservations(),
-              ),
-            ),
-            //       ),
+            SizedBox(height: 20.h),
+            isLoading
+                ? Center(child: CircularProgressIndicator())
+                : hasError
+                    ? Expanded(
+                        child: ErrorScreen(),
+                      )
+                    : Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: _buildReservations(),
+                        ),
+                      ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildResourceCategory({required int index, required String name}) =>
+  Widget _buildReservationCategory(
+          {required int index, required String name}) =>
       GestureDetector(
         onTap: () {
           setState(() {
@@ -183,9 +241,9 @@ class _SearchReservationsState extends State<SearchReservations> {
           });
         },
         child: Container(
-          width: 85.w,
+          width: 80.w,
           height: 40.h,
-          padding:  EdgeInsets.all(8.sp),
+          padding: EdgeInsets.all(8.sp),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -208,19 +266,31 @@ class _SearchReservationsState extends State<SearchReservations> {
       );
 
   Widget _buildReservations() {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(top: 20),
-        itemCount: MyReservations.allReservations.length,
-        itemBuilder: (context, index) {
-          final reservation = MyReservations.allReservations[index];
-          return Padding(
-            padding:  EdgeInsets.only(bottom: 10.h),
-            child: ReservationCard(
-              reservation: reservation,
-            ),
-          );
-        });
-  }
+      List<Reservation> reservations = [];
+      if (isSelected == 0) {
+        reservations = myReservation.getAll(filterCategory);
+      }
+      else if (isSelected == 1) {
+        reservations = myReservation.getDue(filterCategory);
+      } else if (isSelected == 2){
+        reservations = myReservation.getBorrowed(filterCategory);
+      }
+      else{
+        reservations = myReservation.getReceived(filterCategory);
+      }
+      return ListView.builder(
+          shrinkWrap: true,
+          physics: AlwaysScrollableScrollPhysics(),
+          padding:  EdgeInsets.only(top: 20.h),
+          itemCount: reservations.length,
+          itemBuilder: (context, index) {
+            final reservation = reservations[index];
+            return Padding(
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: ReservationCard(
+                reservation: reservation,
+              ),
+            );
+          });
+    }
 }
