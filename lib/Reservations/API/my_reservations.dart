@@ -1,66 +1,40 @@
-import 'package:easylibro_app/Reservations/API/Reservation.dart';
+import 'package:easylibro_app/Reservations/API/reservation.dart';
+import 'package:easylibro_app/Reservations/API/reservation_service.dart';
 
 class MyReservations {
-  static List<Reservation> allReservations = [
-    Reservation(
-      reservationNo: 1,
-      Resource: 'Laptop',
-      UserName: 'John Doe',
-      UserID: '123456',
-      BorrowName: 'Jane Doe',
-      IssueDate:'hello',
-      DueDate: '2022-02-10',
-      Status: 'Reserved',
-    ),
-    Reservation(
-      reservationNo: 4,
-      Resource: 'Laptop',
-      UserName: 'John Doe',
-      UserID: '123456',
-      BorrowName: 'Jane Doe',
-      IssueDate:'hello',
-      DueDate: '2022-02-10',
-      Status: 'Reserved',
-    ),
-    Reservation(
-      reservationNo: 6,
-      Resource: 'Laptop',
-      UserName: 'John Doe',
-      UserID: '123456',
-      BorrowName: 'Jane Doe',
-      IssueDate:'hello',
-      DueDate: '2022-02-10',
-      Status: 'Reserved',
-    ),
-    Reservation(
-      reservationNo: 8,
-      Resource: 'Laptop',
-      UserName: 'John Doe',
-      UserID: '123456',
-      BorrowName: 'Jane Doe',
-      IssueDate:'hello',
-      DueDate: '2022-02-10',
-      Status: 'Reserved',
-    ),
-    Reservation(
-      reservationNo: 10,
-      Resource: 'Laptop',
-      UserName: 'John Doe',
-      UserID: '123456',
-      BorrowName: 'Jane Doe',
-      IssueDate:'hello',
-      DueDate: '2022-02-10',
-      Status: 'Reserved',
-    ),
-    Reservation(
-      reservationNo: 1,
-      Resource: 'Laptop',
-      UserName: 'John Doe',
-      UserID: '123456',
-      BorrowName: 'Jane Doe',
-      IssueDate:'hello',
-      DueDate: '2022-02-10',
-      Status: 'Reserved',
-    ),
-  ];
+  List<Reservation> allReservations = [];
+  final ReservationService _reservationService = ReservationService();
+
+  Future<void> fetchReservations(String keyword, String type) async {
+    allReservations =
+        await _reservationService.fetchReservations(keyword, type);
+  }
+
+  List<Reservation> getAll(String category) {
+    if (category == "All") {
+      return allReservations;
+    }
+    return [];
+  }
+
+  List<Reservation> getDue(String category) {
+    if (category == "All") {
+      return allReservations.where((reservation) => reservation.status == "overdue").toList();
+    }
+    return [];
+  }
+
+  List<Reservation> getBorrowed(String category) {
+    if (category == "All") {
+      return allReservations.where((reservation) => reservation.status == "borrowed").toList();
+    }
+    return [];
+  }
+
+  List<Reservation> getReceived(String category) {
+    if (category == "All") {
+      return allReservations.where((element) => element.status == "received").toList();
+    }
+    return [];
+  }
 }

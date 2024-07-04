@@ -1,27 +1,3 @@
-// import 'package:dio/dio.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-
-// class ApiService {
-//   late Dio _dio;
-// final SharedPreferences localStorage = SharedPreferences.getInstance();
-//     final accessToken = localStorage.getString('accessToken');
-//   Future<void> getToken() async {
-//     final SharedPreferences localStorage = await SharedPreferences.getInstance();
-//     final accessToken = localStorage.getString('accessToken');
-//     _dio.options.headers['Authorization'] = 'Bearer $accessToken';
-//   }
-//   ApiService() {
-
-//     _dio = Dio(BaseOptions(
-//       baseUrl: 'https://easylibrowebapi.azurewebsites.net/api/',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': 'Bearer $accessToken',
-//       },
-//     ));
-//   }
-//   Dio get dio => _dio;
-// }
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
