@@ -8,10 +8,12 @@ class MyReservations {
   Future<void> fetchReservations(String keyword, String type) async {
     allReservations =
         await _reservationService.fetchReservations(keyword, type);
+        allReservations.sort((a, b) => b.issueDate.compareTo(a.issueDate));
   }
 
   List<Reservation> getAll(String category) {
     if (category == "All") {
+
       return allReservations;
     }
     return [];

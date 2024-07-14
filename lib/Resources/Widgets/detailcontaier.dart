@@ -41,26 +41,29 @@ class _DetailContainerState extends State<DetailContainer> {
             ),
             Padding(
               padding:  EdgeInsets.only(left: 4.sp),
-              child:  Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text( widget.label,
-                      style: TextStyle(
-                          fontFamily: "Inter",
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF0D4065))),
-                  Padding(
-                    padding:  EdgeInsets.only(left: 15.w),
-                    child: Text( widget.value,
-                    overflow: TextOverflow.ellipsis,
+              child:  Container(
+                width: 72.w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text( widget.label,
                         style: TextStyle(
                             fontFamily: "Inter",
-                            fontSize: 15.sp,
+                            fontSize: 10.sp,
                             fontWeight: FontWeight.w900,
-                            color: Color(0xFF080C27))),
-                  )
-                ],
+                            color: Color(0xFF0D4065))),
+                    Padding(
+                      padding:  EdgeInsets.only(left: 15.w),
+                      child: Text( widget.value,
+                      overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: "Inter",
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF080C27))),
+                    )
+                  ],
+                ),
               ),
             )
           ],

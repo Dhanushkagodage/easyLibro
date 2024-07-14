@@ -1,6 +1,7 @@
 import 'package:easylibro_app/Reservations/API/reservation.dart';
-import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
+import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/screens/error_screen.dart';
+import 'package:easylibro_app/widgets/loading_indictor.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Reservations/widgets/reservation_card.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
@@ -9,7 +10,8 @@ import 'package:easylibro_app/Reservations/API/my_reservations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchReservations extends StatefulWidget {
-  const SearchReservations({super.key});
+  final VoidCallback fetchunreadcount;
+  const SearchReservations({super.key, required this.fetchunreadcount});
 
   @override
   State<SearchReservations> createState() => _SearchReservationsState();
@@ -32,6 +34,7 @@ class _SearchReservationsState extends State<SearchReservations> {
   void initState() {
     super.initState();
     _fetchReservations();
+    widget.fetchunreadcount();
   }
 
   Future<void> _fetchReservations() async {
@@ -47,7 +50,7 @@ class _SearchReservationsState extends State<SearchReservations> {
         hasError = true;
       });
       //print(e);
-      // ignore: use_build_context_synchronously
+      
       showDialog(
           context: context,
           builder: (context) => AlertBox(
@@ -55,7 +58,9 @@ class _SearchReservationsState extends State<SearchReservations> {
                 approveText: "OK",
                 icon: Icons.error,
                 iconColor: Colors.red,
-                onApprove: () {},
+                onApprove: () {
+                  Navigator.of(context).pop();
+                },
               ));
     } finally {
       setState(() {
@@ -125,7 +130,7 @@ class _SearchReservationsState extends State<SearchReservations> {
                             child: Text(filterCategory,
                                 style: TextStyle(
                                   color: Color(0xFF080C27),
-                                  fontSize: 14.sp,
+                                  fontSize: 12.sp,
                                   fontFamily: "Inter",
                                   fontWeight: FontWeight.w500,
                                 )),
@@ -215,7 +220,7 @@ class _SearchReservationsState extends State<SearchReservations> {
             ),
             SizedBox(height: 20.h),
             isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? Expanded(child: MyLoadingIndicator())
                 : hasError
                     ? Expanded(
                         child: ErrorScreen(),
@@ -255,7 +260,7 @@ class _SearchReservationsState extends State<SearchReservations> {
             name,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 13.sp,
+              fontSize: 12.sp,
               color:
                   isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
               fontFamily: "Inter",
@@ -294,3 +299,5 @@ class _SearchReservationsState extends State<SearchReservations> {
           });
     }
 }
+
+

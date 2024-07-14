@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:easylibro_app/Dashboard/dashboard_service.dart';
+import 'package:easylibro_app/widgets/loading_indictor.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 import 'package:easylibro_app/widgets/layout_screen.dart';
@@ -9,8 +10,10 @@ import 'package:easylibro_app/Resources/Widgets/resource_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DashboardScreen extends StatefulWidget {
+  final VoidCallback fetchunreadcount;
   const DashboardScreen({
     super.key,
+    required this.fetchunreadcount,
   });
 
   @override
@@ -38,6 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       _fetchResources();
     });
     fetchDashboardData();
+    widget.fetchunreadcount();
   }
 
   @override
@@ -120,7 +124,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         fontSize: 16.sp,
                         fontFamily: 'Inter',
                         color: Color(0xFF080C27),
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
@@ -136,7 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 20.h),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -163,14 +167,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.sp),
                   child: Container(
                     decoration: BoxDecoration(),
                     height: 230.h,
                     width: double
                         .infinity, // Set a fixed height for the horizontal GridView
                     child: isLoading
-                        ? Center(child: CircularProgressIndicator())
+                        ? Center(child: MyLoadingIndicator())
                         : GridView.builder(
                             controller: _scrollController,
                             scrollDirection: Axis.horizontal,
@@ -178,7 +182,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             physics: BouncingScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1, // One row
+                              crossAxisCount: 1, 
                               crossAxisSpacing: 12,
                               mainAxisSpacing: 12,
                               childAspectRatio: (200 / 100),
@@ -193,32 +197,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(color: const Color(0xFF080C27), width: 1),
-                    color: const Color(0xFFF7F8FD),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        TileContainer(
-                            "Status", status, Icons.warning_amber_rounded),
-                        SizedBox(height: 20),
-                        TileContainer("My Reservations", myReservations,
-                            Icons.double_arrow),
-                        SizedBox(height: 20),
-                        TileContainer("My Requests", myRequests,
-                            Icons.perm_contact_calendar_rounded),
-                        SizedBox(height: 20),
-                        TileContainer(
-                            "Penalty", penalty, Icons.trending_down_rounded),
-                      ],
+                padding: EdgeInsets.all(20.sp),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Your Stats:',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontFamily: 'Inter',
+                        color: Color(0xFF080C27),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 20.h),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color(0xFF080C27), width: 1),
+                        color: const Color(0xFFF7F8FD),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(20.sp),
+                        child: Column(
+                          children: [
+                            TileContainer(
+                                "Status", status, Icons.warning_amber_rounded),
+                            SizedBox(height: 20.h),
+                            TileContainer("My Reservations", myReservations,
+                                Icons.double_arrow),
+                            SizedBox(height: 20.h),
+                            TileContainer("My Requests", myRequests,
+                                Icons.perm_contact_calendar_rounded),
+                            SizedBox(height: 20.h),
+                            TileContainer("Penalty", penalty,
+                                Icons.trending_down_rounded),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -237,31 +256,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
         child: Row(
           children: [
             Container(
               width: 70,
               height: 70,
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10.sp),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(35),
-                color: Color.fromARGB(255, 131, 179, 252),
-              ),
+                  shape: BoxShape.circle,
+                  // color: Color.fromARGB(255, 131, 179, 252),
+                  color: Colors.blue),
               child: Icon(
                 icon,
-                color: Color(0xFFF7F8FD),
+                color: Color(0xFF080C27),
                 size: 35,
               ),
             ),
-            SizedBox(width: 30),
+            SizedBox(width: 30.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontFamily: 'Inter',
                     color: const Color(0xFF080C27),
                     fontWeight: FontWeight.w500,
@@ -270,7 +289,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Text(
                   value,
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 22.sp,
                     fontFamily: 'Inter',
                     color: const Color(0xFF080C27),
                     fontWeight: FontWeight.w700,
