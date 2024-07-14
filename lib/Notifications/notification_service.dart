@@ -16,18 +16,15 @@ class NotificationService {
       );
 
       if (response.statusCode == 200) {
-        
         if (response.data is bool) {
           return response.data;
         } else {
-          
           throw Exception('Unexpected response format: ${response.data}');
         }
       } else {
         throw Exception('Failed to set token');
       }
     } catch (e) {
-      //print('Error setting token: $e');
       throw Exception('Failed to set token: $e');
     }
   }
@@ -40,25 +37,75 @@ class NotificationService {
       final response = await apiService.dio.post(
         'Notification/GetMyNotificatons',
       );
-      //print(response.data);
+      // print(response.data);
       if (response.statusCode == 200) {
         if (response.data is List) {
-          return response.data.map<NotificationDetails>((json) => NotificationDetails.fromJson(json)).toList();
+          return response.data
+              .map<NotificationDetails>(
+                  (json) => NotificationDetails.fromJson(json))
+              .toList();
         } else {
           throw Exception('Unexpected response format: ${response.data}');
         }
-
       } else {
         throw Exception('Failed to fetch notifications');
       }
     } catch (e) {
-     // print('Error fetching notifications: $e');
       throw Exception('Failed to fetch notifications: $e');
+    }
+  }
+
+  Future<bool> markAsRead(int id) async {
+    final apiService = ApiService();
+    await apiService.init();
+
+    try {
+      final response = await apiService.dio.get(
+        'Notification/MarkAsRead',
+        queryParameters: {
+          'id': id,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        if (response.data is bool) {
+          return response.data;
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      } else {
+        throw Exception('Failed to mark as read');
+      }
+    } catch (e) {
+      throw Exception('Failed to mark as read: $e');
+    }
+  }
+
+  Future<int> getUnreadNotificationsCount() async {
+    final apiService = ApiService();
+    await apiService.init();
+
+    try {
+      final response = await apiService.dio.post(
+        'Notification/UnreadCount',
+      );
+      print(response.data);
+      if (response.statusCode == 200) {
+        if (response.data is int) {
+          return response.data;
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      } else {
+        throw Exception('Failed to get unread notifications count');
+      }
+    } catch (e) {
+      throw Exception('Failed to get unread notifications count: $e');
     }
   }
 }
 
-class MyNotifications{
+class MyNotifications {
   List<NotificationDetails> allNotifications = [];
   NotificationService notificationService = NotificationService();
 

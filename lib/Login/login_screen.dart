@@ -2,11 +2,13 @@ import 'package:easylibro_app/Notifications/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Login/auth_request.dart';
 import 'package:easylibro_app/Login/auth_service.dart';
-import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
+import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
 import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthService _authService = AuthService();
   final NotificationService notificationService = NotificationService();
   //final UserService _userService = UserService();
+
+  final String url = 'https://easylibro.online/LogIN/ForgetPassword';
 
   bool _isLoading = false;
 
@@ -79,8 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
           //final user = localStorage.getString('userName');
 
           //final UserDetails userDetails = await _userService.fetchUserDetails();
-          
-          await notificationService.setToken(token, userName);
+
+          //await notificationService.setToken(token, userName);
 
           //print('firebaseToken:${token}');
         } catch (e) {
@@ -102,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
             icon: Icons.check_circle,
             approveText: "ok",
             iconColor: Colors.green,
-            onApprove: () {},
+            onApprove: () {
+              Navigator.of(context).pop();
+            },
           ),
         );
         final SharedPreferences sharedPreferences =
@@ -116,7 +122,9 @@ class _LoginScreenState extends State<LoginScreen> {
             icon: Icons.error,
             approveText: "ok",
             iconColor: Colors.red,
-            onApprove: () {},
+            onApprove: () {
+              Navigator.of(context).pop();
+            },
           ),
         );
       }
@@ -130,7 +138,9 @@ class _LoginScreenState extends State<LoginScreen> {
           icon: Icons.error,
           approveText: "ok",
           iconColor: Colors.red,
-          onApprove: () {},
+          onApprove: () {
+            Navigator.of(context).reassemble();
+          },
         ),
       );
     } finally {
@@ -233,12 +243,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Align(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15.sp,
-                              color: Color(0xFF0D4065),
+                          child: GestureDetector(
+                            onTap: () async {
+                              final Uri uri = Uri.parse(url);
+                              if (await canLaunch(uri.toString())) {
+                                await launch(uri.toString(),
+                                    forceSafariVC: false, forceWebView: false);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: Text(
+                              'Forgot Password?',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15.sp,
+                                color: Color(0xFF0D4065),
+                              ),
                             ),
                           ),
                         ),

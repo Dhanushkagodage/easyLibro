@@ -1,4 +1,7 @@
 import 'package:easylibro_app/Reservations/API/reservation.dart';
+import 'package:easylibro_app/Reservations/API/reservationDetails.dart';
+import 'package:easylibro_app/Reservations/API/reservation_service.dart';
+import 'package:easylibro_app/Reservations/widgets/reservationDetail_Box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,50 +15,75 @@ class ReservationCard extends StatefulWidget {
 }
 
 class _ReservationCardState extends State<ReservationCard> {
+  bool _isExpanded = false;
+  final ReservationService _reservationService = ReservationService();
+  Reservationdetails? _reservationDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchReservationDetails();
+  }
+
+  Future<void> _fetchReservationDetails() async {
+    try {
+      final reservationDetails = await _reservationService.fetchReservationDetails(widget.reservation.reservationNo);
+      setState(() {
+        _reservationDetails = reservationDetails;
+      });
+    } catch (e) {
+      // Handle the error properly here
+      print('Failed to load reservation details: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-          width: double.infinity,
-          height: 85.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: const Color.fromARGB(255, 255, 255, 255),
-            boxShadow: [
-              BoxShadow(
-                color: const Color.fromARGB(255, 49, 48, 52).withOpacity(0.1),
-                offset: const Offset(0, 0),
-                blurRadius: 4,
-              ),
-            ],
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: const Color.fromARGB(255, 255, 255, 255),
+          boxShadow: [
+            BoxShadow(
+              color: const Color.fromARGB(255, 49, 48, 52).withOpacity(0.1),
+              offset: const Offset(0, 0),
+              blurRadius: 3,
+            ),
+          ],
+          border: Border.all(
+            color: Colors.grey, width: 1.sp
           ),
-          child: Center(
-            child: Padding(
-              padding:  EdgeInsets.only(right: 10.w),
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 10.w),
               child: Row(
-                
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Padding(
-                    padding:  EdgeInsets.only(left: 20.w, right: 20.w),
+                    padding: EdgeInsets.only(left: 20.w, right: 20.w),
                     child: Container(
-                        width: 30.w,
-                        height: 30.h,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF7F8FD),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Icon(
-                          Icons.wifi_protected_setup,
-                          color: Color(0xFF080C27),
-                          size: 25.sp,
-                        )),
+                      width: 40.sp,
+                      height: 40.sp,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(20.sp),
+                      ),
+                      child: Icon(
+                        Icons.wifi_protected_setup,
+                        color: Color(0xFF080C27),
+                        size: 25.sp,
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 5.h),
+                        SizedBox(height: 10.h),
                         Text(
                           'Reservations: ${widget.reservation.reservationNo}',
                           style: TextStyle(
@@ -81,13 +109,12 @@ class _ReservationCardState extends State<ReservationCard> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
+                        SizedBox(height: 10.h),
                       ],
                     ),
                   ),
-                  
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    
                     children: [
                       SizedBox(height: 5.h),
                       Row(children: [
@@ -120,14 +147,20 @@ class _ReservationCardState extends State<ReservationCard> {
                           ),
                         )
                       ]),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Container(
-                         width: 70.w,
+                      
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isExpanded = !_isExpanded;
+                          });
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20.h, bottom: 10.h),
+                          child: Container(
+                            width: 70.w,
                             height: 25.h,
                             decoration: BoxDecoration(
-                              color: Color(0xFF080C27),
+                              color: _isExpanded ? Color.fromARGB(157, 8, 12, 39) : Color(0xFF080C27),
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Center(
@@ -140,14 +173,19 @@ class _ReservationCardState extends State<ReservationCard> {
                                 ),
                               ),
                             ),
+                          ),
+                        ),
                       ),
-              
                     ],
                   ),
                 ],
               ),
             ),
-          )),
+            if (_isExpanded && _reservationDetails != null)
+              ReservationdetailBox(reservationDetails: _reservationDetails!),  // Pass the state variable
+          ],
+        ),
+      ),
     );
   }
 }

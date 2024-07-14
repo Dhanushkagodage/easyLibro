@@ -1,6 +1,7 @@
-import 'package:easylibro_app/Resources/Widgets/alert_box.dart';
+import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 import 'package:easylibro_app/screens/error_screen.dart';
+import 'package:easylibro_app/widgets/loading_indictor.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Resources/API/Models/my_resource.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
@@ -8,7 +9,8 @@ import 'package:easylibro_app/Resources/Widgets/resource_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchResource extends StatefulWidget {
-  const SearchResource({super.key});
+  final VoidCallback fetchunreadcount;
+  const SearchResource({super.key, required this.fetchunreadcount});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -32,6 +34,7 @@ class _SearchResourceState extends State<SearchResource> {
   void initState() {
     super.initState();
     _fetchResources();
+    widget.fetchunreadcount();
   }
 
   Future<void> _fetchResources() async {
@@ -54,7 +57,9 @@ class _SearchResourceState extends State<SearchResource> {
                 approveText: "OK",
                 icon: Icons.error,
                 iconColor: Colors.red,
-                onApprove: () {},
+                onApprove: () {
+                  Navigator.of(context).pop();
+                },
               ));
     } finally {
       setState(() {
@@ -207,7 +212,7 @@ class _SearchResourceState extends State<SearchResource> {
             ),
              SizedBox(height: 20.h),
             isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? Expanded(child: MyLoadingIndicator())
                 : hasError
                     ? Expanded(
                         child: ErrorScreen(),
@@ -246,7 +251,7 @@ class _SearchResourceState extends State<SearchResource> {
             name,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 13.sp,
+              fontSize: 12.sp,
               color:
                   isSelected == index ? Colors.white : const Color(0xFF3F3D3D),
               fontFamily: "Inter",

@@ -21,6 +21,7 @@ class AuthService {
         throw Exception('Failed to authenticate user');
       }
     } catch (e) {
+     // ignore: avoid_print
      print('Error authenticating user: $e');
       throw Exception('Failed to authenticate user: $e');
     }

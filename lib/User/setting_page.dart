@@ -1,253 +1,191 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
   @override
-  // ignore: library_private_types_in_public_api
+// ignore: library_private_types_in_public_api
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final _formKey = GlobalKey<FormState>();
-  String _currentPassword = '';
-  String _newPassword = '';
-  // ignore: unused_field
-  String _confirmPassword = '';
+  bool _isObscured = true;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isObscured = !_isObscured;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // final themeProvider = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0D4065),
-        elevation: 1,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF7F8FD),
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF0D4065),
+          elevation: 1,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
           ),
+        ),
+        body: Container(
+          padding: EdgeInsets.only(left: 20, top: 20, right: 20),
+          child: ListView(children: [
+            Text(
+              "Settings:",
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontFamily: 'Inter',
+                color: Color(0xFF080C27),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 40.h, left: 10.w, right: 10.w),
+              child: Center(
+                child: Container(
+                  child: Column(
+                    children: [
+                      _buildTextField("Enter your current password",
+                          'userDetails', Icons.lock_outline),
+                      _buildTextField("Enter your new password", 'userDetails',
+                          Icons.lock_outline),
+                      _buildTextField("Confirm your new password",
+                          'userDetails', Icons.lock_outline),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: 170.sp,
+                            height: 50.sp,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 205, 205, 205),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text("Reset",
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  )),
+                            ),
+                          ),
+                          Container(
+                            width: 170.sp,
+                            height: 50.sp,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF0D4065),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text("Confirm",
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ]),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
-        child: ListView(
-          children: [
-            Text(
-              "Settings",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-            ),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0),
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 40,
-              ),
-              Row(
-                children: [
-                  Icon(
-                      Icons.person,
-                      color: const Color(0xFF0D4065)
-                  ),
-                  SizedBox(
-                    width: 8.w,
-                  ),
-                  Text(
-                    "Account",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Divider(
-                height: 15,
-                thickness: 2,
-              ),
-              SizedBox(height:20.0),
-              ExpansionTile(
-                title: Text(
-                  "Change Password",
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                     color: Colors.grey,
-                  ),
-                ),
-                children: <Widget>[
-
-                  ListTile(
-                    title: Text('Current Password'), // Correct usage of title
-                    subtitle: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Enter your current password',
-                        border: OutlineInputBorder(),
-                      ),
-                      obscureText: true, // For password input
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _currentPassword = value!;
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  ListTile(
-                    title: Text('New Password'),
-                    subtitle: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Enter your new password',
-                        border: OutlineInputBorder(),
-                      ),
-                      obscureText: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your new password';
-                        }
-                        if (value.length < 6) {
-                          return 'Password must be at least 6 characters long';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _newPassword = value!;
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  ListTile(
-                    title: Text('Confirm New Password'),
-                    subtitle: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Confirm your new password',
-                        border: OutlineInputBorder(),
-                      ),
-                      obscureText: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please confirm your new password';
-                        }
-                        if (value != _newPassword) {
-                          return 'Passwords do not match';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _confirmPassword = value!;
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        // Process the password, e.g., send it to the server or authenticate locally
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Processing Password: $_currentPassword')),
-                        );
-                      }
-                    },
-
-                    child: Text('Confirm'),
-                  ),
-                ],
-              ),
-
-
-              SizedBox(
-                height: 40.h,
-              ),
-              Row(
-                children: [
-                  Icon(
-                      Icons.notifications,
-                      color: const Color(0xFF0D4065)
-                  ),
-                  SizedBox(
-                    width: 8.w,
-                  ),
-                  Text(
-                    "Notifications",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Divider(
-                height: 15,
-                thickness: 2,
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
-              buildNotificationOptionRow("New for you", true),
-              buildNotificationOptionRow("Account activity", true),
-              buildNotificationOptionRow("Extend dates", false),
-              SizedBox(
-                height: 50,
-              ),
-              Center(
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Text("SIGN OUT",
-                      style: TextStyle(
-                          fontSize: 16, letterSpacing: 2.2, color: Colors.black )),
-                ),
-              )
-                ],
-              ),
-
-
-
-        ),
-        ]
-          ),
-          ),
-
-        );
-
-
+    );
   }
 
-  Row buildNotificationOptionRow(String title, bool isActive) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: Colors.grey[600],
+  Widget _buildTextField(
+      String labelText, String detailText, IconData iconData) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 35.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            labelText,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+            ),
           ),
-        ),
-        Transform.scale(
-          scale: 0.7,
-          child: CupertinoSwitch(
-            value: isActive,
-            onChanged: (bool val) {},
-            activeColor: Colors.blue, // Set the active color to blue
+          TextField(
+            obscureText: _isObscured,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(bottom: 3.h),
+              //labelText: labelText,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              //hintText: detailText,
+              hintStyle: TextStyle(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+
+              prefixIcon: Container(
+                width: 26.sp,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 30.sp,
+                      height: 30.sp,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    Center(
+                      child: Icon(
+                        iconData,
+                        size: 20.sp,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isObscured ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.black,
+                ),
+                onPressed: _togglePasswordVisibility,
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              focusedBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: const Color(0xFF0D4065), width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: const Color.fromARGB(255, 174, 173, 173), width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
