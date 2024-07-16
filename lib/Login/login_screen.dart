@@ -7,7 +7,7 @@ import 'package:easylibro_app/widgets/wave_clipper.dart';
 import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/link.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -243,24 +243,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Align(
                           alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () async {
-                              final Uri uri = Uri.parse(url);
-                              if (await canLaunch(uri.toString())) {
-                                await launch(uri.toString(),
-                                    forceSafariVC: false, forceWebView: false);
-                              } else {
-                                throw 'Could not launch $url';
-                              }
+                          child: Link(
+                            uri: Uri.parse(url),
+                            target: LinkTarget.blank,
+                            builder: (context, followLink) {
+                              return GestureDetector(
+                                onTap: followLink,
+                                child: Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15.sp,
+                                    color: Color(0xFF0D4065),
+                                  ),
+                                ),
+                              );
                             },
-                            child: Text(
-                              'Forgot Password?',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15.sp,
-                                color: Color(0xFF0D4065),
-                              ),
-                            ),
+                           
                           ),
                         ),
                         SizedBox(
@@ -291,24 +290,24 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(height: 10.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Don't have an account?",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                            ),
-                            Text(
-                              "Sign up",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.sp,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        )
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text(
+                        //       "Don't have an account?",
+                        //       style: TextStyle(
+                        //           fontWeight: FontWeight.bold,
+                        //           color: Colors.grey),
+                        //     ),
+                        //     Text(
+                        //       "Sign up",
+                        //       style: TextStyle(
+                        //           fontWeight: FontWeight.bold,
+                        //           fontSize: 15.sp,
+                        //           color: Colors.black),
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     ),
                   ],

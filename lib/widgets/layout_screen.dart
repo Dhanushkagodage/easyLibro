@@ -4,7 +4,7 @@ import 'package:easylibro_app/Reservations/Screens/search_reservations.dart';
 import 'package:easylibro_app/Dashboard/dashboard_screen.dart';
 import 'package:easylibro_app/Resources/Screens/search_resource.dart';
 import 'package:easylibro_app/Notifications/notification_screen.dart';
-import 'package:easylibro_app/User/userProfileEdit_screen.dart';
+import 'package:easylibro_app/User/edit_profilepage.dart';
 import 'package:easylibro_app/User/user_service.dart';
 import 'package:easylibro_app/User/userdetails.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +147,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           onTap: (index) {
             setState(() {
               currentIndex = index;
+              fetchUserDetails();
             });
           },
           type: BottomNavigationBarType.fixed,

@@ -1,4 +1,4 @@
-import 'package:easylibro_app/Reservations/API/reservationDetails.dart';
+import 'package:easylibro_app/Reservations/API/reservation_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
