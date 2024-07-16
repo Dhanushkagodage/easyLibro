@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:easylibro_app/API_Service/api_service.dart';
 import 'package:easylibro_app/Reservations/API/reservation.dart';
-import 'package:easylibro_app/Reservations/API/reservationDetails.dart';
+import 'package:easylibro_app/Reservations/API/reservation_details.dart';
 
 class ReservationService{
   Future<List<Reservation>> fetchReservations(String keyword, String type ) async {

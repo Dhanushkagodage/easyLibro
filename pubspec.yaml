@@ -45,6 +45,8 @@ dependencies:
   loading_animation_widget: ^1.2.1
   date_picker_plus: ^4.1.0
   url_launcher: ^6.3.0
+  cloudinary_public: ^0.23.1
+  image_picker: ^1.1.2
 
   #flutter_emoji: ^2.5.1
 

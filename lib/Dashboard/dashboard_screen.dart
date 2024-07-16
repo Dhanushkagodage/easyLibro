@@ -202,7 +202,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Your Stats:',
+                      'My Stats:',
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontFamily: 'Inter',

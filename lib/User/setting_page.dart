@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:easylibro_app/User/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,6 +12,10 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final _currentPasswordController = TextEditingController();
+  final _newPasswordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  UserService userService = UserService();
   bool _isObscured = true;
 
   void _togglePasswordVisibility() {
@@ -17,9 +24,98 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
+  Future<void> _changePassword() async {
+    final currentPassword = _currentPasswordController.text;
+    final newPassword = _newPasswordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    if (currentPassword.isEmpty ||
+        newPassword.isEmpty ||
+        confirmPassword.isEmpty) {
+          print("1$e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.error, color: Colors.white),
+              SizedBox(width: 10.sp),
+              Text('Please fill all fields.'),
+              
+            ],
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (newPassword != confirmPassword) {
+      print("2$e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.error, color: Colors.white),
+              SizedBox(width: 10.sp),
+              Text('Passwords do not match.'),
+            ],
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    try {
+      final success =
+          await userService.changePassword(currentPassword, newPassword);
+      if (success) {
+        print("3$e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error, color: Colors.white),
+                SizedBox(width: 10.sp),
+                Text('Password changed successfully.'),
+              ],
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        print("4$e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error, color: Colors.white),
+                SizedBox(width: 10.sp),
+                Text('Failed to change password.'),
+              ],
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      print("5$e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+              children: [
+                Icon(Icons.error, color: Colors.white),
+                SizedBox(width: 10.sp),
+                Text('Failed to change password'),
+              ],
+            ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final themeProvider = Provider.of<ThemeProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFFF7F8FD),
@@ -40,7 +136,7 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: EdgeInsets.only(left: 20, top: 20, right: 20),
           child: ListView(children: [
             Text(
-              "Settings:",
+              "Change Password:",
               style: TextStyle(
                 fontSize: 16.sp,
                 fontFamily: 'Inter',
@@ -55,11 +151,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Column(
                     children: [
                       _buildTextField("Enter your current password",
-                          'userDetails', Icons.lock_outline),
-                      _buildTextField("Enter your new password", 'userDetails',
-                          Icons.lock_outline),
+                          _currentPasswordController, Icons.lock_outline),
+                      _buildTextField("Enter your new password",
+                          _newPasswordController, Icons.lock_outline),
                       _buildTextField("Confirm your new password",
-                          'userDetails', Icons.lock_outline),
+                          _confirmPasswordController, Icons.lock_outline),
                       SizedBox(
                         height: 20.h,
                       ),
@@ -82,21 +178,26 @@ class _SettingsPageState extends State<SettingsPage> {
                                   )),
                             ),
                           ),
-                          Container(
-                            width: 170.sp,
-                            height: 50.sp,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF0D4065),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Text("Confirm",
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                  )),
+                          GestureDetector(
+                            onTap: () {
+                              _changePassword();
+                            },
+                            child: Container(
+                              width: 170.sp,
+                              height: 50.sp,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF0D4065),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text("Confirm",
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255),
+                                    )),
+                              ),
                             ),
                           ),
                         ],
@@ -113,7 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildTextField(
-      String labelText, String detailText, IconData iconData) {
+      String labelText, TextEditingController controller, IconData iconData) {
     return Padding(
       padding: EdgeInsets.only(bottom: 35.h),
       child: Column(
@@ -128,18 +229,16 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           TextField(
+            controller: controller,
             obscureText: _isObscured,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(bottom: 3.h),
-              //labelText: labelText,
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              //hintText: detailText,
               hintStyle: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
               ),
-
               prefixIcon: Container(
                 width: 26.sp,
                 child: Stack(
