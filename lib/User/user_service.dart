@@ -9,7 +9,7 @@ class UserService {
       final response = await apiService.dio.post(
         'User/GetMyData',
       );
-      //print(response.data);
+      print(response.data);
       if (response.statusCode == 200) {
         Map<String, dynamic> body = response.data;
         return UserDetails.fromJson(body);

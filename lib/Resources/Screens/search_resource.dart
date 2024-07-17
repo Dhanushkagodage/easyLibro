@@ -1,3 +1,4 @@
+import 'package:easylibro_app/Review/API/review.dart';
 import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 import 'package:easylibro_app/screens/error_screen.dart';
@@ -27,6 +28,7 @@ class _SearchResourceState extends State<SearchResource> {
   String searchTag = "all";
   String searchType = "all";
   final myResource =MyResources();
+  final myReviews = MyReviews();
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -72,6 +74,10 @@ class _SearchResourceState extends State<SearchResource> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Future<double> fetchRating(String isbn) async {
+    return await myReviews.fetchRating(isbn);
   }
 
   @override
@@ -283,7 +289,7 @@ class _SearchResourceState extends State<SearchResource> {
       itemCount: resources.length,
       itemBuilder: (context, index) {
         final resource = resources[index];
-        return ResourceCard(resource: resource);
+        return ResourceCard(resource: resource, fetchRating: () => fetchRating(resource.isbn));
       },
     );
   }

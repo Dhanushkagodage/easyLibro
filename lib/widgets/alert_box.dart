@@ -93,7 +93,7 @@ class _AlertBoxState extends State<AlertBox> {
           Text(
             widget.content,
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w400,
               color: Colors.black,
             ),

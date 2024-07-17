@@ -322,6 +322,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
   List<NotificationDetails> unreadNotifications = [];
   int selectedTabIndex = 1;
 
+  Color _containerColor = Colors.blue;
+
+  void _changeColorTemporarily() {
+    setState(() {
+      _containerColor = const Color.fromARGB(154, 33, 149, 243);
+    });
+
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _containerColor = Colors.blue;
+      });
+    });
+  }
+
   NotificationService notificationService = NotificationService();
 
   @override
@@ -483,6 +497,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             if (notification.status == 'unread')
               IconButton(
                 onPressed: () async {
+                  _changeColorTemporarily();
                   setState(() {
                     unreadNotifications.removeAt(index);
                     readNotifications.add(notification);
@@ -502,7 +517,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 },
                 icon: Icon(
                   Icons.remove_red_eye_outlined,
-                  color: Colors.blue,
+                  color: _containerColor,
                   size: 25.sp,
                 ),
               ),

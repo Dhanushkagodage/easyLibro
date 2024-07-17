@@ -6,7 +6,8 @@ class MyRequests{
   List <Request> allRequests = [];
   RequestService requestService = RequestService();
 
-  Future<void> fetchRequests() async {
+  Future<List<Request>> fetchRequests() async {
     allRequests = await requestService.fetchRequests();
+    return allRequests;
   }
 }
