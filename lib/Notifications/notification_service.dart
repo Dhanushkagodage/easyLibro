@@ -89,7 +89,7 @@ class NotificationService {
       final response = await apiService.dio.post(
         'Notification/UnreadCount',
       );
-      print(response.data);
+     // print(response.data);
       if (response.statusCode == 200) {
         if (response.data is int) {
           return response.data;

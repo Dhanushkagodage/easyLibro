@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:easylibro_app/Dashboard/dashboard_service.dart';
+import 'package:easylibro_app/Review/API/review.dart';
 import 'package:easylibro_app/widgets/loading_indictor.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
@@ -29,6 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   List<Resource> resources = [];
   MyResources myResources = MyResources();
   DashboardService dashboardService = DashboardService();
+  final MyReviews myReviews = MyReviews();
   String status = "";
   String myReservations = "";
   String myRequests = "";
@@ -49,6 +51,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _timer.cancel();
     _scrollController.dispose();
     super.dispose();
+  }
+  Future<double> fetchRating(String isbn) async {
+    return await myReviews.fetchRating(isbn);
   }
 
   void startAutoScroll() {
@@ -190,7 +195,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             itemCount: resources.length,
                             itemBuilder: (context, index) {
                               final resource = resources[index];
-                              return ResourceCard(resource: resource);
+                              return ResourceCard(resource: resource,fetchRating: () => fetchRating(resource.isbn));
                             },
                           ),
                   ),
