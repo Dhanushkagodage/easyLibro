@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ResourceCard extends StatefulWidget {
   final Future<double> Function() fetchRating;
   final Resource resource;
+  
 
   const ResourceCard({super.key, required this.resource, required this.fetchRating});
 
@@ -43,7 +44,7 @@ class _ResourceCardState extends State<ResourceCard> {
         isLoading = false;
       });
     } catch (e) {
-      print("Failed to fetch reviews: $e");
+      //print("Failed to fetch reviews: $e");
     }
   }
 

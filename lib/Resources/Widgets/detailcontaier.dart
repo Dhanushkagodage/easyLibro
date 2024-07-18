@@ -30,13 +30,13 @@ class _DetailContainerState extends State<DetailContainer> {
         child: Row(
           children: [
             Container(
-              width: 30.w,
-              height: 30.h,
+              width: 30.sp,
+              height: 30.sp,
               decoration: BoxDecoration(
                   color: Color(0xFFF7F8FD),
-                  borderRadius: BorderRadius.circular(15),
+                  shape: BoxShape.circle,
                   border: Border.all(
-                      color: Color.fromARGB(255, 131, 179, 252), width: 2.w)),
+                      color: Color.fromARGB(255, 131, 179, 252), width: 2.sp)),
               child: Icon(widget.icon,color: Color(0xFF080C27),size: 20.sp ,),
             ),
             Padding(

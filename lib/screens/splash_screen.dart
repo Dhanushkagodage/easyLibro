@@ -33,11 +33,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _getValidationData() async {
     final SharedPreferences localStorage =
         await SharedPreferences.getInstance();
-        // await localStorage.clear();
+    // await localStorage.clear();
     final obtainedUserName = localStorage.getString('userName');
     final accessToken = localStorage.getString('accessToken');
     // ignore: avoid_print
     print(accessToken);
+    //print(obtainedUserName);
     setState(() {
       finalUserName = obtainedUserName;
     });

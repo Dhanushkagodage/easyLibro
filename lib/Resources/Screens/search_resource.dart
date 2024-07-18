@@ -29,6 +29,7 @@ class _SearchResourceState extends State<SearchResource> {
   String searchType = "all";
   final myResource =MyResources();
   final myReviews = MyReviews();
+  
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -50,19 +51,7 @@ class _SearchResourceState extends State<SearchResource> {
       setState(() {
         hasError = true;
       });
-      //print(e);
-      // ignore: use_build_context_synchronously
-      showDialog(
-          context: context,
-          builder: (context) => AlertBox(
-                content: "Failed to load resources",
-                approveText: "OK",
-                icon: Icons.error,
-                iconColor: Colors.red,
-                onApprove: () {
-                  Navigator.of(context).pop();
-                },
-              ));
+      _showErrorSnackbar("Failed to Load Resources");
     } finally {
       setState(() {
         isLoading = false;
@@ -78,6 +67,32 @@ class _SearchResourceState extends State<SearchResource> {
 
   Future<double> fetchRating(String isbn) async {
     return await myReviews.fetchRating(isbn);
+  }
+
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Text(
+              message,
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   @override

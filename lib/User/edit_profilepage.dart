@@ -67,42 +67,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
       );
       if (success) {
         fetchUserDetails();
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertBox(
-                  content: "User details updated successfully",
-                  approveText: "OK",
-                  icon: Icons.check_circle,
-                  iconColor: Colors.green,
-                  onApprove: () {
-                    Navigator.of(context).pop();
-                  },
-                ));
+        _showSuccessSnackbar("User details updated successfully");
       } else {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertBox(
-                  content: "Failed to update user details",
-                  approveText: "OK",
-                  icon: Icons.error,
-                  iconColor: Colors.red,
-                  onApprove: () {
-                    Navigator.of(context).pop();
-                  },
-                ));
+        _showErrorSnackbar("Failed to update user details");
       }
     } catch (e) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertBox(
-                content: "Error updating user details: $e",
-                approveText: "OK",
-                icon: Icons.error,
-                iconColor: Colors.red,
-                onApprove: () {
-                  Navigator.of(context).pop();
-                },
-              ));
+      _showErrorSnackbar("Error updating user details");
     }
   }
 
@@ -134,16 +104,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
   Future<void> editUserImage() async {
   try {
-    print('Image URL: $imageURL');
+    //print('Image URL: $imageURL');
     bool result = await userService.editUserImage(imageURL);
-    print('Image upload result: $result');
+    //print('Image upload result: $result');
     if (result) {
       fetchUserDetails();
     } else {
-      print('Image upload failed.');
+      _showErrorSnackbar("Image upload failed");
     }
   } catch (e) {
-    print('Error uploading image: $e');
+    _showErrorSnackbar("Error uploading image");
   }
 }
 
@@ -159,6 +129,57 @@ class _EditProfilePageState extends State<EditProfilePage> {
         _imageFile = null;
       }
     });
+  }
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Text(
+              message,
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  void _showSuccessSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.check_circle_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Text(
+              message,
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 
   @override
@@ -221,16 +242,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         builder: (BuildContext context) =>
                                             const LoginScreen()),
                                   );
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) => AlertBox(
-                                      content: "You have been logged out!",
-                                      approveText: "OK",
-                                      icon: Icons.check_circle,
-                                      iconColor: Colors.green,
-                                      onApprove: () {},
-                                    ),
-                                  );
+                                  _showSuccessSnackbar("Logged out successfully");
                                 },
                                 child: const Text("Yes, Logout"),
                               ),
