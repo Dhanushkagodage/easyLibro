@@ -53,6 +53,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/App_Icons/playstore.png"
+  image_path_ios: "assets/App_Icons/appstore.png"
+  min_sdk_android: 23
   
 
   # The "flutter_lints" package below contains a set of recommended lints to
