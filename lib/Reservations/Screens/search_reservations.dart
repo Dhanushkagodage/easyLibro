@@ -1,5 +1,4 @@
 import 'package:easylibro_app/Reservations/API/reservation.dart';
-import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/screens/error_screen.dart';
 import 'package:easylibro_app/widgets/loading_indictor.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ class SearchReservations extends StatefulWidget {
 }
 
 class _SearchReservationsState extends State<SearchReservations> {
-  
   int isSelected = 0;
   String filterCategory = "All";
   bool isLoading = true;
@@ -37,31 +35,47 @@ class _SearchReservationsState extends State<SearchReservations> {
     widget.fetchunreadcount();
   }
 
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Text(
+                message,
+                style: TextStyle(
+                  fontFamily: "Inter",
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   Future<void> _fetchReservations() async {
     setState(() {
       isLoading = true;
     });
     try {
-      await myReservation
-          .fetchReservations(searchKeyword, searchType);
+      await myReservation.fetchReservations(searchKeyword, searchType);
     } catch (e) {
       if (!mounted) return;
       setState(() {
         hasError = true;
       });
-      //print(e);
-      
-      showDialog(
-          context: context,
-          builder: (context) => AlertBox(
-                content: "Failed to load resources",
-                approveText: "OK",
-                icon: Icons.error,
-                iconColor: Colors.red,
-                onApprove: () {
-                  Navigator.of(context).pop();
-                },
-              ));
+      _showErrorSnackbar("Failed to Load Reservations");
     } finally {
       setState(() {
         isLoading = false;
@@ -271,33 +285,29 @@ class _SearchReservationsState extends State<SearchReservations> {
       );
 
   Widget _buildReservations() {
-      List<Reservation> reservations = [];
-      if (isSelected == 0) {
-        reservations = myReservation.getAll(filterCategory);
-      }
-      else if (isSelected == 1) {
-        reservations = myReservation.getDue(filterCategory);
-      } else if (isSelected == 2){
-        reservations = myReservation.getBorrowed(filterCategory);
-      }
-      else{
-        reservations = myReservation.getReceived(filterCategory);
-      }
-      return ListView.builder(
-          shrinkWrap: true,
-          physics: AlwaysScrollableScrollPhysics(),
-          padding:  EdgeInsets.only(top: 20.h),
-          itemCount: reservations.length,
-          itemBuilder: (context, index) {
-            final reservation = reservations[index];
-            return Padding(
-              padding: EdgeInsets.only(bottom: 10.h),
-              child: ReservationCard(
-                reservation: reservation,
-              ),
-            );
-          });
+    List<Reservation> reservations = [];
+    if (isSelected == 0) {
+      reservations = myReservation.getAll(filterCategory);
+    } else if (isSelected == 1) {
+      reservations = myReservation.getDue(filterCategory);
+    } else if (isSelected == 2) {
+      reservations = myReservation.getBorrowed(filterCategory);
+    } else {
+      reservations = myReservation.getReceived(filterCategory);
     }
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.only(top: 20.h),
+        itemCount: reservations.length,
+        itemBuilder: (context, index) {
+          final reservation = reservations[index];
+          return Padding(
+            padding: EdgeInsets.only(bottom: 10.h),
+            child: ReservationCard(
+              reservation: reservation,
+            ),
+          );
+        });
+  }
 }
-
-

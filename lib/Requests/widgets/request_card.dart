@@ -35,6 +35,61 @@ class _RequestCardState extends State<RequestCard> {
     });
   }
 
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Text(
+                message,
+                style: TextStyle(
+                  fontFamily: "Inter",
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  void _showSuccessSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.check_circle_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Text(
+              message,
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
   void _showDeleteControl(BuildContext parentContext) {
     showDialog(
       context: parentContext,
@@ -47,45 +102,18 @@ class _RequestCardState extends State<RequestCard> {
           approveText: 'Yes',
           cancelText: 'No',
           onCancel: () {
-            Navigator.of(context).reassemble();
+            Navigator.of(context).pop();
           },
           onApprove: () async {
             Navigator.of(context).pop();
             try {
               await requestService.deleteRequest(widget.request.id);
 
-              showDialog(
-                context: parentContext,
-                builder: (BuildContext context) {
-                  return AlertBox(
-                    title: 'Request Removed:',
-                    content: 'Request removed successfully',
-                    approveText: 'OK',
-                    icon: Icons.check_circle_outline_rounded,
-                    iconColor: Colors.green,
-                    onApprove: () {
-                      Navigator.of(context).pop();
-                      widget.onRequestRemoved();
-                    },
-                  );
-                },
-              );
+              _showSuccessSnackbar('Request removed successfully');
             } catch (e) {
-              showDialog(
-                context: parentContext,
-                builder: (BuildContext context) {
-                  return AlertBox(
-                    title: 'Error:',
-                    content: 'Failed to remove request',
-                    approveText: 'OK',
-                    icon: Icons.error_outline_rounded,
-                    iconColor: Colors.red,
-                    onApprove: () {
-                      Navigator.of(context).pop();
-                    },
-                  );
-                },
-              );
+              _showErrorSnackbar('Failed to remove request');
+            } finally {
+              widget.onRequestRemoved();
             }
           },
         );
@@ -161,7 +189,7 @@ class _RequestCardState extends State<RequestCard> {
               width: 80.sp,
               height: 34.sp,
               decoration: BoxDecoration(
-                color:_containerColor,
+                color: _containerColor,
                 borderRadius: BorderRadius.circular(15.sp),
               ),
               child: Center(

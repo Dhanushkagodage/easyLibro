@@ -1,14 +1,13 @@
 import 'package:easylibro_app/Notifications/notification_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Login/auth_request.dart';
 import 'package:easylibro_app/Login/auth_service.dart';
-import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/widgets/wave_clipper.dart';
 import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/link.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
   final NotificationService notificationService = NotificationService();
-  //final UserService _userService = UserService();
+  String? firebasetoken;
 
   final String url = 'https://easylibro.online/LogIN/ForgetPassword';
 
@@ -49,16 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = _passwordController.text;
 
     if (userName.isEmpty || password.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertBox(
-          content: 'Please enter both username and password',
-          icon: Icons.error,
-          approveText: "ok",
-          iconColor: Colors.red,
-          onApprove: () {},
-        ),
-      );
+      _showErrorSnackbar("Please Enter Both Username and Password");
       return;
     }
 
@@ -77,77 +67,93 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.message == 'success') {
         try {
-          final SharedPreferences localStorage =
+          final firebaseToken = await FirebaseMessaging.instance.getToken();
+          SharedPreferences localStorage =
               await SharedPreferences.getInstance();
-          final token = localStorage.getString('token') ?? '';
-          //final user = localStorage.getString('userName');
+          await localStorage.setString('firebaseToken', firebaseToken!);
+          final firebasetoken = localStorage.getString('firebaseToken');
+          print('firebaseToken1:$firebasetoken');
+          print('firebaseToken2:$firebaseToken');
+          await notificationService.setToken(firebaseToken, userName);
 
-          //final UserDetails userDetails = await _userService.fetchUserDetails();
-
-          //await notificationService.setToken(token, userName);
-
-          //print('firebaseToken:${token}');
+          print('firebaseToken2:$firebaseToken');
         } catch (e) {
-          // print("Error in getting firebase token");
+          print("Error in getting firebase token");
         }
-        // print(response.accessToken);
+
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => LayoutScreen(
                     currentIndex: 2,
-                    // userDetails: userDetails,
                   )),
         );
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertBox(
-            content: "Login Successfully!",
-            icon: Icons.check_circle,
-            approveText: "ok",
-            iconColor: Colors.green,
-            onApprove: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        );
-        final SharedPreferences sharedPreferences =
+        _showSuccessSnackbar('Login Successfully!');
+        final SharedPreferences localStorage =
             await SharedPreferences.getInstance();
-        sharedPreferences.setString('userName', userName);
+        localStorage.setString('userName', userName);
       } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertBox(
-            content: "Login Failed!",
-            icon: Icons.error,
-            approveText: "ok",
-            iconColor: Colors.red,
-            onApprove: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        );
+        _showErrorSnackbar('Invalid username or password');
       }
     } catch (e) {
-      //print(e);
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertBox(
-          title: "Login Failed!",
-          content: "Please check your username and password.",
-          icon: Icons.error,
-          approveText: "ok",
-          iconColor: Colors.red,
-          onApprove: () {
-            Navigator.of(context).reassemble();
-          },
-        ),
-      );
+      _showErrorSnackbar('Login failed!');
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
+  }
+
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Text(
+              message,
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  void _showSuccessSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.check_circle_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Text(
+              message,
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 
   @override
@@ -161,8 +167,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ClipPath(
                 clipper: WaveClipper(),
                 child: Container(
-                  color: Color.fromRGBO(13, 64, 101, 1),
-                  height: 270.h,
+                 color: Colors.blue,
+                  height: 290.h,
                 ),
               ),
             ),
@@ -170,16 +176,16 @@ class _LoginScreenState extends State<LoginScreen> {
               clipper: WaveClipper(),
               child: Container(
                 color: const Color(0xFF0D4065),
-                height: 262.h,
+                height: 282.h,
                 child: Center(
                     child: Image.asset(
-                  "assets/librarylogoRW.png",
-                  scale: 20.sp,
+                  "assets/logo.png",
+                  scale: 14.sp,
                 )),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 230.h, left: 28.w, right: 28.w),
+              padding: EdgeInsets.only(top: 260.h, left: 28.w, right: 28.w),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +265,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                             },
-                           
                           ),
                         ),
                         SizedBox(
@@ -290,24 +295,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(height: 10.h),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     Text(
-                        //       "Don't have an account?",
-                        //       style: TextStyle(
-                        //           fontWeight: FontWeight.bold,
-                        //           color: Colors.grey),
-                        //     ),
-                        //     Text(
-                        //       "Sign up",
-                        //       style: TextStyle(
-                        //           fontWeight: FontWeight.bold,
-                        //           fontSize: 15.sp,
-                        //           color: Colors.black),
-                        //     ),
-                        //   ],
-                        // )
                       ],
                     ),
                   ],

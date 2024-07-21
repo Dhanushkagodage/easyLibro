@@ -5,12 +5,11 @@ class MyResources {
   List<Resource> allResources = [];
   final ResourceService _resourceService = ResourceService();
 
-   Future<void> fetchResources(
-      String keyword, String tag, String type) async {
+  Future<void> fetchResources(String keyword, String tag, String type) async {
     allResources = await _resourceService.fetchResources(keyword, tag, type);
   }
- 
-   List<Resource> getAllResourcesByCategory(String category) {
+
+  List<Resource> getAllResourcesByCategory(String category) {
     if (category == "All") {
       return allResources;
     } else if (category == "Ebook") {
@@ -25,7 +24,7 @@ class MyResources {
     return [];
   }
 
-   List<Resource> getLatestResources(String category) {
+  List<Resource> getLatestResources(String category) {
     if (category == "All") {
       List<Resource> filteredResources = allResources;
       filteredResources.sort((a, b) => b.dateadded.compareTo(a.dateadded));
@@ -40,14 +39,13 @@ class MyResources {
     }
   }
 
-   List<Resource> getPopularResources(String category) {
+  List<Resource> getPopularResources(String category) {
     if (category == "All") {
-      return allResources
-          .where((resource) => resource.noOfRes > 0)
-          .toList();
+      return allResources.where((resource) => resource.noOfRes > 0).toList();
     } else {
       return allResources
-          .where((resource) => resource.type == category && resource.noOfRes > 0)
+          .where(
+              (resource) => resource.type == category && resource.noOfRes > 0)
           .toList();
     }
   }

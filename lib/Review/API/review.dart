@@ -1,6 +1,6 @@
 import 'package:easylibro_app/Review/API/review_service.dart';
 
-class Review{
+class Review {
   final int id;
   final String isbn;
   final String description;
@@ -9,7 +9,7 @@ class Review{
   final String userId;
   final String imageUrl;
 
-   Review({
+  Review({
     required this.id,
     required this.isbn,
     required this.description,
@@ -32,7 +32,27 @@ class Review{
   }
 }
 
-class MyReviews{
+class AddReview {
+  final String description;
+  final String isbn;
+  final int stars;
+
+  AddReview({
+    required this.description,
+    required this.isbn,
+    required this.stars,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'description': description,
+      'isbn': isbn,
+      'stars': stars,
+    };
+  }
+}
+
+class MyReviews {
   List<Review> allReviews = [];
   ReviewService reviewService = ReviewService();
 
@@ -45,11 +65,12 @@ class MyReviews{
     for (int i = 0; i < allReviews.length; i++) {
       rating += allReviews[i].stars;
     }
-    
-    return rating = rating / allReviews.length;
+
+    rating = rating / allReviews.length;
+    return double.parse(rating.toStringAsFixed(1));
   }
-  
-  Future<void>fetchReviews(String isbn) async {
+
+  Future<void> fetchReviews(String isbn) async {
     allReviews = await reviewService.fetchReviews(isbn);
   }
 }

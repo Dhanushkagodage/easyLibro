@@ -25,7 +25,7 @@ class ResourceService {
         throw Exception('Failed to load resources');
       }
     } catch (e) {
-     // print('Error fetching resources: $e');
+      // print('Error fetching resources: $e');
       throw Exception('Failed to load resources: $e');
     }
   }
@@ -48,7 +48,6 @@ class ResourceService {
             'Failed to load resource details. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      //print('Error fetching resource details: $e');
       throw Exception('Failed to load resource details: $e');
     }
   }

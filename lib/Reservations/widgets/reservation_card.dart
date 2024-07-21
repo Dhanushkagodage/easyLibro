@@ -27,12 +27,12 @@ class _ReservationCardState extends State<ReservationCard> {
 
   Future<void> _fetchReservationDetails() async {
     try {
-      final reservationDetails = await _reservationService.fetchReservationDetails(widget.reservation.reservationNo);
+      final reservationDetails = await _reservationService
+          .fetchReservationDetails(widget.reservation.reservationNo);
       setState(() {
         _reservationDetails = reservationDetails;
       });
     } catch (e) {
-      // Handle the error properly here
       print('Failed to load reservation details: $e');
     }
   }
@@ -52,9 +52,7 @@ class _ReservationCardState extends State<ReservationCard> {
               blurRadius: 3,
             ),
           ],
-          border: Border.all(
-            color: Colors.grey, width: 1.sp
-          ),
+          border: Border.all(color: Colors.grey, width: 1.sp),
         ),
         child: Column(
           children: [
@@ -147,7 +145,6 @@ class _ReservationCardState extends State<ReservationCard> {
                           ),
                         )
                       ]),
-                      
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -160,7 +157,9 @@ class _ReservationCardState extends State<ReservationCard> {
                             width: 70.w,
                             height: 25.h,
                             decoration: BoxDecoration(
-                              color: _isExpanded ? Color.fromARGB(157, 8, 12, 39) : Color(0xFF080C27),
+                              color: _isExpanded
+                                  ? Color.fromARGB(157, 8, 12, 39)
+                                  : Color(0xFF080C27),
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Center(
@@ -182,7 +181,9 @@ class _ReservationCardState extends State<ReservationCard> {
               ),
             ),
             if (_isExpanded && _reservationDetails != null)
-              ReservationdetailBox(reservationDetails: _reservationDetails!),  // Pass the state variable
+              ReservationdetailBox(
+                  reservationDetails:
+                      _reservationDetails!),
           ],
         ),
       ),

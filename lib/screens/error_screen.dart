@@ -13,7 +13,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
     return SingleChildScrollView(
       child: Center(
         child: Padding(
-          padding:  EdgeInsets.only(top:50),
+          padding: EdgeInsets.only(top: 50),
           child: Column(
             children: [
               Padding(

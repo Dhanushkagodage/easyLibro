@@ -10,16 +10,14 @@ class MyLoadingIndicator extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(0, 255, 255, 255),
       body: Padding(
-        padding:  EdgeInsets.only(bottom: 40.h),
+        padding: EdgeInsets.only(bottom: 40.h),
         child: Center(
-          child: LoadingAnimationWidget.discreteCircle(
-            
-            color: Color.fromARGB(187, 8, 12, 39),
-            secondRingColor: Color.fromARGB(255, 1, 42, 71),
-            thirdRingColor: Color.fromARGB(255, 131, 179, 252),
-            size: 40.sp,
-          )
-        ),
+            child: LoadingAnimationWidget.discreteCircle(
+          color: Color.fromARGB(187, 8, 12, 39),
+          secondRingColor: Color.fromARGB(255, 1, 42, 71),
+          thirdRingColor: Color.fromARGB(255, 131, 179, 252),
+          size: 40.sp,
+        )),
       ),
     );
   }

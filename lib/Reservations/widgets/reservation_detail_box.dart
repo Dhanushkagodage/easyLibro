@@ -38,14 +38,17 @@ class _ReservationdetailBoxState extends State<ReservationdetailBox> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildText('Reservation ID: ', widget.reservationDetails.resId.toString()),
+                buildText('Reservation ID: ',
+                    widget.reservationDetails.resId.toString()),
                 buildText('Resource ID: ', widget.reservationDetails.isbn),
                 buildText('Book Title: ', widget.reservationDetails.bookTitle),
                 buildText('Issue Date: ', widget.reservationDetails.dateIssue),
                 buildText('Borrow Date: ', widget.reservationDetails.dateIssue),
                 buildText('Due Date: ', widget.reservationDetails.dueDate),
-                buildText('Return Date: ', widget.reservationDetails.returnDate),
-                buildText('Penalty Status: ', widget.reservationDetails.penalty.toString()),
+                buildText(
+                    'Return Date: ', widget.reservationDetails.returnDate),
+                buildText('Penalty Status: ',
+                    widget.reservationDetails.penalty.toString()),
               ],
             ),
           ),

@@ -26,36 +26,40 @@ class _DetailContainerState extends State<DetailContainer> {
       decoration: BoxDecoration(
           color: Color(0xFFB5D2FF), borderRadius: BorderRadius.circular(10)),
       child: Padding(
-        padding:  EdgeInsets.all(5.sp),
+        padding: EdgeInsets.all(5.sp),
         child: Row(
           children: [
             Container(
-              width: 30.w,
-              height: 30.h,
+              width: 30.sp,
+              height: 30.sp,
               decoration: BoxDecoration(
                   color: Color(0xFFF7F8FD),
-                  borderRadius: BorderRadius.circular(15),
+                  shape: BoxShape.circle,
                   border: Border.all(
-                      color: Color.fromARGB(255, 131, 179, 252), width: 2.w)),
-              child: Icon(widget.icon,color: Color(0xFF080C27),size: 20.sp ,),
+                      color: Color.fromARGB(255, 131, 179, 252), width: 2.sp)),
+              child: Icon(
+                widget.icon,
+                color: Color(0xFF080C27),
+                size: 20.sp,
+              ),
             ),
             Padding(
-              padding:  EdgeInsets.only(left: 4.sp),
-              child:  Container(
+              padding: EdgeInsets.only(left: 4.sp),
+              child: Container(
                 width: 72.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text( widget.label,
+                    Text(widget.label,
                         style: TextStyle(
                             fontFamily: "Inter",
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w900,
                             color: Color(0xFF0D4065))),
                     Padding(
-                      padding:  EdgeInsets.only(left: 15.w),
-                      child: Text( widget.value,
-                      overflow: TextOverflow.ellipsis,
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Text(widget.value,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: "Inter",
                               fontSize: 15.sp,

@@ -3,7 +3,6 @@ import 'package:easylibro_app/Resources/API/resource_service.dart';
 import 'package:easylibro_app/Resources/Screens/about_screen.dart';
 import 'package:easylibro_app/Resources/API/Models/resource.dart';
 import 'package:easylibro_app/Review/API/review.dart';
-import 'package:easylibro_app/User/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +10,8 @@ class ResourceCard extends StatefulWidget {
   final Future<double> Function() fetchRating;
   final Resource resource;
 
-  const ResourceCard({super.key, required this.resource, required this.fetchRating});
+  const ResourceCard(
+      {super.key, required this.resource, required this.fetchRating});
 
   @override
   State<ResourceCard> createState() => _ResourceCardState();
@@ -19,7 +19,7 @@ class ResourceCard extends StatefulWidget {
 
 class _ResourceCardState extends State<ResourceCard> {
   final ResourceService _resourceService = ResourceService();
-  final UserService _userService = UserService();
+
   final MyRequests myRequest = MyRequests();
   List<Review> allReviews = [];
   MyReviews myReviews = MyReviews();
@@ -43,7 +43,7 @@ class _ResourceCardState extends State<ResourceCard> {
         isLoading = false;
       });
     } catch (e) {
-      print("Failed to fetch reviews: $e");
+      //print("Failed to fetch reviews: $e");
     }
   }
 
@@ -120,22 +120,21 @@ class _ResourceCardState extends State<ResourceCard> {
                   padding: EdgeInsets.all(5.sp),
                   child: Row(
                     children: [
-                      isLoading ? SizedBox(
-                        height: 15.sp,
-                        width: 15.sp,
-                        child: CircularProgressIndicator(
-                          color: Color.fromARGB(168, 255, 255, 255) ,
-                          strokeWidth: 2.sp,
-                        )) :
-                    Text(
-                              '$rating/5',
+                      isLoading
+                          ? SizedBox(
+                              height: 15.sp,
+                              width: 15.sp,
+                              child: CircularProgressIndicator(
+                                color: Color.fromARGB(168, 255, 255, 255),
+                                strokeWidth: 2.sp,
+                              ))
+                          : Text('$rating/5',
                               style: TextStyle(
                                 fontFamily: "Inter",
                                 fontSize: 10.sp,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                              )
-                      ),
+                              )),
                       Icon(
                         Icons.star,
                         color: Colors.yellow,
@@ -173,27 +172,19 @@ class _ResourceCardState extends State<ResourceCard> {
                       try {
                         final resourceDetails = await _resourceService
                             .fetchResourceDetails(widget.resource.isbn);
-                        final userDetails =
-                            await _userService.fetchUserDetails();
 
-                        final requests = await myRequest.fetchRequests();
-                        print(requests.length);
                         if (!mounted) return;
                         Navigator.push(
-                          // ignore: use_build_context_synchronously
                           context,
                           MaterialPageRoute(
                             builder: (context) => AboutScreen(
-                                resourceDetails: resourceDetails,
-                                userDetails: userDetails,
-                                requestCount: requests.length),
+                              resourceDetails: resourceDetails,
+                            ),
                           ),
                         );
-                        // ignore: avoid_print
+
                         print(widget.resource.isbn);
                       } catch (e) {
-                        // Handle any errors here
-                        // ignore: avoid_print
                         print("Failed to fetch resource details: $e");
                       }
                     },

@@ -8,14 +8,13 @@ class DashboardService {
       final response = await apiService.dio.post(
         'Dashboard/getDashboradData',
       );
-     // print(response.data);
+      // print(response.data);
       if (response.statusCode == 200) {
         return response.data;
       } else {
         throw Exception('Failed to load dashboard data');
       }
     } catch (e) {
-     // print('Error fetching dashboard data: $e');
       throw Exception('Failed to load dashboard data: $e');
     }
   }

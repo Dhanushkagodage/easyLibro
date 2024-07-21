@@ -1,9 +1,9 @@
 import 'package:easylibro_app/Requests/Api/my_requests.dart';
 import 'package:easylibro_app/Requests/Api/request.dart';
 import 'package:easylibro_app/Requests/widgets/request_card.dart';
-import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/screens/error_screen.dart';
 import 'package:easylibro_app/widgets/loading_indictor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -28,6 +28,35 @@ class _RequestScreenState extends State<RequestScreen> {
     widget.fetchunreadcount();
   }
 
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Text(
+                message,
+                style: TextStyle(
+                  fontFamily: "Inter",
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   Future<void> _fetchRequests() async {
     setState(() {
       isLoading = true;
@@ -44,17 +73,7 @@ class _RequestScreenState extends State<RequestScreen> {
       setState(() {
         hasError = true;
       });
-      showDialog(
-          context: context,
-          builder: (context) => AlertBox(
-                content: "Failed to load resources",
-                approveText: "OK",
-                icon: Icons.error,
-                iconColor: Colors.red,
-                onApprove: () {
-                  Navigator.of(context).pop();
-                },
-              ));
+      _showErrorSnackbar('Failed to Load requests');
     } finally {
       setState(() {
         isLoading = false;
@@ -90,7 +109,36 @@ class _RequestScreenState extends State<RequestScreen> {
                       : Expanded(
                           child: Padding(
                             padding: EdgeInsets.only(top: 10.sp),
-                            child: _buildRequests(),
+                            child: requests.isEmpty
+                                ? Center(
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            CupertinoIcons.tray,
+                                            size: 50.sp,
+                                            color: Color.fromARGB(
+                                                255, 175, 175, 175),
+                                          ),
+                                          Text(
+                                            'No Requests',
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontFamily: 'Inter',
+                                              color: Color.fromARGB(
+                                                  255, 175, 175, 175),
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : _buildRequests(),
                           ),
                         ),
             ],
