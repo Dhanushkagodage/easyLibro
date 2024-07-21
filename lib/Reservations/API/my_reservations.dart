@@ -8,12 +8,11 @@ class MyReservations {
   Future<void> fetchReservations(String keyword, String type) async {
     allReservations =
         await _reservationService.fetchReservations(keyword, type);
-        allReservations.sort((a, b) => b.issueDate.compareTo(a.issueDate));
+    allReservations.sort((a, b) => b.issueDate.compareTo(a.issueDate));
   }
 
   List<Reservation> getAll(String category) {
     if (category == "All") {
-
       return allReservations;
     }
     return [];
@@ -21,21 +20,27 @@ class MyReservations {
 
   List<Reservation> getDue(String category) {
     if (category == "All") {
-      return allReservations.where((reservation) => reservation.status == "overdue").toList();
+      return allReservations
+          .where((reservation) => reservation.status == "overdue")
+          .toList();
     }
     return [];
   }
 
   List<Reservation> getBorrowed(String category) {
     if (category == "All") {
-      return allReservations.where((reservation) => reservation.status == "borrowed").toList();
+      return allReservations
+          .where((reservation) => reservation.status == "borrowed")
+          .toList();
     }
     return [];
   }
 
   List<Reservation> getReceived(String category) {
     if (category == "All") {
-      return allReservations.where((element) => element.status == "received").toList();
+      return allReservations
+          .where((element) => element.status == "received")
+          .toList();
     }
     return [];
   }

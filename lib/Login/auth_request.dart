@@ -31,5 +31,4 @@ class AuthResponse {
       'message': message,
     };
   }
-  
 }

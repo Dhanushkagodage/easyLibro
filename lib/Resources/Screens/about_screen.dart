@@ -1,4 +1,7 @@
+import 'package:easylibro_app/Requests/Api/my_requests.dart';
 import 'package:easylibro_app/Resources/Widgets/textdetail_container.dart';
+import 'package:easylibro_app/User/user_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easylibro_app/Requests/Api/request_services.dart';
@@ -6,7 +9,6 @@ import 'package:easylibro_app/Review/API/review.dart';
 import 'package:easylibro_app/Review/API/review_service.dart';
 import 'package:easylibro_app/Review/review_card.dart';
 import 'package:easylibro_app/User/userdetails.dart';
-import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/Resources/Widgets/detailcontaier.dart';
 import 'package:easylibro_app/Resources/API/Models/resource_details.dart';
@@ -15,14 +17,10 @@ import 'package:easylibro_app/widgets/wave_clipper.dart';
 
 class AboutScreen extends StatefulWidget {
   final ResourceDetails resourceDetails;
-  final UserDetails userDetails;
-  final int requestCount;
 
   const AboutScreen({
     super.key,
     required this.resourceDetails,
-    required this.userDetails,
-    required this.requestCount,
   });
 
   @override
@@ -30,13 +28,18 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
+  final UserService _userService = UserService();
+  final MyRequests myRequest = MyRequests();
   RequestService requestService = RequestService();
   ReviewService reviewService = ReviewService();
   TextEditingController reviewcontroller = TextEditingController();
   FocusNode textFieldFocusNode = FocusNode();
   int _rating = 0;
+  UserDetails? userDetails;
+  int requestCount = 0;
   bool isloading = false;
   List<Review> allReviews = [];
+  List<String> isbnList = [];
 
   Color _requestButtonColor = const Color(0xFF0D4065);
   Color _submitButtonColor = const Color(0xFF0D4065);
@@ -82,8 +85,16 @@ class _AboutScreenState extends State<AboutScreen> {
   Future<void> fetchReviews(String isbn) async {
     try {
       List<Review> reviews = await reviewService.fetchReviews(isbn);
+      final requests = await myRequest.fetchRequests();
+      final userDetails = await _userService.fetchUserDetails();
+      List<String> isbnList = myRequest.getIsbnList();
+      //print(userDetails.status);
+      //print(isbnList.contains("9780307455192"));
       setState(() {
         allReviews = reviews;
+        requestCount = requests.length;
+        this.isbnList = isbnList;
+        this.userDetails = userDetails;
       });
     } catch (e) {
       print(e);
@@ -127,10 +138,12 @@ class _AboutScreenState extends State<AboutScreen> {
 
   void _handleRequestError(BuildContext context, dynamic error) {
     String message;
-    if (widget.userDetails.status == "Loan") {
+    if (userDetails != null && userDetails!.status == "Loan") {
       message = "You are in a Loan";
-    } else if (widget.requestCount == 3) {
+    } else if (requestCount == 3) {
       message = "You have reached the maximum limit of requests";
+    } else if (isbnList.contains(widget.resourceDetails.isbn)) {
+      message = "You have already requested this resource";
     } else {
       message = "An error occurred while sending the request";
     }
@@ -147,13 +160,16 @@ class _AboutScreenState extends State<AboutScreen> {
               color: Colors.white,
             ),
             SizedBox(width: 10.w),
-            Text(
-              message,
-              style: TextStyle(
-                fontFamily: "Inter",
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+            Flexible(
+              fit: FlexFit.loose,
+              child: Text(
+                message,
+                style: TextStyle(
+                  fontFamily: "Inter",
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -625,9 +641,6 @@ class _AboutScreenState extends State<AboutScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // submitReview(_reviewcontroller.text,
-                            //     widget.resourceDetails.isbn, _rating);
-                            // fetchReviews(widget.resourceDetails.isbn);
                             _onSubmitReviewTap();
                           },
                           child: Container(
@@ -672,23 +685,27 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget _buildReviews() {
     if (allReviews.isEmpty) {
       return Center(
-        child: Column(
-          children: [
-            Icon(
-              Icons.inbox_outlined,
-              color: Color(0xFF6A6A6A),
-              size: 50.sp,
-            ),
-            Text(
-              "No Reviews",
-              style: TextStyle(
-                fontFamily: "Inter",
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w300,
-                color: Color(0xFF6A6A6A),
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                CupertinoIcons.tray,
+                size: 50.sp,
+                color: Color.fromARGB(255, 175, 175, 175),
               ),
-            ),
-          ],
+              Text(
+                'No Requests',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontFamily: 'Inter',
+                  color: Color.fromARGB(255, 175, 175, 175),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
         ),
       );
     } else {

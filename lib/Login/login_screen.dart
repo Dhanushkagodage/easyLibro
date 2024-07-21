@@ -1,4 +1,5 @@
 import 'package:easylibro_app/Notifications/notification_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Login/auth_request.dart';
 import 'package:easylibro_app/Login/auth_service.dart';
@@ -7,7 +8,6 @@ import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/link.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
   final NotificationService notificationService = NotificationService();
-  //final UserService _userService = UserService();
+  String? firebasetoken;
 
   final String url = 'https://easylibro.online/LogIN/ForgetPassword';
 
@@ -67,32 +67,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.message == 'success') {
         try {
-          final SharedPreferences localStorage =
+          final firebaseToken = await FirebaseMessaging.instance.getToken();
+          SharedPreferences localStorage =
               await SharedPreferences.getInstance();
-          final token = localStorage.getString('token') ?? '';
-          //final user = localStorage.getString('userName');
+          await localStorage.setString('firebaseToken', firebaseToken!);
+          final firebasetoken = localStorage.getString('firebaseToken');
+          print('firebaseToken1:$firebasetoken');
+          print('firebaseToken2:$firebaseToken');
+          await notificationService.setToken(firebaseToken, userName);
 
-          //final UserDetails userDetails = await _userService.fetchUserDetails();
-
-          //await notificationService.setToken(token, userName);
-
-          //print('firebaseToken:${token}');
+          print('firebaseToken2:$firebaseToken');
         } catch (e) {
-          // print("Error in getting firebase token");
+          print("Error in getting firebase token");
         }
-        // print(response.accessToken);
+
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => LayoutScreen(
                     currentIndex: 2,
-                    // userDetails: userDetails,
                   )),
         );
         _showSuccessSnackbar('Login Successfully!');
-        final SharedPreferences sharedPreferences =
+        final SharedPreferences localStorage =
             await SharedPreferences.getInstance();
-        sharedPreferences.setString('userName', userName);
+        localStorage.setString('userName', userName);
       } else {
         _showErrorSnackbar('Invalid username or password');
       }
@@ -168,8 +167,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ClipPath(
                 clipper: WaveClipper(),
                 child: Container(
-                  color: Color.fromRGBO(13, 64, 101, 1),
-                  height: 270.h,
+                 color: Colors.blue,
+                  height: 290.h,
                 ),
               ),
             ),
@@ -177,16 +176,16 @@ class _LoginScreenState extends State<LoginScreen> {
               clipper: WaveClipper(),
               child: Container(
                 color: const Color(0xFF0D4065),
-                height: 262.h,
+                height: 282.h,
                 child: Center(
                     child: Image.asset(
-                  "assets/librarylogoRW.png",
-                  scale: 20.sp,
+                  "assets/logo.png",
+                  scale: 14.sp,
                 )),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 230.h, left: 28.w, right: 28.w),
+              padding: EdgeInsets.only(top: 260.h, left: 28.w, right: 28.w),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,7 +265,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                             },
-                           
                           ),
                         ),
                         SizedBox(

@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _getValidationData().whenComplete(() async {
-      Timer(const Duration(seconds: 3), () {
+      Timer(const Duration(seconds: 10), () {
         if (finalUserName == null) {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const LoginScreen()));
@@ -33,12 +33,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _getValidationData() async {
     final SharedPreferences localStorage =
         await SharedPreferences.getInstance();
-    // await localStorage.clear();
     final obtainedUserName = localStorage.getString('userName');
     final accessToken = localStorage.getString('accessToken');
-    // ignore: avoid_print
-    print(accessToken);
-    //print(obtainedUserName);
+
+    print("accessToken:$accessToken");
+    print("username:$obtainedUserName");
     setState(() {
       finalUserName = obtainedUserName;
     });
@@ -59,7 +58,8 @@ class _SplashScreenState extends State<SplashScreen> {
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 13,
-                color: Color.fromARGB(255, 4, 206, 246),
+               // color: Color.fromARGB(255, 4, 206, 246),
+               color: Colors.blue,
                 fontFamily: "Inter",
                 fontWeight: FontWeight.w500)),
       ),

@@ -6,7 +6,7 @@ class TokenRequest {
 
   factory TokenRequest.fromJson(Map<String, dynamic> json) {
     return TokenRequest(
-      token: json['token'] ,
+      token: json['token'],
       userName: json['userName'],
     );
   }

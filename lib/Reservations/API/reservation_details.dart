@@ -1,10 +1,9 @@
 class Reservationdetails {
-
   final int resId;
   final String isbn;
   final String bookTitle;
   final String userName;
-  final String dateIssue; 
+  final String dateIssue;
   final String dueDate;
   final String issuer;
   final String returnDate;

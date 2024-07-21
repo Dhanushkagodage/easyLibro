@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:easylibro_app/Login/login_screen.dart';
+import 'package:easylibro_app/Notifications/notification_service.dart';
 import 'package:easylibro_app/User/setting_page.dart';
 import 'package:easylibro_app/User/user_service.dart';
 import 'package:easylibro_app/User/userdetails.dart';
+import 'package:easylibro_app/screens/error_screen.dart';
 import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/widgets/loading_indictor.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
@@ -29,8 +32,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
   UserService userService = UserService();
   UserDetails? userDetails;
   File? _imageFile;
+  bool hasError = false;
   final _picker = ImagePicker();
   String imageURL = '';
+  NotificationService notificationService = NotificationService();
+  String userName = '';
+  String firebaseToken = '';
+  bool isloading = false;
 
   @override
   void initState() {
@@ -51,12 +59,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
         _phoneController.text = user.phone;
       });
     } catch (e) {
-      print('Error fetching user details: $e');
+      setState(() {
+        hasError = true;
+      });
+      _showErrorSnackbar("Error fetching user details");
     }
   }
 
   Future<void> editUserDetails() async {
     try {
+      setState(() {
+        isloading = true;
+      });
       bool success = await userService.editUserDetails(
         _fNameController.text,
         _lNameController.text,
@@ -67,8 +81,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
       );
       if (success) {
         fetchUserDetails();
+        setState(() {
+          isloading = false;
+        });
         _showSuccessSnackbar("User details updated successfully");
       } else {
+        setState(() {
+          isloading = false;
+        });
         _showErrorSnackbar("Failed to update user details");
       }
     } catch (e) {
@@ -83,7 +103,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (image != null) {
       setState(() {
         _imageFile = File(image.path);
-      }); 
+      });
       await uploadImageToCloudinary(_imageFile!);
     }
   }
@@ -102,20 +122,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
       print('Error uploading image: $e');
     }
   }
+
   Future<void> editUserImage() async {
-  try {
-    //print('Image URL: $imageURL');
-    bool result = await userService.editUserImage(imageURL);
-    //print('Image upload result: $result');
-    if (result) {
-      fetchUserDetails();
-    } else {
-      _showErrorSnackbar("Image upload failed");
+    try {
+      //print('Image URL: $imageURL');
+      bool result = await userService.editUserImage(imageURL);
+      //print('Image upload result: $result');
+      if (result) {
+        fetchUserDetails();
+      } else {
+        _showErrorSnackbar("Image upload failed");
+      }
+    } catch (e) {
+      // _showErrorSnackbar("Error uploading image");
     }
-  } catch (e) {
-    _showErrorSnackbar("Error uploading image");
   }
-}
 
   void resetFields() {
     setState(() {
@@ -130,6 +151,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       }
     });
   }
+
   void _showErrorSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -185,237 +207,245 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: const Color(0xFF0D4065),
-              elevation: 1,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              actions: [
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.settings, color: Colors.white),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => SettingsPage(),
-                          ),
-                        );
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.logout_outlined,
-                          color: Colors.white),
-                      onPressed: () async {
-                        showDialog(
+        child: Stack(children: [
+      Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color(0xFF0D4065),
+            elevation: 1,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            actions: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.settings, color: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => SettingsPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon:
+                        const Icon(Icons.logout_outlined, color: Colors.white),
+                    onPressed: () async {
+                      showDialog(
                           context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text("Logout!"),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text("Are you sure you want to logout?"),
-                                SizedBox(height: 10.h),
-                                Icon(Icons.warning_rounded,
-                                    color: Colors.red, size: 60.sp),
-                              ],
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text("Cancel"),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  final SharedPreferences sharedPreferences =
+                          builder: (BuildContext context) {
+                            return AlertBox(
+                                title: "Logout!",
+                                content: "Are you sure you want to logout?",
+                                approveText: "Yes, Logout",
+                                cancelText: "Cancel",
+                                icon: Icons.warning_rounded,
+                                iconColor: Colors.red,
+                                onApprove: () async {
+                                  final SharedPreferences localStorage =
                                       await SharedPreferences.getInstance();
-                                  sharedPreferences.clear();
+                                  final firebaseToken =
+                                      localStorage.getString('firebaseToken');
+                                  final userName =
+                                      localStorage.getString('userName');
+                                  localStorage.clear();
+                                  await notificationService.removeToken(
+                                      firebaseToken!, userName!);
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             const LoginScreen()),
                                   );
-                                  _showSuccessSnackbar("Logged out successfully");
+                                  _showSuccessSnackbar(
+                                      "Logged out successfully");
                                 },
-                                child: const Text("Yes, Logout"),
-                              ),
-                            ],
+                                onCancel: () {
+                                  Navigator.of(context).pop();
+                                });
+                          });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          body: userDetails == null
+              ? Center(child: MyLoadingIndicator())
+              : hasError
+                  ? Expanded(
+                      child: ErrorScreen(),
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF7F8FD),
+                      ),
+                      child: ListView(children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.w, right: 20.w),
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 30.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 20.h, bottom: 20.h),
+                                  child: Text(
+                                    'Edit Profile:',
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontFamily: 'Inter',
+                                      color: Color(0xFF080C27),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        width: 120.sp,
+                                        height: 120.sp,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 2.sp,
+                                            color: Theme.of(context)
+                                                .scaffoldBackgroundColor,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              spreadRadius: 2,
+                                              blurRadius: 5.sp,
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
+                                              offset: const Offset(0, 5),
+                                            ),
+                                          ],
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: _imageFile != null
+                                                ? FileImage(_imageFile!)
+                                                : NetworkImage(
+                                                    userDetails!.image),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        right: 0,
+                                        child: GestureDetector(
+                                          onTap: selectImage,
+                                          child: Container(
+                                            height: 40.h,
+                                            width: 40.w,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                width: 4,
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor,
+                                              ),
+                                              color: const Color(0xFF0D4065),
+                                            ),
+                                            child: const Icon(
+                                              Icons.edit,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            body: userDetails == null
-                ? Center(child: MyLoadingIndicator())
-                : Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF7F8FD),
-                    ),
-                    child: ListView(children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 30.h),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
+                        SizedBox(height: 35.h),
+                        Padding(
+                            padding: EdgeInsets.only(left: 30.w, right: 30.w),
+                            child: Container(
+                                child: Column(children: [
+                              _buildTextField("First Name", _fNameController,
+                                  userDetails!.fName, Icons.person),
+                              _buildTextField("Last Name", _lNameController,
+                                  userDetails!.lName, Icons.person),
+                              _buildTextField("Gender", _genderController,
+                                  userDetails!.gender, Icons.person),
+                              _buildTextField("Date of Birth", _dobController,
+                                  userDetails!.dob, Icons.person,
+                                  isDobField: true),
+                              _buildTextField("Address", _addressController,
+                                  userDetails!.address, Icons.home),
+                              _buildTextField("Mobile", _phoneController,
+                                  userDetails!.phone, Icons.call),
+                            ]))),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 10.h, bottom: 20.h, left: 20.w, right: 20.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: 20.h, bottom: 20.h),
-                                child: Text(
-                                  'Edit Profile:',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontFamily: 'Inter',
-                                    color: Color(0xFF080C27),
-                                    fontWeight: FontWeight.w600,
+                              GestureDetector(
+                                onTap: resetFields,
+                                child: Container(
+                                  width: 170.sp,
+                                  height: 50.sp,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 205, 205, 205),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text("Reset",
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        )),
                                   ),
                                 ),
                               ),
-                              Center(
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      width: 120.sp,
-                                      height: 120.sp,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 2.sp,
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            spreadRadius: 2,
-                                            blurRadius: 5.sp,
-                                            color:
-                                                Colors.black.withOpacity(0.2),
-                                            offset: const Offset(0, 5),
-                                          ),
-                                        ],
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: _imageFile != null
-                                              ? FileImage(_imageFile!)
-                                              : NetworkImage(
-                                                  userDetails!.image),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      bottom: 0,
-                                      right: 0,
-                                      child: GestureDetector(
-                                        onTap: selectImage,
-                                        child: Container(
-                                          height: 40.h,
-                                          width: 40.w,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              width: 4,
-                                              color: Theme.of(context)
-                                                  .scaffoldBackgroundColor,
-                                            ),
-                                            color: const Color(0xFF0D4065),
-                                          ),
-                                          child: const Icon(
-                                            Icons.edit,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                              GestureDetector(
+                                onTap: () {
+                                  editUserDetails();
+                                  //uploadImageToCloudinary(_imageFile!);
+                                  editUserImage();
+                                },
+                                child: Container(
+                                  width: 170.sp,
+                                  height: 50.sp,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF0D4065),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text("Save",
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color.fromARGB(
+                                              255, 255, 255, 255),
+                                        )),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      SizedBox(height: 35.h),
-                      Padding(
-                          padding: EdgeInsets.only(left: 30.w, right: 30.w),
-                          child: Container(
-                              child: Column(children: [
-                            _buildTextField("First Name", _fNameController,
-                                userDetails!.fName, Icons.person),
-                            _buildTextField("Last Name", _lNameController,
-                                userDetails!.lName, Icons.person),
-                            _buildTextField("Gender", _genderController,
-                                userDetails!.gender, Icons.person),
-                            _buildTextField("Date of Birth", _dobController,
-                                userDetails!.dob, Icons.person,
-                                isDobField: true),
-                            _buildTextField("Address", _addressController,
-                                userDetails!.address, Icons.home),
-                            _buildTextField("Mobile", _phoneController,
-                                userDetails!.phone, Icons.call),
-                          ]))),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 10.h, bottom: 20.h, left: 20.w, right: 20.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            GestureDetector(
-                              onTap: resetFields,
-                              child: Container(
-                                width: 170.sp,
-                                height: 50.sp,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 205, 205, 205),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text("Reset",
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      )),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                editUserDetails();
-                                //uploadImageToCloudinary(_imageFile!);
-                                editUserImage();
-                              },
-                              child: Container(
-                                width: 170.sp,
-                                height: 50.sp,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF0D4065),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text("Save",
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: const Color.fromARGB(
-                                            255, 255, 255, 255),
-                                      )),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]))));
+                      ]))),
+      if (isloading)
+        Container(
+          color: Colors.black.withOpacity(0.5),
+          child: Center(
+            child: MyLoadingIndicator(),
+          ),
+        ),
+    ]));
   }
 
   Widget _buildTextField(

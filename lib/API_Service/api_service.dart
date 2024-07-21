@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,8 +21,8 @@ class ApiService {
   }
 
   Future<void> setAccessTokenFromLocalStorage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    accessToken = prefs.getString('accessToken') ?? '';
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    accessToken = localStorage.getString('accessToken') ?? '';
     _dio.options.headers['Authorization'] = 'Bearer $accessToken';
   }
 }

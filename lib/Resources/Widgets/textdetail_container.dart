@@ -5,9 +5,11 @@ class TextdetailContainer extends StatefulWidget {
   final String label;
   final String value;
 
-  const TextdetailContainer({super.key,
+  const TextdetailContainer({
+    super.key,
     required this.label,
-    required this.value,});
+    required this.value,
+  });
 
   @override
   State<TextdetailContainer> createState() => _TextdetailContainerState();
@@ -19,8 +21,7 @@ class _TextdetailContainerState extends State<TextdetailContainer> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("${widget.label} : ", 
-               
+        Text("${widget.label} : ",
             style: TextStyle(
                 fontFamily: "Inter",
                 fontSize: 14.sp,
@@ -28,13 +29,14 @@ class _TextdetailContainerState extends State<TextdetailContainer> {
                 color: Color(0xFF0D4065))),
         Flexible(
           fit: FlexFit.loose,
-          child: Text(widget.value,
-              
-              style: TextStyle(
-                  fontFamily: "Inter",
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xFF6A6A6A)),),
+          child: Text(
+            widget.value,
+            style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF6A6A6A)),
+          ),
         ),
       ],
     );

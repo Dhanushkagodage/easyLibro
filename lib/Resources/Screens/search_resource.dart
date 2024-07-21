@@ -1,5 +1,4 @@
 import 'package:easylibro_app/Review/API/review.dart';
-import 'package:easylibro_app/widgets/alert_box.dart';
 import 'package:easylibro_app/Resources/Widgets/search__bar.dart';
 import 'package:easylibro_app/screens/error_screen.dart';
 import 'package:easylibro_app/widgets/loading_indictor.dart';
@@ -27,9 +26,8 @@ class _SearchResourceState extends State<SearchResource> {
   String searchKeyword = "";
   String searchTag = "all";
   String searchType = "all";
-  final myResource =MyResources();
+  final myResource = MyResources();
   final myReviews = MyReviews();
-  
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -103,7 +101,7 @@ class _SearchResourceState extends State<SearchResource> {
         body: Column(
           children: [
             Padding(
-              padding:  EdgeInsets.all(20.sp),
+              padding: EdgeInsets.all(20.sp),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -120,7 +118,7 @@ class _SearchResourceState extends State<SearchResource> {
                     },
                   ),
                   Padding(
-                    padding:  EdgeInsets.only(left: 10.w),
+                    padding: EdgeInsets.only(left: 10.w),
                     child: Row(
                       children: [
                         Container(
@@ -207,7 +205,7 @@ class _SearchResourceState extends State<SearchResource> {
                                 child: Text("Journals"),
                               ),
                             ],
-                            child:  Icon(
+                            child: Icon(
                               Icons.tune_outlined,
                               color: Colors.white,
                               size: 20.sp,
@@ -221,7 +219,7 @@ class _SearchResourceState extends State<SearchResource> {
               ),
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 20.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -231,7 +229,7 @@ class _SearchResourceState extends State<SearchResource> {
                 ],
               ),
             ),
-             SizedBox(height: 20.h),
+            SizedBox(height: 20.h),
             isLoading
                 ? Expanded(child: MyLoadingIndicator())
                 : hasError
@@ -254,13 +252,13 @@ class _SearchResourceState extends State<SearchResource> {
       GestureDetector(
         onTap: () {
           setState(() {
-            isSelected = index; 
+            isSelected = index;
           });
         },
         child: Container(
           width: 110.w,
           height: 40.h,
-          padding:  EdgeInsets.all(8.sp),
+          padding: EdgeInsets.all(8.sp),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -295,7 +293,7 @@ class _SearchResourceState extends State<SearchResource> {
     return GridView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
-      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
@@ -304,7 +302,8 @@ class _SearchResourceState extends State<SearchResource> {
       itemCount: resources.length,
       itemBuilder: (context, index) {
         final resource = resources[index];
-        return ResourceCard(resource: resource, fetchRating: () => fetchRating(resource.isbn));
+        return ResourceCard(
+            resource: resource, fetchRating: () => fetchRating(resource.isbn));
       },
     );
   }

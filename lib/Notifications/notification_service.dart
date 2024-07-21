@@ -1,20 +1,17 @@
-import 'dart:convert';
 import 'package:easylibro_app/API_Service/api_service.dart';
 import 'package:easylibro_app/Notifications/notification.dart';
 
 class NotificationService {
-  Future<bool> setToken(String token, String userName) async {
+  Future<bool> setToken(String firebaseToken, String userName) async {
     final apiService = ApiService();
     await apiService.init();
     try {
-      final response = await apiService.dio.post(
-        'Notification/SetFireBaseToken',
-        data: jsonEncode({
-          'token': token,
-          'userName': userName,
-        }),
-      );
-
+      final response =
+          await apiService.dio.post('Notification/SetFireBaseToken', data: {
+        'token': firebaseToken,
+        'userName': userName,
+      });
+      // print(response.data);
       if (response.statusCode == 200) {
         if (response.data is bool) {
           return response.data;
@@ -26,6 +23,30 @@ class NotificationService {
       }
     } catch (e) {
       throw Exception('Failed to set token: $e');
+    }
+  }
+
+  Future<bool> removeToken(String firebaseToken, String userName) async {
+    final apiService = ApiService();
+    await apiService.init();
+    try {
+      final response =
+          await apiService.dio.post('Notification/RemoveFireBaseToken', data: {
+        'token': firebaseToken,
+        'userName': userName,
+      });
+      //print(response.data);
+      if (response.statusCode == 200) {
+        if (response.data is bool) {
+          return response.data;
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      } else {
+        throw Exception('Failed to remove token');
+      }
+    } catch (e) {
+      throw Exception('Failed to remove token: $e');
     }
   }
 
@@ -89,7 +110,7 @@ class NotificationService {
       final response = await apiService.dio.post(
         'Notification/UnreadCount',
       );
-     // print(response.data);
+      // print(response.data);
       if (response.statusCode == 200) {
         if (response.data is int) {
           return response.data;

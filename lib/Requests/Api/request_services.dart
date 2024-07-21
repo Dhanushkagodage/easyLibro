@@ -8,7 +8,7 @@ class RequestService {
 
     try {
       final response = await apiService.dio.post('Request/DisplayRequest');
-      print(response.data);
+      //print(response.data);
       if (response.statusCode == 200) {
         List<dynamic> body = response.data;
         return body.map((dynamic item) => Request.fromJson(item)).toList();
@@ -29,7 +29,7 @@ class RequestService {
           await apiService.dio.post('Request/RequestResource', data: {
         'isbn': isbn,
       });
-      print(response.data);
+      //print(response.data);
       if (response.statusCode == 200) {
         return response.data as bool;
       } else {
@@ -49,7 +49,7 @@ class RequestService {
         'Request/RemoveRequest',
         queryParameters: {'id': id},
       );
-      print(response.data);
+      // print(response.data);
       if (response.statusCode == 200) {
         return response.data as bool;
       } else {

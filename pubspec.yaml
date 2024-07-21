@@ -92,6 +92,9 @@ flutter:
     - family: Inter
       fonts:
         - asset: fonts/Inter-Variable.ttf
+    - family: AlternateGotNo3D
+      fonts:
+        - asset: fonts/AlternateGotNo3D.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
