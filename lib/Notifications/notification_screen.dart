@@ -108,6 +108,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return selectedTabIndex == 0 ? readNotifications : unreadNotifications;
   }
 
+  Future<void> _handleRefresh() async {
+    await fetchNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +129,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   Text(
                     'My Notifications:',
                     style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 15.sp,
                       fontFamily: 'Inter',
                       color: Color(0xFF080C27),
                       fontWeight: FontWeight.w600,
@@ -152,92 +156,100 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         child: ErrorScreen(),
                       )
                     : Expanded(
-                        child: getCurrentNotifications().isEmpty
-                            ? Center(
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        CupertinoIcons.tray,
-                                        size: 50.sp,
-                                        color:
-                                            Color.fromARGB(255, 175, 175, 175),
-                                      ),
-                                      Text(
-                                        'No new Notifications',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontFamily: 'Inter',
+                        child: RefreshIndicator(
+                          onRefresh: _handleRefresh,
+                          child: getCurrentNotifications().isEmpty
+                              ? Center(
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.tray,
+                                          size: 50.sp,
                                           color: Color.fromARGB(
                                               255, 175, 175, 175),
-                                          fontWeight: FontWeight.w400,
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          'No new Notifications',
+                                          style: TextStyle(
+                                            fontSize: 15.sp,
+                                            fontFamily: 'Inter',
+                                            color: Color.fromARGB(
+                                                255, 175, 175, 175),
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                            : CustomScrollView(
-                                slivers: [
-                                  SliverList(
-                                    delegate: SliverChildBuilderDelegate(
-                                      (context, index) {
-                                        final notification =
-                                            getCurrentNotifications()[index];
-                                        return Padding(
-                                          padding: EdgeInsets.only(top: 5.sp),
-                                          child: Slidable(
-                                            key:
-                                                Key(notification.id.toString()),
-                                            startActionPane: ActionPane(
-                                              motion: const StretchMotion(),
-                                              dismissible: DismissiblePane(
-                                                onDismissed: () => _onDismissed(
-                                                    index, Action.share),
+                                )
+                              : CustomScrollView(
+                                  slivers: [
+                                    SliverList(
+                                      delegate: SliverChildBuilderDelegate(
+                                        (context, index) {
+                                          final notification =
+                                              getCurrentNotifications()[index];
+                                          return Padding(
+                                            padding: EdgeInsets.only(top: 5.sp),
+                                            child: Slidable(
+                                              key: Key(
+                                                  notification.id.toString()),
+                                              startActionPane: ActionPane(
+                                                motion: const StretchMotion(),
+                                                dismissible: DismissiblePane(
+                                                  onDismissed: () =>
+                                                      _onDismissed(
+                                                          index, Action.share),
+                                                ),
+                                                children: const [],
                                               ),
-                                              children: const [],
-                                            ),
-                                            endActionPane: ActionPane(
-                                              motion: const BehindMotion(),
-                                              dismissible: DismissiblePane(
-                                                onDismissed: () => _onDismissed(
-                                                    index, Action.delete),
-                                              ),
-                                              children: [
-                                                SlidableAction(
-                                                  backgroundColor: Colors.red,
-                                                  icon: Icons.delete,
-                                                  label: 'Delete',
-                                                  onPressed: (context) =>
+                                              endActionPane: ActionPane(
+                                                motion: const BehindMotion(),
+                                                dismissible: DismissiblePane(
+                                                  onDismissed: () =>
                                                       _onDismissed(
                                                           index, Action.delete),
                                                 ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color: Colors.grey,
-                                                    width: 1.sp),
-                                                borderRadius:
-                                                    BorderRadius.circular(8.sp),
+                                                children: [
+                                                  SlidableAction(
+                                                    backgroundColor: Colors.red,
+                                                    icon: Icons.delete,
+                                                    label: 'Delete',
+                                                    onPressed: (context) =>
+                                                        _onDismissed(index,
+                                                            Action.delete),
+                                                  ),
+                                                ],
                                               ),
-                                              child: buildNotificationListTile(
-                                                  notification, index),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 1.sp),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.sp),
+                                                ),
+                                                child:
+                                                    buildNotificationListTile(
+                                                        notification, index),
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                      childCount:
-                                          getCurrentNotifications().length,
+                                          );
+                                        },
+                                        childCount:
+                                            getCurrentNotifications().length,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                        ),
                       ),
           ],
         ),

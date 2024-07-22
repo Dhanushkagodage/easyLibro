@@ -319,26 +319,12 @@ class _LayoutScreenState extends State<LayoutScreen> {
               backgroundColor: const Color(0xFFF7F8FD),
               toolbarHeight: 85,
               automaticallyImplyLeading: false,
-              leading: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: IconButton(
-                  icon: const Icon(Icons.menu),
-                  color: const Color(0xFF080C27),
-                  iconSize: 30,
-                  onPressed: () {},
-                ),
-              ),
               title: Padding(
-                padding: EdgeInsets.only(top: 12.h, bottom: 10.h),
+                padding: EdgeInsets.only(top: 12.h, bottom: 10.h, left: 20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Image.asset(
-                    //   "assets/librarylogoRW1.png",
-                    //   scale: 7.sp,
-                    // ),
                     Container(
-                      //color: Colors.red,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -352,7 +338,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                           Text(
                             "easyLibro",
                             style: TextStyle(
-                              fontSize: 30.sp,
+                              fontSize: 34.sp,
                               color: Color(0xFF080C27),
                               fontFamily: "AlternateGotNo3D",
                               fontWeight: FontWeight.w600,
@@ -378,41 +364,40 @@ class _LayoutScreenState extends State<LayoutScreen> {
                 Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditProfilePage(),
-                        ),
-                      );
-                    },
-                    child: Stack(
-  alignment: Alignment.center,
-  children: [
-    Container(
-      height: 56.sp,
-      width: 56.sp,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: Color(0xFF080C27),
-          width: 2.sp,
-        ),
-      ),
-    ),
-    Align(
-      alignment: Alignment.center,
-      child: CircleAvatar(
-        backgroundImage: userDetails != null
-            ? NetworkImage(userDetails!.image)
-            : AssetImage("assets/Capture.JPG") as ImageProvider,
-        radius: 25.sp,
-      ),
-    ),
-  ],
-)
-
-                  ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditProfilePage(),
+                          ),
+                        );
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            height: 57.sp,
+                            width: 57.sp,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Color(0xFF080C27),
+                                width: 3.sp,
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: CircleAvatar(
+                              backgroundImage: userDetails != null
+                                  ? NetworkImage(userDetails!.image)
+                                  : AssetImage("assets/Capture.JPG")
+                                      as ImageProvider,
+                              radius: 24.sp,
+                            ),
+                          ),
+                        ],
+                      )),
                 ),
               ],
             ),
@@ -478,7 +463,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.red,
-                              borderRadius: BorderRadius.circular(6.sp),
+                              borderRadius: BorderRadius.circular(8.sp),
                             ),
                             constraints: BoxConstraints(
                               minWidth: 16.sp,

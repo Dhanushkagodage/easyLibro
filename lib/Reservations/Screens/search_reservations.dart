@@ -83,6 +83,10 @@ class _SearchReservationsState extends State<SearchReservations> {
     }
   }
 
+  Future<void> _handleRefresh() async {
+    await _fetchReservations();
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -94,158 +98,58 @@ class _SearchReservationsState extends State<SearchReservations> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFFF7F8FD),
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(20.sp),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Search_Bar(
-                    width: 230.w,
-                    hintText: "Search Reservations",
-                    enable: true,
-                    controller: _searchController,
-                    onChanged: (value) {
-                      setState(() {
-                        searchKeyword = value;
-                      });
-                      _fetchReservations();
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10.w),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 40.h,
-                          width: 90.w,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5),
-                                bottomLeft: Radius.circular(5),
-                                topRight: Radius.circular(0),
-                                bottomRight: Radius.circular(0)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 49, 48, 52)
-                                    .withOpacity(0.9),
-                                offset: Offset(0, 1),
-                                blurRadius: 1,
-                              ),
-                            ],
-                            border: Border.all(
-                              color: Color(0xFF080C27).withOpacity(0.9),
-                              width: 0.7.w,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(filterCategory,
-                                style: TextStyle(
-                                  color: Color(0xFF080C27),
-                                  fontSize: 12.sp,
-                                  fontFamily: "Inter",
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ),
-                        ),
-                        Container(
-                          height: 40.h,
-                          width: 40.w,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF0D4065),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(0),
-                              bottomLeft: Radius.circular(0),
-                              topRight: Radius.circular(5),
-                              bottomRight: Radius.circular(5),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 49, 48, 52)
-                                    .withOpacity(0.9),
-                                offset: Offset(0, 1),
-                                blurRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: PopupMenuButton<int>(
-                            onSelected: (value) {
-                              setState(() {
-                                if (value == 1) {
-                                  filterCategory = "All";
-                                } else if (value == 2) {
-                                  filterCategory = "Reservation";
-                                } else if (value == 3) {
-                                  filterCategory = "User";
-                                } else {
-                                  filterCategory = "Resource";
-                                }
-                              });
-                            },
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            offset: Offset(0, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            itemBuilder: (context) => [
-                              const PopupMenuItem(
-                                value: 1,
-                                child: Text("All"),
-                              ),
-                              const PopupMenuItem(
-                                value: 2,
-                                child: Text("Reservation"),
-                              ),
-                              const PopupMenuItem(
-                                value: 3,
-                                child: Text("User"),
-                              ),
-                              const PopupMenuItem(
-                                value: 4,
-                                child: Text("Resource"),
-                              ),
-                            ],
-                            child: Icon(
-                              Icons.tune_outlined,
-                              color: Colors.white,
-                              size: 20.sp,
-                            ),
-                          ),
-                        ),
-                      ],
+        body: RefreshIndicator(
+          onRefresh: _handleRefresh,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(20.sp),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Search_Bar(
+                      width: 372.w,
+                      hintText: "Search Reservations",
+                      enable: true,
+                      controller: _searchController,
+                      onChanged: (value) {
+                        setState(() {
+                          searchKeyword = value;
+                        });
+                        _fetchReservations();
+                      },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildReservationCategory(index: 0, name: "All"),
-                  _buildReservationCategory(index: 1, name: "Due"),
-                  _buildReservationCategory(index: 2, name: "Borrowed"),
-                  _buildReservationCategory(index: 3, name: "Received"),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildReservationCategory(index: 0, name: "All"),
+                    _buildReservationCategory(index: 1, name: "Due"),
+                    _buildReservationCategory(index: 2, name: "Borrowed"),
+                    _buildReservationCategory(index: 3, name: "Received"),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20.h),
-            isLoading
-                ? Expanded(child: MyLoadingIndicator())
-                : hasError
-                    ? Expanded(
-                        child: ErrorScreen(),
-                      )
-                    : Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: _buildReservations(),
+              SizedBox(height: 20.h),
+              isLoading
+                  ? Expanded(child: MyLoadingIndicator())
+                  : hasError
+                      ? Expanded(
+                          child: ErrorScreen(),
+                        )
+                      : Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: _buildReservations(),
+                          ),
                         ),
-                      ),
-          ],
+            ],
+          ),
         ),
       ),
     );
