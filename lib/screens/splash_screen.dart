@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:easylibro_app/widgets/layout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easylibro_app/Login/login_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -51,17 +52,36 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Center(
           child: Image.asset(
             "assets/librarylogo.png",
-            scale: 30,
+            scale: 32,
           ),
         ),
-        bottomNavigationBar: const Text("Powered By:@Chico_coders",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13,
-               // color: Color.fromARGB(255, 4, 206, 246),
-               color: Colors.blue,
-                fontFamily: "Inter",
-                fontWeight: FontWeight.w500)),
+        bottomNavigationBar: BottomAppBar(
+          color: const Color(0xFF0D4065),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:  [
+              Text(
+                "From:",
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: Colors.white,
+                  fontFamily: "AlternateGotNo3D",
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              Text(
+                "Chico_Coders",
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  color: Colors.blue,
+                  fontFamily: "AlternateGotNo3D",
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

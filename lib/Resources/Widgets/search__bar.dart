@@ -31,7 +31,7 @@ class _Search_BarState extends State<Search_Bar> {
       controller: widget.controller,
       onChanged: widget.onChanged,
       constraints: BoxConstraints(
-        minHeight: 40.h,
+        minHeight: 45.h,
         maxWidth: widget.width,
       ),
       leading: const Icon(Icons.search_outlined, color: Color(0xFF080C27)),
@@ -51,12 +51,11 @@ class _Search_BarState extends State<Search_Bar> {
         ),
       ),
       shadowColor: WidgetStateProperty.all(
-        Color.fromARGB(255, 49, 48, 52).withOpacity(0.9),
+        Color.fromARGB(255, 210, 210, 210),
       ),
       side: WidgetStateProperty.all(
         BorderSide(
-          color: Color(0xFF080C27).withOpacity(0.9),
-          width: 0.7.w,
+          color: Colors.grey, width: 1.sp,
         ),
       ),
       elevation: WidgetStateProperty.all(2),

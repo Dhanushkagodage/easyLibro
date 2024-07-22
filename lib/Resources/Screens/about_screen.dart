@@ -88,8 +88,6 @@ class _AboutScreenState extends State<AboutScreen> {
       final requests = await myRequest.fetchRequests();
       final userDetails = await _userService.fetchUserDetails();
       List<String> isbnList = myRequest.getIsbnList();
-      //print(userDetails.status);
-      //print(isbnList.contains("9780307455192"));
       setState(() {
         allReviews = reviews;
         requestCount = requests.length;
@@ -235,429 +233,298 @@ class _AboutScreenState extends State<AboutScreen> {
     }
   }
 
+  Future<void> _handleRefresh() async {
+    await fetchReviews(widget.resourceDetails.isbn);
+  }
+
   @override
   Widget build(BuildContext context) {
     final resourceDetails = widget.resourceDetails;
 
     return SafeArea(
-      child: Stack(
-        children: [
-          Scaffold(
-            backgroundColor: const Color(0xFFF7F8FD),
-            body: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  SizedBox(
-                    child: Stack(
-                      children: [
-                        ClipPath(
-                          clipper: WaveClipper(),
-                          child: Container(
-                            color: Color.fromARGB(71, 12, 127, 250),
-                            height: 220.h,
-                          ),
-                        ),
-                        AppBar(
-                          backgroundColor: Colors.transparent,
-                          iconTheme: IconThemeData(color: Color(0xFF080C27)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 50.h),
-                          child: Center(
+      child: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: Stack(
+          children: [
+            Scaffold(
+              backgroundColor: const Color(0xFFF7F8FD),
+              body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      child: Stack(
+                        children: [
+                          ClipPath(
+                            clipper: WaveClipper(),
                             child: Container(
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color(0xFF080C27).withOpacity(0.5),
-                                    spreadRadius: 4,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 0),
-                                  ),
-                                ],
-                              ),
-                              width: MediaQuery.of(context).size.width / 16 * 7,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.network(
-                                  resourceDetails.imagepath,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                              color: Color.fromARGB(71, 12, 127, 250),
+                              height: 220.h,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: SizedBox(
-                          width: 300.w,
-                          child: Text(
-                            widget.resourceDetails.title,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: "Inter",
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w900,
-                              color: Color(0xFF080C27),
-                            ),
+                          AppBar(
+                            backgroundColor: Colors.transparent,
+                            iconTheme: IconThemeData(color: Color(0xFF080C27)),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 20.w, top: 10.h, right: 20.w),
-                        child: Container(
-                          height: 27.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Color.fromARGB(72, 13, 64, 101),
-                                width: 2,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            "Quantity Details: ",
-                            style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF0D4065)),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 20.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            DetailContainer(
-                              label: "Total Qty.",
-                              value: resourceDetails.total.toString(),
-                              icon: Icons.credit_card_outlined,
-                            ),
-                            DetailContainer(
-                              label: "Borrowed Qty.",
-                              value: resourceDetails.borrowed.toString(),
-                              icon: Icons.credit_card_off_outlined,
-                            ),
-                            DetailContainer(
-                              label: "Available Qty.",
-                              value: resourceDetails.remain.toString(),
-                              icon: Icons.credit_score,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 20.w, top: 10.h, right: 20.w),
-                        child: Container(
-                          height: 27.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Color.fromARGB(72, 13, 64, 101),
-                                width: 2,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            "Location Details: ",
-                            style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF0D4065)),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 20.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            DetailContainer(
-                              label: "Location",
-                              value: resourceDetails.cupboardId,
-                              icon: Icons.location_on,
-                            ),
-                            DetailContainer(
-                              label: "Cupboard",
-                              value: resourceDetails.cupboardName,
-                              icon: Icons.location_on,
-                            ),
-                            DetailContainer(
-                              label: "Shelf",
-                              value: resourceDetails.shelfId,
-                              icon: Icons.location_on,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 20, top: 10, right: 20),
-                        child: Container(
-                          height: 27,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Color.fromARGB(72, 13, 64, 101),
-                                width: 2,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            "${resourceDetails.title} Details: ",
-                            style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF0D4065)),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 40.w, right: 20.w, top: 10.h),
-                        child: Container(
-                          child: Column(
-                            children: [
-                              TextdetailContainer(
-                                label: "Resource ID(ISBN)",
-                                value: resourceDetails.isbn,
-                              ),
-                              TextdetailContainer(
-                                label: "Author",
-                                value: resourceDetails.author,
-                              ),
-                              TextdetailContainer(
-                                label: "Resource Type",
-                                value: resourceDetails.type,
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              TextdetailContainer(
-                                label: "No.of Pages",
-                                value: resourceDetails.pages.toString(),
-                              ),
-                              TextdetailContainer(
-                                label: "Price",
-                                value: "Rs. ${resourceDetails.price}/-",
-                              ),
-                              TextdetailContainer(
-                                label: "Date added",
-                                value: resourceDetails.addedon.toString(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.sp),
-                        child: Text.rich(TextSpan(
-                            text: "Note: ",
-                            style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF0D4065)),
-                            children: [
-                              TextSpan(text: "\n"),
-                              TextSpan(
-                                text: resourceDetails.description,
-                                style: TextStyle(
-                                    fontFamily: "Inter",
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xFF6A6A6A)),
-                              )
-                            ])),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.sp),
-                        child: GestureDetector(
-                          onTap: () {
-                            _onRequestTap();
-                          },
-                          //=> _showBorrowDialog(context),
-                          child: Container(
-                            width: double.infinity,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: _requestButtonColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 50.h),
                             child: Center(
-                              child: Text(
-                                "Request",
-                                style: TextStyle(
-                                  fontFamily: "Inter",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color(0xFF080C27).withOpacity(0.5),
+                                      spreadRadius: 4,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 0),
+                                    ),
+                                  ],
+                                ),
+                                width:
+                                    MediaQuery.of(context).size.width / 16 * 7,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.network(
+                                    resourceDetails.imagepath,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.w, right: 20.w, bottom: 30.h),
-                    child: Column(
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 27.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Color.fromARGB(72, 13, 64, 101),
-                                width: 2,
+                        Center(
+                          child: SizedBox(
+                            width: 300.w,
+                            child: Text(
+                              widget.resourceDetails.title,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: "Inter",
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF080C27),
                               ),
                             ),
                           ),
-                          child: Row(
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Reviews (${allReviews.length})",
-                                  style: TextStyle(
-                                      fontFamily: "Inter",
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF0D4065)),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 20.w, top: 10.h, right: 20.w),
+                          child: Container(
+                            height: 27.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromARGB(72, 13, 64, 101),
+                                  width: 2,
                                 ),
+                              ),
+                            ),
+                            child: Text(
+                              "Quantity Details: ",
+                              style: TextStyle(
+                                  fontFamily: "Inter",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF0D4065)),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 20.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DetailContainer(
+                                label: "Total Qty.",
+                                value: resourceDetails.total.toString(),
+                                icon: Icons.credit_card_outlined,
+                              ),
+                              DetailContainer(
+                                label: "Borrowed Qty.",
+                                value: resourceDetails.borrowed.toString(),
+                                icon: Icons.credit_card_off_outlined,
+                              ),
+                              DetailContainer(
+                                label: "Available Qty.",
+                                value: resourceDetails.remain.toString(),
+                                icon: Icons.credit_score,
                               ),
                             ],
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 10.h, bottom: 10.h, left: 20.w, right: 20.w),
-                          child: _buildReviews(),
-                        ),
-                        Container(
-                          height: 27.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Color.fromARGB(72, 13, 64, 101),
-                                width: 2,
+                              left: 20.w, top: 10.h, right: 20.w),
+                          child: Container(
+                            height: 27.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromARGB(72, 13, 64, 101),
+                                  width: 2,
+                                ),
                               ),
                             ),
-                          ),
-                          child: Text(
-                            "Add a Review: ",
-                            style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF0D4065)),
+                            child: Text(
+                              "Location Details: ",
+                              style: TextStyle(
+                                  fontFamily: "Inter",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF0D4065)),
+                            ),
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 20.h, bottom: 5.h),
-                          child: TextField(
-                            controller: reviewcontroller,
-                            keyboardType: TextInputType.text,
-                            maxLines: 3,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.sp),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(72, 13, 64, 101),
-                                  width: 0.5.sp,
-                                ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 20.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DetailContainer(
+                                label: "Location",
+                                value: resourceDetails.cupboardId,
+                                icon: Icons.location_on,
                               ),
-                              hintStyle: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w300,
-                                color: Color(0xFF6A6A6A),
+                              DetailContainer(
+                                label: "Cupboard",
+                                value: resourceDetails.cupboardName,
+                                icon: Icons.location_on,
                               ),
-                              hintText: 'Your Review',
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.sp),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(72, 13, 64, 101),
-                                  width: 0.5.sp,
-                                ),
+                              DetailContainer(
+                                label: "Shelf",
+                                value: resourceDetails.shelfId,
+                                icon: Icons.location_on,
                               ),
-                              contentPadding: EdgeInsets.all(10.sp),
-                            ),
+                            ],
                           ),
-                        ),
-                        Row(
-                          children: List.generate(5, (index) {
-                            return SizedBox(
-                              width: 30.sp,
-                              child: IconButton(
-                                icon: Icon(
-                                  index < _rating
-                                      ? Icons.star
-                                      : Icons.star_border,
-                                  color: index < _rating
-                                      ? Colors.amber
-                                      : Colors.grey,
-                                ),
-                                onPressed: () {
-                                  _setRating(index + 1);
-                                },
-                              ),
-                            );
-                          }),
                         ),
                         SizedBox(
                           height: 10.h,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            _onSubmitReviewTap();
-                          },
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, top: 10, right: 20),
                           child: Container(
+                            height: 27,
                             width: double.infinity,
-                            height: 50,
                             decoration: BoxDecoration(
-                              color: _submitButtonColor,
-                              borderRadius: BorderRadius.circular(10),
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromARGB(72, 13, 64, 101),
+                                  width: 2,
+                                ),
+                              ),
                             ),
-                            child: Center(
-                              child: Text(
-                                "Submit Review",
-                                style: TextStyle(
+                            child: Text(
+                              "${resourceDetails.title} Details: ",
+                              style: TextStyle(
                                   fontFamily: "Inter",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF0D4065)),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 40.w, right: 20.w, top: 10.h),
+                          child: Container(
+                            child: Column(
+                              children: [
+                                TextdetailContainer(
+                                  label: "Resource ID(ISBN)",
+                                  value: resourceDetails.isbn,
+                                ),
+                                TextdetailContainer(
+                                  label: "Author",
+                                  value: resourceDetails.author,
+                                ),
+                                TextdetailContainer(
+                                  label: "Resource Type",
+                                  value: resourceDetails.type,
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                TextdetailContainer(
+                                  label: "No.of Pages",
+                                  value: resourceDetails.pages.toString(),
+                                ),
+                                TextdetailContainer(
+                                  label: "Price",
+                                  value: "Rs. ${resourceDetails.price}/-",
+                                ),
+                                TextdetailContainer(
+                                  label: "Date added",
+                                  value: resourceDetails.addedon.toString(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20.sp),
+                          child: Text.rich(TextSpan(
+                              text: "Note: ",
+                              style: TextStyle(
+                                  fontFamily: "Inter",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF0D4065)),
+                              children: [
+                                TextSpan(text: "\n"),
+                                TextSpan(
+                                  text: resourceDetails.description,
+                                  style: TextStyle(
+                                      fontFamily: "Inter",
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF6A6A6A)),
+                                )
+                              ])),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20.sp),
+                          child: GestureDetector(
+                            onTap: () {
+                              _onRequestTap();
+                            },
+                            //=> _showBorrowDialog(context),
+                            child: Container(
+                              width: double.infinity,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: _requestButtonColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Request",
+                                  style: TextStyle(
+                                    fontFamily: "Inter",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -665,19 +532,161 @@ class _AboutScreenState extends State<AboutScreen> {
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.w, right: 20.w, bottom: 30.h),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 27.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromARGB(72, 13, 64, 101),
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    "Reviews (${allReviews.length})",
+                                    style: TextStyle(
+                                        fontFamily: "Inter",
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF0D4065)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 10.h,
+                                bottom: 10.h,
+                                left: 20.w,
+                                right: 20.w),
+                            child: _buildReviews(),
+                          ),
+                          Container(
+                            height: 27.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromARGB(72, 13, 64, 101),
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              "Add a Review: ",
+                              style: TextStyle(
+                                  fontFamily: "Inter",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF0D4065)),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 20.h, bottom: 5.h),
+                            child: TextField(
+                              controller: reviewcontroller,
+                              keyboardType: TextInputType.text,
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.sp),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(72, 13, 64, 101),
+                                    width: 0.5.sp,
+                                  ),
+                                ),
+                                hintStyle: TextStyle(
+                                  fontFamily: "Inter",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: Color(0xFF6A6A6A),
+                                ),
+                                hintText: 'Your Review',
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.sp),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(72, 13, 64, 101),
+                                    width: 0.5.sp,
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.all(10.sp),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: List.generate(5, (index) {
+                              return SizedBox(
+                                width: 30.sp,
+                                child: IconButton(
+                                  icon: Icon(
+                                    index < _rating
+                                        ? Icons.star
+                                        : Icons.star_border,
+                                    color: index < _rating
+                                        ? Colors.amber
+                                        : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    _setRating(index + 1);
+                                  },
+                                ),
+                              );
+                            }),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _onSubmitReviewTap();
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: _submitButtonColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Submit Review",
+                                  style: TextStyle(
+                                    fontFamily: "Inter",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          if (isloading)
-            Container(
-              color: Colors.black.withOpacity(0.5),
-              child: Center(
-                child: MyLoadingIndicator(),
+            if (isloading)
+              Container(
+                color: Colors.black.withOpacity(0.5),
+                child: Center(
+                  child: MyLoadingIndicator(),
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

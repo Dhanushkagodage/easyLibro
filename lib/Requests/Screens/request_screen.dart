@@ -81,6 +81,10 @@ class _RequestScreenState extends State<RequestScreen> {
     }
   }
 
+  Future<void> _handleRefresh() async {
+    await _fetchRequests();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -94,7 +98,7 @@ class _RequestScreenState extends State<RequestScreen> {
               Text(
                 'My Requests:',
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 15.sp,
                   fontFamily: 'Inter',
                   color: Color(0xFF080C27),
                   fontWeight: FontWeight.w600,
@@ -107,38 +111,41 @@ class _RequestScreenState extends State<RequestScreen> {
                           child: ErrorScreen(),
                         )
                       : Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10.sp),
-                            child: requests.isEmpty
-                                ? Center(
-                                    child: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            CupertinoIcons.tray,
-                                            size: 50.sp,
-                                            color: Color.fromARGB(
-                                                255, 175, 175, 175),
-                                          ),
-                                          Text(
-                                            'No Requests',
-                                            style: TextStyle(
-                                              fontSize: 16.sp,
-                                              fontFamily: 'Inter',
+                          child: RefreshIndicator(
+                            onRefresh: _handleRefresh,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 10.sp),
+                              child: requests.isEmpty
+                                  ? Center(
+                                      child: Container(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              CupertinoIcons.tray,
+                                              size: 50.sp,
                                               color: Color.fromARGB(
                                                   255, 175, 175, 175),
-                                              fontWeight: FontWeight.w400,
                                             ),
-                                          ),
-                                        ],
+                                            Text(
+                                              'No Requests',
+                                              style: TextStyle(
+                                                fontSize: 15.sp,
+                                                fontFamily: 'Inter',
+                                                color: Color.fromARGB(
+                                                    255, 175, 175, 175),
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                : _buildRequests(),
+                                    )
+                                  : _buildRequests(),
+                            ),
                           ),
                         ),
             ],
