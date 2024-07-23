@@ -100,6 +100,8 @@ class _SearchReservationsState extends State<SearchReservations> {
         backgroundColor: const Color(0xFFF7F8FD),
         body: RefreshIndicator(
           onRefresh: _handleRefresh,
+          color: Color(0xFF080C27),
+          backgroundColor: Colors.white,
           child: Column(
             children: [
               Padding(

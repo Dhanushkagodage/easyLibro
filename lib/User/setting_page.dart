@@ -143,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Text(
                 "Change Password:",
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 15.sp,
                   fontFamily: 'Inter',
                   color: Color(0xFF080C27),
                   fontWeight: FontWeight.w600,
