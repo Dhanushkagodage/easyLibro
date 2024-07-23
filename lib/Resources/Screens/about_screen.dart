@@ -244,6 +244,8 @@ class _AboutScreenState extends State<AboutScreen> {
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: _handleRefresh,
+        color:Color(0xFF080C27) ,
+        backgroundColor: Colors.white,
         child: Stack(
           children: [
             Scaffold(
@@ -508,7 +510,6 @@ class _AboutScreenState extends State<AboutScreen> {
                             onTap: () {
                               _onRequestTap();
                             },
-                            //=> _showBorrowDialog(context),
                             child: Container(
                               width: double.infinity,
                               height: 50,

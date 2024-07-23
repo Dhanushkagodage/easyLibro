@@ -76,7 +76,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future<void> fetchUserDetails() async {
     try {
-      
       UserDetails user = await userService.fetchUserDetails();
       setState(() {
         userDetails = user;
@@ -315,6 +314,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     )
                   : RefreshIndicator(
                       onRefresh: _handleRefresh,
+                      color: Color(0xFF080C27),
+                      backgroundColor: Colors.white,
                       child: Container(
                           decoration: BoxDecoration(
                             color: const Color(0xFFF7F8FD),

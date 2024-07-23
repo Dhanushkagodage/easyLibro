@@ -104,6 +104,8 @@ class _SearchResourceState extends State<SearchResource> {
         backgroundColor: const Color(0xFFF7F8FD),
         body: RefreshIndicator(
           onRefresh: _handleRefresh,
+          color: Color(0xFF080C27),
+          backgroundColor: Colors.white,
           child: Column(
             children: [
               Padding(
@@ -112,7 +114,7 @@ class _SearchResourceState extends State<SearchResource> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Search_Bar(
-                      width: 230.w,
+                      width: 230.w, 
                       hintText: "Search Resources",
                       enable: true,
                       controller: _searchController,
@@ -137,7 +139,7 @@ class _SearchResourceState extends State<SearchResource> {
                                   bottomLeft: Radius.circular(5),
                                   topRight: Radius.circular(0),
                                   bottomRight: Radius.circular(0)),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Color.fromARGB(255, 210, 210, 210),
                                   offset: Offset(0, 1),
@@ -170,7 +172,7 @@ class _SearchResourceState extends State<SearchResource> {
                                 topRight: Radius.circular(5),
                                 bottomRight: Radius.circular(5),
                               ),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Color.fromARGB(255, 210, 210, 210),
                                   offset: Offset(0, 1),

@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MyLoadingIndicator extends StatelessWidget {
-  const MyLoadingIndicator({super.key});
+  final double? size;
+  const MyLoadingIndicator({super.key, this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class MyLoadingIndicator extends StatelessWidget {
           color: Color.fromARGB(187, 8, 12, 39),
           secondRingColor: Color.fromARGB(255, 1, 42, 71),
           thirdRingColor: Color.fromARGB(255, 131, 179, 252),
-          size: 40.sp,
+          size: size ?? 40.sp,
         )),
       ),
     );

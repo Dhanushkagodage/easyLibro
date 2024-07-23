@@ -158,6 +158,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     : Expanded(
                         child: RefreshIndicator(
                           onRefresh: _handleRefresh,
+                          color: Color(0xFF080C27),
+                          backgroundColor: Colors.white,
                           child: getCurrentNotifications().isEmpty
                               ? Center(
                                   child: Container(

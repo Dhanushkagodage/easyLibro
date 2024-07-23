@@ -113,6 +113,8 @@ class _RequestScreenState extends State<RequestScreen> {
                       : Expanded(
                           child: RefreshIndicator(
                             onRefresh: _handleRefresh,
+                            color: Color(0xFF080C27),
+                            backgroundColor: Colors.white,
                             child: Padding(
                               padding: EdgeInsets.only(top: 10.sp),
                               child: requests.isEmpty
